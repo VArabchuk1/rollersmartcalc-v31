@@ -2,7 +2,7 @@ name: Update Data
 
 on:
   schedule:
-    - cron: '0 12 * * *' # Запуск щогодини
+    - cron: '0 * * * *'  # Запуск щогодини
   workflow_dispatch:      # Кнопка для ручного запуску
 
 jobs:
@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # Оновлено до v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # Оновлено до v5
       with:
         python-version: '3.9'
 
