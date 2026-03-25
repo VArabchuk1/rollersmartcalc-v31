@@ -40,8 +40,7 @@ def update_data():
                     for level_key, level_value in levels.items():
                         # Формуємо ключ: block_ + назва ліги з маленької літери, пробіл -> підкреслення
                         # Приклад: "Bronze II" перетвориться на "block_bronze_ii"
-                        clean_key = level_key.lower().replace(" ", "_")
-                        tech_key = f"block_{clean_key}"
+                        tech_key = level_key.lower().replace(" ", "_")
 
                         # Зберігаємо число
                         coin_obj["rewards"][tech_key] = float(level_value)
