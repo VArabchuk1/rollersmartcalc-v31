@@ -13,7 +13,7 @@ def update_data():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     }
 
-    print(f"--- Оновлення RollerSmart v31 під твій формат ---")
+    print(f"--- Оновлення RollerSmart v31 ---")
 
     try:
         response = requests.get(url, headers=headers, timeout=20)
@@ -29,7 +29,6 @@ def update_data():
             transformed_coins = []
 
             for code, levels in raw_data.items():
-                # Створюємо об'єкт монети точно як у твоєму прикладі
                 coin_obj = {
                     "code": code.lower(),
                     "time": 600.0,
@@ -38,8 +37,8 @@ def update_data():
 
                 if isinstance(levels, dict):
                     for level_key, level_value in levels.items():
-                        # Формуємо ключ: block_ + назва ліги з маленької літери, пробіл -> підкреслення
-                        # Приклад: "Bronze II" перетвориться на "block_bronze_ii"
+                        # Просто чистимо назву з сайту (там вже є 'block_')
+                        # 'Bronze I' стане 'bronze_i', а 'block_bronze_i' залишиться 'block_bronze_i'
                         tech_key = level_key.lower().replace(" ", "_")
 
                         # Зберігаємо число
@@ -50,14 +49,12 @@ def update_data():
             # Формуємо фінальний об'єкт
             final_output = {"coins": transformed_coins}
 
-            # Записуємо у файл
             # Записуємо у файл ОДНИМ РЯДКОМ (без форматування)
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(final_output, f, ensure_ascii=False, separators=(',', ':'))
 
             print("========================================")
-            print("УСПІХ! Дані записано в один рядок (RAW TEXT).")
-            print("Тепер формат 1-в-1 як у твоєму прикладі.")
+            print("УСПІХ! Дублювання 'block_block_' усунено.")
             print("========================================")
         else:
             print("ПОМИЛКА: Не знайдено дані на сайті.")
