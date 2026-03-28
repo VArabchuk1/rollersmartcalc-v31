@@ -4,9 +4,6 @@ import json
 import time
 from datetime import datetime
 
-# Рекомендую використовувати секрети GitHub для TOKEN
-TOKEN = os.getenv("BOT")
-
 # Конфігурація: Назва ліги -> ID гілки в Discord
 LEAGUES_CONFIG = {
     "Bronze I": "1411488637287399465",
@@ -30,7 +27,7 @@ def get_leagues_data():
     all_data = {}
 
     headers = {
-        "Authorization": TOKEN,
+        "Authorization": f"Bot {os.getenv('BOT')}",
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
