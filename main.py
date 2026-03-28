@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 # Рекомендую використовувати секрети GitHub для TOKEN
-TOKEN = "Nzc0OTkzMDkwMDk1MjE4NzI5.GmvFQR.p-VgWbAhSQ7WIdpbXQ74kMS8T5BPEF6JAJizZU"
+TOKEN = "ч"
 
 # Конфігурація: Назва ліги -> ID гілки в Discord
 LEAGUES_CONFIG = {
