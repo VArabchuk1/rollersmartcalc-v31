@@ -4,13 +4,9 @@ import json
 import time
 from datetime import datetime
 
-TOKEN = os.getenv('APP_KEY')
+# Беремо токен із GitHub Secrets (APP_KEY) або твій ручний, якщо запускаєш локально
+TOKEN = os.getenv('APP_KEY', "Nzc0OTkzMDkwMDk1MjE4NzI5.GmvFQR.p-VgWbAhSQ7WIdpbXQ74kMS8T5BPEF6JAJizZU")
 
-if not TOKEN:
-    print("Error: System key not found.")
-    exit(1)
-
-# Конфігурація: Назва ліги -> ID гілки в Discord
 LEAGUES_CONFIG = {
     "Bronze I": "1411488637287399465",
     "Bronze II": "1411488752626565130",
@@ -32,16 +28,14 @@ LEAGUES_CONFIG = {
 def get_leagues_data():
     all_data = {}
 
+    # ДУЖЕ ВАЖЛИВО: Для особистого токена НЕ ПИШЕМО "Bot "
     headers = {
-        "Authorization": f"Bot {os.getenv('APP_KEY')}",
+        "Authorization": TOKEN, 
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
 
     for name, thread_id in LEAGUES_CONFIG.items():
-        if thread_id == "ID_ТУТ":
-            continue
-
         url = f"https://discord.com/api/v9/channels/{thread_id}/messages?limit=1"
 
         try:
@@ -51,34 +45,30 @@ def get_leagues_data():
                 messages = response.json()
                 if messages:
                     msg = messages[0]
-
-                    # Обробка дати (окремо час і дата)
                     raw_date = msg['timestamp']
                     date_obj = datetime.fromisoformat(raw_date.replace('Z', '+00:00'))
 
-                    # Створюємо чистий формат дати для списку
-                    formatted_time = date_obj.strftime("%H:%M") # Тільки час
-                    formatted_full = date_obj.strftime("%d.%m %H:%M") # День.Місяць Час
-
                     all_data[name] = {
-                        "text": msg['content'],      # Тільки текст повідомлення
-                        "time": formatted_time,      # Для швидкого перегляду
-                        "full_date": formatted_full  # Для випадаючого списку
+                        "text": msg['content'],
+                        "time": date_obj.strftime("%H:%M"),
+                        "full_date": date_obj.strftime("%d.%m %H:%M")
                     }
                     print(f"✅ {name} оновлено")
                 else:
                     all_data[name] = {"text": "Порожньо", "time": "--:--", "full_date": ""}
             else:
+                # Якщо знову 403, виведемо причину
                 print(f"❌ Помилка {name}: {response.status_code}")
+                if response.status_code == 403:
+                    print("Причина: Discord блокує запит. Можливо, токен не дійсний для хмарних IP.")
         except Exception as e:
             print(f"⚠️ Помилка з'єднання: {e}")
 
-        time.sleep(2)
+        # Збільшимо затримку, щоб не викликати підозр у Discord
+        time.sleep(3)
 
     with open("leagues_data.json", "w", encoding="utf-8") as f:
         json.dump(all_data, f, ensure_ascii=False, indent=4)
-
-    print("\nФайл leagues_data.json готовий!")
 
 if __name__ == "__main__":
     get_leagues_data()
