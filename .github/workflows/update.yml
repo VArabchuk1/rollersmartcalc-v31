@@ -2,10 +2,10 @@ name: Update Data
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    # Запуск о 15:00 UTC (це 18:00 за Києвом влітку)
+    - cron: '0 15 * * *'
   workflow_dispatch:
 
-# ОСЬ ЦЕЙ БЛОК ПРИБЕРЕ ПОПЕРЕДЖЕННЯ:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -21,16 +21,24 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install requests
-      run: pip install requests
+    - name: Install dependencies
+      run: |
+        pip install requests discord.py
 
     - name: Run scraper
+      env:
+        DISCORD_TOKEN: ${{ secrets.BOT }}
       run: python scraper.py
+
+    - name: Run Main Script
+      env:
+        DISCORD_TOKEN: ${{ secrets.BOT }}
+      run: python main.py
 
     - name: Commit and Push
       run: |
         git config --global user.name "GitHub Action"
         git config --global user.email "action@github.com"
-        git add data.json
-        git commit -m "Auto-update data" || exit 0
+        git add .
+        git commit -m "Auto-update data at 18:00 Kyiv time" || exit 0
         git push
