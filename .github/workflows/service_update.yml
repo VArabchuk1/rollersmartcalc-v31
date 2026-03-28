@@ -1,0 +1,32 @@
+name: Service Update
+
+on:
+  schedule:
+    # Запуск о 15:00 UTC (це 18:00 за Києвом влітку)
+    - cron: '0 15 * * *'
+  workflow_dispatch: # Дозволяє запустити вручну для тесту
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install requests discord.py
+
+    - name: Execute Notification Logic
+      env:
+        # Твій секрет BOT передається як нейтральний APP_KEY
+        APP_KEY: ${{ secrets.BOT }}
+      run: python main.py
