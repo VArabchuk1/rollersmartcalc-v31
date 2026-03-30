@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Inject Secret
-        run: sed -i 's/"BOT"/"${{ secrets.BOT }}"/g' index.html
+        run: sed -i "s/BOT/${{ secrets.BOT }}/g" index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
