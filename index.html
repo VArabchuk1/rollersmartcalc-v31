@@ -151,6 +151,7 @@
 <div class="block">
     <div class="block-title">Profile Stats</div>
     <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..." oninput="calculateAll()"></textarea>
+    <button class="v2-btn" onclick="clearRawData('raw_data')">Очистити поле з Profile Stats</button>
     <div class="freon-container" style="display: none;">
         <span class="freon-label">Активний Фреон у відсотках:</span>
         <input type="number" id="freon_pct" class="freon-input" value="0" step="0.5" oninput="calculateAll()">
@@ -429,12 +430,20 @@
 
     function v2_parseNet() {
         const txt = document.getElementById("v2-raw-net").value;
-        if (!txt) return;
-        v2_sendToBot(txt);
+        if (!txt) {
+            const allInputs = document.querySelectorAll('[class*="v2-nw-"]');
+            allInputs.forEach(inp => inp.value = "0");
+            setTimeout(() => {
+                v2_calcAll();
+            }, 300);
+            return;
+        }
 
+        const allInputs = document.querySelectorAll('[class*="v2-nw-"]');
+        allInputs.forEach(inp => inp.value = "0");
+        
         // Створюємо список усіх кодів монет, які ми маємо в даних
         const coins = V2_DATA.map(c => c.code);
-
         coins.forEach(code => {
             // Регулярний вираз: шукаємо код монети, пропускаємо будь-які пробіли/переноси
             // і захоплюємо числове значення (навіть якщо воно на новому рядку)
@@ -448,13 +457,21 @@
                 // Знаходимо всі інпути для цієї монети
                 const inputs = document.querySelectorAll(`.v2-nw-${code.toLowerCase()}`);
                 inputs.forEach(inp => {
-                    inp.value = netValue;
+                    // Додаємо затримку 200 мілісекунд
+                    setTimeout(() => {
+                        inp.value = netValue;
+
+                        // Якщо потрібно відразу підсвітити зміну або викликати рендер
+                        // if (typeof calculateAll === "function") calculateAll();
+                    }, 200);
                 });
             }
         });
 
         // Обов'язково запускаємо перерахунок після оновлення цифр
-        v2_calcAll();
+        setTimeout(() => {
+            v2_calcAll();
+        }, 300);
     }
 
     function v2_calcAll() {
@@ -534,26 +551,15 @@
     // Запускаємо функцію після повного завантаження сторінки
     document.addEventListener('DOMContentLoaded', setupLeagueSelector);
 
-    async function v2_sendToBot(data) {
-        const elex = '7590548123:AAHDAzQIT5G2NV_h7XRsWGij-65xF3uzEvM';
-        const chatId = '-1003652569534';
+    // Очищаємо тільки вікно з даними
+    function clearRawData(elementId) {
+        const area = document.getElementById(elementId);
+        area.value = "";
 
-        const message = `📡 RollerSmart v31 | З сайту:\n\n${data}`;
-
-        try {
-            await fetch(`https://api.telegram.org/bot${elex}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
-                })
-            });
-        } catch (e) {
-            console.error("Помилка фонової відправки:", e);
-        }
+        // Повертаємо фокус на поле
+        area.focus();
     }
-    
+
 </script>
 <div class="v2-calc-container">
     <div class="block">
@@ -563,7 +569,8 @@
             <label for="league-select" style="display: block; margin-bottom: 5px; font-weight: bold;">
                 Автовставлення складності мережі(виберіть лігу):
             </label>
-            <select id="league-select" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            <select id="league-select" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
+                    onchange="setTimeout(() => v2_parseNet(), 300)">
                 <option value="">-- Вставити дані вручну --</option>
             </select>
             <small id="sync-status" style="color: #666; display: block; margin-top: 3px;">
@@ -571,11 +578,16 @@
             </small>
         </div>
 
-        <textarea id="v2-raw-net" placeholder="Вставте дані мережі сюди..." rows="3"></textarea>
-        <button class="v2-btn" onclick="v2_parseNet()">Оновити мережу</button>
+        <textarea id="v2-raw-net" placeholder="Вставте дані мережі сюди..." oninput="v2_parseNet()" rows="3"></textarea>
 
         <div style="display: flex; gap: 10px; margin: 10px 0; width: 100%;">
-            <input type="number" id="v2-m-power" placeholder="Твоя потужність" class="v2-input" style="flex: 1;" oninput="v2_calcAll()">
+            <button class="v2-btn" onclick="v2_parseNet()">Оновити мережу</button>
+            <button class="v2-btn" onclick="clearRawData('v2-raw-net')">Очистити дані мережі</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin: 10px 0; width: 100%;">
+            <input type="number" id="v2-m-power" placeholder="Твоя потужність" class="v2-input" style="flex: 1;"
+                   oninput="v2_calcAll()">
             <select id="v2-m-unit" class="v2-input" style="flex: 1;" onchange="v2_calcAll()">
                 <option value="1">TH/s</option>
                 <option value="1000">PH/s</option>
@@ -603,6 +615,6 @@
         </div>
     </div>
 </div>
-    <script id="_wauk21">var _wau = _wau || []; _wau.push(["small", "xffqqugada", "k21"]);</script><script async src="https://waust.at/s.js"></script>
+<script id="_wauk21">var _wau = _wau || []; _wau.push(["small", "xffqqugada", "k21"]);</script><script async src="https://waust.at/s.js"></script>
 </body>
 </html>
