@@ -15,9 +15,9 @@
         "full_date": "04.03 05:42"
     },
     "Silver I": {
-        "text": "Game Currencies\nrlt\nRLT\n\n223.542 Eh/s\nrst\nRST\n\n59.497 Eh/s\n\nCrypto Currencies\nxrp\nXRP\n\n56.019 Eh/s\nbtc\nBTC\n\n142.531 Eh/s\nbnb\nBNB\n\n80.708 Eh/s\nmatic\nPOL\n\n101.301 Eh/s\nusdt\nUSDT\n\n26.113 Eh/s\nltc\nLTC\n\n42.217 Eh/s",
-        "time": "04:37",
-        "full_date": "01.04 04:37"
+        "text": "Total716.170 Eh/s\n\nGame Currencies\nrlt\nRLT\n\n219.786 Eh/s\nrst\nRST\n\n57.123 Eh/s\n\nCrypto Currencies\nxrp\nXRP\n\n58.226 Eh/s\nbtc\nBTC\n\n138.152 Eh/s\nbnb\nBNB\n\n76.579 Eh/s\nmatic\nPOL\n\n97.178 Eh/s\nusdt\nUSDT\n\n26.791 Eh/s\nltc\nLTC\n\n42.336 Eh/s",
+        "time": "16:16",
+        "full_date": "03.04 16:16"
     },
     "Silver II": {
         "text": "Total\n2.217 Zh/s\n\nGame Currencies\n\nrlt\nRLT\n526.479 Eh/s\n\nrst\nRST\n157.534 Eh/s\n\nCrypto Currencies\n\nxrp\nXRP\n166.517 Eh/s\n\ndoge\nDOGE\n320.701 Eh/s\n\nbtc\nBTC\n406.565 Eh/s\n\nbnb\nBNB\n211.276 Eh/s\n\nmatic\nPOL\n233.813 Eh/s\n\nusdt\nUSDT\n94.680 Eh/s\n\nltc\nLTC\n99.245 Eh/s",
@@ -40,9 +40,9 @@
         "full_date": "25.03 14:37"
     },
     "Gold III": {
-        "text": "Game Currencies\n\nrlt\nRLT\n3.560 Zh/s\n\nrst\nRST\n1.219 Zh/s\n\nhmt\nHMT\n1.442 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n1.527 Zh/s\n\ntrx\nTRX\n5.443 Zh/s\n\ndoge\nDOGE\n3.391 Zh/s\n\nbtc\nBTC\n3.437 Zh/s\n\neth\nETH\n2.466 Zh/s\n\nbnb\nBNB\n1.852 Zh/s\n\nmatic\nPOL\n2.077 Zh/s\n\nsol\nSOL\n4.176 Zh/s\n\nusdt\nUSDT\n1.637 Zh/s\n\nltc\nLTC\n778.353 Eh/s",
-        "time": "03:17",
-        "full_date": "02.04 03:17"
+        "text": "Game Currencies\n\nrlt\nRLT\n3.685 Zh/s\n\nrst\nRST\n1.162 Zh/s\n\nhmt\nHMT\n1.548 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n1.517 Zh/s\n\ntrx\nTRX\n5.401 Zh/s\n\ndoge\nDOGE\n3.350 Zh/s\n\nbtc\nBTC\n3.486 Zh/s\n\neth\nETH\n2.471 Zh/s\n\nbnb\nBNB\n1.802 Zh/s\n\nmatic\nPOL\n2.046 Zh/s\n\nsol\nSOL\n4.152 Zh/s\n\nusdt\nUSDT\n1.641 Zh/s\n\nltc\nLTC\n927.174 Eh/s",
+        "time": "03:03",
+        "full_date": "03.04 03:03"
     },
     "Platinum I": {
         "text": "Game Currencies\n\nrlt\nRLT\n8.711 Zh/s\n\nrst\nRST\n3.118 Zh/s\n\nhmt\nHMT\n3.734 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n6.011 Zh/s\n\nalgo\nALGO\n5.966 Zh/s\n\ntrx\nTRX\n24.278 Zh/s\n\ndoge\nDOGE\n10.735 Zh/s\n\nbtc\nBTC\n9.112 Zh/s\n\neth\nETH\n11.099 Zh/s\n\nbnb\nBNB\n6.514 Zh/s\n\nmatic\nPOL\n6.287 Zh/s\n\nsol\nSOL\n10.793 Zh/s\n\nusdt\nUSDT\n5.966 Zh/s\n\nltc\nLTC\n2.752 Zh/s",
@@ -50,14 +50,14 @@
         "full_date": "01.04 03:18"
     },
     "Platinum II": {
-        "text": "Game Currencies\n\nrlt\nRLT\n6.692 Zh/s\n\nrst\nRST\n2.771 Zh/s\n\nhmt\nHMT\n3.777 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n6.563 Zh/s\n\nalgo\nALGO\n5.186 Zh/s\n\ntrx\nTRX\n32.650 Zh/s\n\ndoge\nDOGE\n12.371 Zh/s\n\nbtc\nBTC\n9.850 Zh/s\n\neth\nETH\n12.786 Zh/s\n\nbnb\nBNB\n6.419 Zh/s\n\nmatic\nPOL\n6.675 Zh/s\n\nsol\nSOL\n19.092 Zh/s\n\nusdt\nUSDT\n6.528 Zh/s\n\nltc\nLTC\n3.193 Zh/s",
-        "time": "08:31",
-        "full_date": "02.04 08:31"
+        "text": "Game Currencies\n\nrlt\nRLT\n6.690 Zh/s\n\nrst\nRST\n2.570 Zh/s\n\nhmt\nHMT\n3.732 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n6.207 Zh/s\n\nalgo\nALGO\n5.953 Zh/s\n\ntrx\nTRX\n34.134 Zh/s\n\ndoge\nDOGE\n11.358 Zh/s\n\nbtc\nBTC\n9.907 Zh/s\n\neth\nETH\n12.666 Zh/s\n\nbnb\nBNB\n6.118 Zh/s\n\nmatic\nPOL\n6.129 Zh/s\n\nsol\nSOL\n18.964 Zh/s\n\nusdt\nUSDT\n6.786 Zh/s\n\nltc\nLTC\n3.390 Zh/s",
+        "time": "23:00",
+        "full_date": "03.04 23:00"
     },
     "Platinum III": {
-        "text": "Game Currencies\n\nrlt\nRLT\n6.464 Zh/s\n\nrst\nRST\n3.405 Zh/s\n\nhmt\nHMT\n5.084 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n8.906 Zh/s\n\nalgo\nALGO\n5.339 Zh/s\n\ntrx\nTRX\n44.836 Zh/s\n\ndoge\nDOGE\n15.442 Zh/s\n\nbtc\nBTC\n11.509 Zh/s\n\neth\nETH\n18.376 Zh/s\n\nbnb\nBNB\n7.538 Zh/s\n\nmatic\nPOL\n7.757 Zh/s\n\nsol\nSOL\n33.382 Zh/s\n\nusdt\nUSDT\n10.009 Zh/s\n\nltc\nLTC\n3.691 Zh/s",
-        "time": "04:40",
-        "full_date": "01.04 04:40"
+        "text": "rlt\nRLT\n6.538 Zh/s\n\nrst\nRST\n3.555 Zh/s\n\nhmt\nHMT\n5.156 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n7.700 Zh/s\n\nalgo\nALGO\n5.596 Zh/s\n\ntrx\nTRX\n44.217 Zh/s\n\ndoge\nDOGE\n15.260 Zh/s\n\nbtc\nBTC\n11.721 Zh/s\n\neth\nETH\n18.107 Zh/s\n\nbnb\nBNB\n7.366 Zh/s\n\nmatic\nPOL\n7.599 Zh/s\n\nsol\nSOL\n33.184 Zh/s\n\nusdt\nUSDT\n10.072 Zh/s\n\nltc\nLTC\n4.468 Zh/s",
+        "time": "19:23",
+        "full_date": "02.04 19:23"
     },
     "Diamond I": {
         "text": "Game Currencies\n\nrst\nRST\n4.538 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n21.621 Zh/s\n\nalgo\nALGO\n17.117 Zh/s\n\ntrx\nTRX\n24.607 Zh/s\n\ndoge\nDOGE\n25.281 Zh/s\n\nbtc\nBTC\n17.283 Zh/s\n\neth\nETH\n26.630 Zh/s\n\nbnb\nBNB\n14.077 Zh/s\n\nmatic\nPOL\n23.703 Zh/s\n\nsol\nSOL\n17.356 Zh/s\n\nusdt\nUSDT\n13.947 Zh/s\n\nltc\nLTC\n12.522 Zh/s",
@@ -65,9 +65,9 @@
         "full_date": "01.04 00:49"
     },
     "Diamond II": {
-        "text": "Total\n561.805 Zh/s\n\nGame Currencies\n\nrst\nRST\n5.199 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n50.229 Zh/s\n\nalgo\nALGO\n59.578 Zh/s\n\ntrx\nTRX\n46.832 Zh/s\n\ndoge\nDOGE\n80.449 Zh/s\n\nbtc\nBTC\n51.912 Zh/s\n\neth\nETH\n51.110 Zh/s\n\nbnb\nBNB\n51.022 Zh/s\n\nmatic\nPOL\n42.206 Zh/s\n\nsol\nSOL\n41.294 Zh/s\n\nusdt\nUSDT\n51.057 Zh/s\n\nltc\nLTC\n30.918 Zh/s",
-        "time": "16:03",
-        "full_date": "01.04 16:03"
+        "text": "Total\n554.730 Zh/s\n\nGame Currencies\n\nrst\nRST\n9.945 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n36.937 Zh/s\n\nalgo\nALGO\n63.478 Zh/s\n\ntrx\nTRX\n48.043 Zh/s\n\ndoge\nDOGE\n78.903 Zh/s\n\nbtc\nBTC\n51.839 Zh/s\n\neth\nETH\n48.543 Zh/s\n\nbnb\nBNB\n49.959 Zh/s\n\nmatic\nPOL\n43.285 Zh/s\n\nsol\nSOL\n40.391 Zh/s\n\nusdt\nUSDT\n53.176 Zh/s\n\nltc\nLTC\n30.232 Zh/s",
+        "time": "04:44",
+        "full_date": "03.04 04:44"
     },
     "Diamond III": {
         "text": "Game Currencies\n\nrst\nRST\n6.580 Zh/s\n\nCrypto Currencies\n\nxrp\nXRP\n5.895 Zh/s\n\nalgo\nALGO\n6.211 Zh/s\n\ntrx\nTRX\n8.064 Zh/s\n\ndoge\nDOGE\n6.628 Zh/s\n\nbtc\nBTC\n4.306 Zh/s\n\neth\nETH\n7.478 Zh/s\n\nbnb\nBNB\n4.878 Zh/s\n\nmatic\nPOL\n5.461 Zh/s\n\nsol\nSOL\n8.581 Zh/s\n\nusdt\nUSDT\n8.185 Zh/s\n\nltc\nLTC\n4.154 Zh/s",
