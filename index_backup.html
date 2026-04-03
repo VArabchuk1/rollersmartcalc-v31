@@ -9,7 +9,7 @@
         .block { background: #16213e; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #0f3460; position: relative; }
         .block-title { color: #ffffff; font-size: 13px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; opacity: 0.8; display: flex; justify-content: space-between; align-items: center; }
         textarea { width: 100%; height: 60px; padding: 10px; border-radius: 8px; background: #0f3460; color: #00ff88; border: 1px solid #00d4ff; box-sizing: border-box; font-size: 11px; margin-bottom: 10px; }
-        
+
         .freon-container { display: flex; align-items: center; gap: 10px; background: #1b3a4b; padding: 8px 12px; border-radius: 8px; border: 1px solid #ff4757; margin-bottom: 10px; }
         .freon-label { font-size: 11px; font-weight: bold; color: #ff4757; text-transform: uppercase; }
         .freon-input { width: 80px !important; border-color: #ff4757 !important; color: #ff4757 !important; font-weight: bold; }
@@ -18,132 +18,132 @@
         .league-badge { background: #e84393; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 5px; display: inline-block; }
         .total-value { font-size: 26px; font-weight: bold; }
         .dist-next { font-size: 12px; color: #ff9f43; margin-top: 8px; font-weight: bold; }
-        
+
         .input-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px; gap: 4px; align-items: center; margin-bottom: 8px; }
         .grid-labels { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px; gap: 4px; font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 4px; text-align: center; }
 
         input, select { width: 100%; padding: 8px 2px; border-radius: 6px; background: #0f3460; color: white; border: 1px solid #0f3460; font-size: 11px; box-sizing: border-box; text-align: center; }
-        
+
         .indiv-res { font-size: 10px; font-weight: bold; text-align: center; background: #1a2a4a; padding: 6px 2px; border-radius: 6px; border: 1px solid #00ff8833; overflow: hidden; white-space: nowrap; }
-        
+
         .btn-add { background: #00d4ff22; color: #00d4ff; border: 1px dashed #00d4ff; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
         .btn-del { background: #ff475722; color: #ff4757; border: 1px solid #ff475744; border-radius: 6px; cursor: pointer; height: 32px; font-weight: bold; }
 
         .result-container { text-align: center; padding: 12px; background: #0f3460; border-radius: 12px; border: 2px solid #00ff88; margin-top: 10px; }
         .res-val { font-size: 22px; font-weight: bold; color: #00d4ff; }
         .final-dist-next { font-size: 12px; color: #ff9f43; margin-top: 8px; font-weight: bold; }
-		
-		/* Нові стилі, що не чіпають твої старі */
-.v2-calc-container { 
-    margin-top: 30px; 
-    border-top: 2px dashed #00d4ff; 
-    padding-top: 20px; 
-}
 
-/* Контейнер для прокрутки, щоб таблиця не ламалася на телефоні */
-.v2-scroll-box {
-    width: 100%;
-    overflow-x: auto;
-    border: 1px solid #0f3460;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
+        /* Нові стилі, що не чіпають твої старі */
+        .v2-calc-container {
+            margin-top: 30px;
+            border-top: 2px dashed #00d4ff;
+            padding-top: 20px;
+        }
 
-.v2-table { 
-    width: 100%; 
-    min-width: 500px; /* Фіксуємо мінімальну ширину всієї таблиці */
-    border-collapse: collapse; 
-    font-size: 11px; 
-    background: #16213e; 
-    color: white; 
-}
+        /* Контейнер для прокрутки, щоб таблиця не ламалася на телефоні */
+        .v2-scroll-box {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
 
-.v2-table th { background: #0f3460; color: #ff9f43; padding: 10px; white-space: nowrap; }
+        .v2-table {
+            width: 100%;
+            min-width: 500px; /* Фіксуємо мінімальну ширину всієї таблиці */
+            border-collapse: collapse;
+            font-size: 11px;
+            background: #16213e;
+            color: white;
+        }
 
-.v2-table td { 
-    padding: 8px 4px; 
-    border: 1px solid #0f3460; 
-    text-align: center; 
-    white-space: nowrap; /* Щоб цифри завжди були в один рядок */
-}
+        .v2-table th { background: #0f3460; color: #ff9f43; padding: 10px; white-space: nowrap; }
 
-/* ФІКСОВАНА ШИРИНА ДЛЯ ІНПУТІВ (Мережа та Час) */
-.v2-input { 
-    background: #0f3460; 
-    border: 1px solid #00d4ff; 
-    color: #00ff88; 
-    padding: 5px; 
-    border-radius: 4px; 
-    width: 70px !important; /* Робимо трошки ширше, щоб вліз час і великі числа */
-    min-width: 70px;
-    text-align: center; 
-    box-sizing: border-box;
-}
+        .v2-table td {
+            padding: 8px 4px;
+            border: 1px solid #0f3460;
+            text-align: center;
+            white-space: nowrap; /* Щоб цифри завжди були в один рядок */
+        }
 
-.v2-btn { 
-    background: #0f3460; 
-    color: #00ff88; 
-    border: 1px solid #00ff88; 
-    padding: 10px; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    width: 100%; 
-    font-weight: bold; 
-    margin: 10px 0; 
-}
+        /* ФІКСОВАНА ШИРИНА ДЛЯ ІНПУТІВ (Мережа та Час) */
+        .v2-input {
+            background: #0f3460;
+            border: 1px solid #00d4ff;
+            color: #00ff88;
+            padding: 5px;
+            border-radius: 4px;
+            width: 70px !important; /* Робимо трошки ширше, щоб вліз час і великі числа */
+            min-width: 70px;
+            text-align: center;
+            box-sizing: border-box;
+        }
 
-.zebra-odd {
-    background: #111827;
-}
+        .v2-btn {
+            background: #0f3460;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            margin: 10px 0;
+        }
 
-.zebra-even {
-    background: #0f3460;
-}
+        .zebra-odd {
+            background: #111827;
+        }
 
-/* Ховер */
-.v2-table tbody tr:hover {
-    background: #00ff88 !important;
-    color: #000;
-}
+        .zebra-even {
+            background: #0f3460;
+        }
 
-/* Контейнер таблиці для ПК і мобільних */
-.v2-scroll-box {
-    display: flex;
-    justify-content: center; /* центруємо таблицю на ПК */
-    border-radius: 12px; /* обрізані кути */
-    overflow-x: visible; /* на ПК скролу нема */
-}
+        /* Ховер */
+        .v2-table tbody tr:hover {
+            background: #00ff88 !important;
+            color: #000;
+        }
 
-/* Таблиця: колонки компактні, всі вміщаються */
-.v2-table {
-    table-layout: fixed; /* рівномірно розподіляємо колонки */
-	
-}
+        /* Контейнер таблиці для ПК і мобільних */
+        .v2-scroll-box {
+            display: flex;
+            justify-content: center; /* центруємо таблицю на ПК */
+            border-radius: 12px; /* обрізані кути */
+            overflow-x: visible; /* на ПК скролу нема */
+        }
 
-/* Вузькі колонки */
-.v2-table th:nth-child(1),
-.v2-table td:nth-child(1) { width: 5%; }
-.v2-table th:nth-child(2),
-.v2-table td:nth-child(2) { width: 12%; }
-.v2-table th:nth-child(3),
-.v2-table td:nth-child(3) { width: 12%; }
-.v2-table th:nth-child(4),
-.v2-table td:nth-child(4) { width: 10%; }
-.v2-table th:nth-child(5),
-.v2-table td:nth-child(5) { width: 10%; }
-.v2-table th:nth-child(6),
-.v2-table td:nth-child(6) { width: 10%; }
+        /* Таблиця: колонки компактні, всі вміщаються */
+        .v2-table {
+            table-layout: fixed; /* рівномірно розподіляємо колонки */
 
-/* Горизонтальний скрол для мобільних */
-@media (max-width: 768px) {
-    .v2-scroll-box {
-        overflow-x: auto;
-        justify-content: flex-start; /* залишаємо як було на мобільних */
-    }
-    .v2-table th, .v2-table td {
-        min-width: 90px; /* щоб колонки не ламалися */
-    }
-}
+        }
+
+        /* Вузькі колонки */
+        .v2-table th:nth-child(1),
+        .v2-table td:nth-child(1) { width: 5%; }
+        .v2-table th:nth-child(2),
+        .v2-table td:nth-child(2) { width: 12%; }
+        .v2-table th:nth-child(3),
+        .v2-table td:nth-child(3) { width: 12%; }
+        .v2-table th:nth-child(4),
+        .v2-table td:nth-child(4) { width: 10%; }
+        .v2-table th:nth-child(5),
+        .v2-table td:nth-child(5) { width: 10%; }
+        .v2-table th:nth-child(6),
+        .v2-table td:nth-child(6) { width: 10%; }
+
+        /* Горизонтальний скрол для мобільних */
+        @media (max-width: 768px) {
+            .v2-scroll-box {
+                overflow-x: auto;
+                justify-content: flex-start; /* залишаємо як було на мобільних */
+            }
+            .v2-table th, .v2-table td {
+                min-width: 90px; /* щоб колонки не ламалися */
+            }
+        }
     </style>
 </head>
 <body>
@@ -151,6 +151,7 @@
 <div class="block">
     <div class="block-title">Profile Stats</div>
     <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..." oninput="calculateAll()"></textarea>
+    <button class="v2-btn" onclick="clearRawData('raw_data')">Очистити поле з Profile Stats</button>
     <div class="freon-container" style="display: none;">
         <span class="freon-label">Активний Фреон у відсотках:</span>
         <input type="number" id="freon_pct" class="freon-input" value="0" step="0.5" oninput="calculateAll()">
@@ -190,23 +191,23 @@
 </div>
 
 <script>
-const LEAGUES = [
+    const LEAGUES = [
         { name: "Bronze I", limit: 0 }, { name: "Bronze II", limit: 5 }, { name: "Bronze III", limit: 30 },
         { name: "Silver I", limit: 100 }, { name: "Silver II", limit: 200 }, { name: "Silver III", limit: 500 },
         { name: "Gold I", limit: 1000 }, { name: "Gold II", limit: 2000 }, { name: "Gold III", limit: 5000 },
         { name: "Platinum I", limit: 15000 }, { name: "Platinum II", limit: 50000 }, { name: "Platinum III", limit: 100000 },
         { name: "Diamond I", limit: 200000 }, { name: "Diamond II", limit: 400000 }, { name: "Diamond III", limit: 1000000 }
     ];
-	
-	function v2_applyZebra() {
-    const visibleRows = Array.from(document.querySelectorAll(".v2-row"))
-        .filter(r => r.style.display !== "none");
 
-    visibleRows.forEach((row, index) => {
-        row.classList.remove("zebra-odd", "zebra-even");
-        row.classList.add(index % 2 === 0 ? "zebra-odd" : "zebra-even");
-    });
-}
+    function v2_applyZebra() {
+        const visibleRows = Array.from(document.querySelectorAll(".v2-row"))
+            .filter(r => r.style.display !== "none");
+
+        visibleRows.forEach((row, index) => {
+            row.classList.remove("zebra-odd", "zebra-even");
+            row.classList.add(index % 2 === 0 ? "zebra-odd" : "zebra-even");
+        });
+    }
 
     function addRow(containerId) {
         const container = document.getElementById(containerId);
@@ -251,38 +252,38 @@ const LEAGUES = [
     // НОВА ФУНКЦІЯ: Передача даних вниз
     // Оновлена функція: Автоматично вибирає одиниці виміру (EH або ZH)
     function syncToV2(powerPh, leagueName) {
-    const pInp = document.getElementById("v2-m-power");
-    const uSel = document.getElementById("v2-m-unit");
-    const lSel = document.getElementById("v2-league");
-    if (!pInp || !uSel || !lSel) return;
+        const pInp = document.getElementById("v2-m-power");
+        const uSel = document.getElementById("v2-m-unit");
+        const lSel = document.getElementById("v2-league");
+        if (!pInp || !uSel || !lSel) return;
 
-    // Налаштування потужності
-    if (powerPh >= 1000) {
-        pInp.value = (powerPh / 1000).toFixed(3);
-        uSel.value = "1000000"; // EH/s
-    } else {
-        pInp.value = powerPh.toFixed(3);
-        uSel.value = "1000"; // PH/s
+        // Налаштування потужності
+        if (powerPh >= 1000) {
+            pInp.value = (powerPh / 1000).toFixed(3);
+            uSel.value = "1000000"; // EH/s
+        } else {
+            pInp.value = powerPh.toFixed(3);
+            uSel.value = "1000"; // PH/s
+        }
+
+        // ГОЛОВНЕ: Переклад ліги ("Silver I" -> "block_silver_1")
+        if (leagueName) {
+            // 1. Переводимо "Bronze III" -> "bronze iii"
+            let lowerName = leagueName.toLowerCase();
+
+            // 2. Замінюємо пробіл на підкреслення: "bronze iii" -> "bronze_iii"
+            let formattedName = lowerName.replace(" ", "_");
+
+            // 3. Додаємо префікс "block_": "block_bronze_iii"
+            let technicalName = `block_${formattedName}`;
+
+            // 4. Вибираємо цей пункт у списку
+            lSel.value = technicalName;
+        }
+
+        v2_filter();
+        v2_calcAll();
     }
-
-    // ГОЛОВНЕ: Переклад ліги ("Silver I" -> "block_silver_1")
-    if (leagueName) {
-    // 1. Переводимо "Bronze III" -> "bronze iii"
-    let lowerName = leagueName.toLowerCase(); 
-    
-    // 2. Замінюємо пробіл на підкреслення: "bronze iii" -> "bronze_iii"
-    let formattedName = lowerName.replace(" ", "_"); 
-    
-    // 3. Додаємо префікс "block_": "block_bronze_iii"
-    let technicalName = `block_${formattedName}`;
-    
-    // 4. Вибираємо цей пункт у списку
-    lSel.value = technicalName;
-}
-
-    v2_filter();
-    v2_calcAll();
-}
 
     function calculateAll() {
         const text = document.getElementById('raw_data').value;
@@ -305,7 +306,7 @@ const LEAGUES = [
 
         const freonPower = miners * (freon / 100);
         document.getElementById('total_display').innerText = formatPower(currentGame);
-        
+
         // Передаємо поточну потужність вниз
         syncToV2(currentGame, getLInfo(maxPower).cur.name);
 
@@ -321,7 +322,7 @@ const LEAGUES = [
 
         let bonusLost = 0;
         document.querySelectorAll('#old_list .input-grid').forEach(row => bonusLost += parseFloat(row.querySelector('.b-in').value) || 0);
-        
+
         let bonusGained = 0;
         let newMinersBase = 0;
         document.querySelectorAll('#new_list .input-grid').forEach(row => {
@@ -371,7 +372,7 @@ const LEAGUES = [
         document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPower(netGain);
         document.getElementById('f_total').innerText = formatPower(finalTotal);
 
-        let finalMaxPower = maxPower + netGain; 
+        let finalMaxPower = maxPower + netGain;
         let finalNxtL = getLInfo(finalMaxPower).nxt;
         if(finalNxtL) {
             let finalLeft = finalNxtL.limit - finalMaxPower;
@@ -379,8 +380,8 @@ const LEAGUES = [
         } else {
             document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
         }
-		let finalLInfo = getLInfo(finalMaxPower);
-syncToV2(finalTotal, finalLInfo.cur.name);
+        let finalLInfo = getLInfo(finalMaxPower);
+        syncToV2(finalTotal, finalLInfo.cur.name);
     }
 
     addRow('old_list');
@@ -424,98 +425,196 @@ syncToV2(finalTotal, finalLInfo.cur.name);
     function v2_filter() {
         const sel = document.getElementById("v2-league").value;
         document.querySelectorAll(".v2-row").forEach(r => r.style.display = r.dataset.l === sel ? "" : "none");
-		v2_applyZebra();
+        v2_applyZebra();
     }
 
     function v2_parseNet() {
-    const txt = document.getElementById("v2-raw-net").value;
-    if (!txt) return;
-
-    // Створюємо список усіх кодів монет, які ми маємо в даних
-    const coins = V2_DATA.map(c => c.code);
-
-    coins.forEach(code => {
-        // Регулярний вираз: шукаємо код монети, пропускаємо будь-які пробіли/переноси
-        // і захоплюємо числове значення (навіть якщо воно на новому рядку)
-        const regex = new RegExp(code + "\\s+([\\d\\.,\\s]+)", "i");
-        const match = txt.match(regex);
-
-        if (match) {
-            // Очищаємо число: видаляємо пробіли, переноси рядків (\n) та міняємо кому на крапку
-            let netValue = match[1].trim().replace(/\s/g, '').replace(',', '.');
-            
-            // Знаходимо всі інпути для цієї монети
-            const inputs = document.querySelectorAll(`.v2-nw-${code.toLowerCase()}`);
-            inputs.forEach(inp => {
-                inp.value = netValue;
-            });
+        const txt = document.getElementById("v2-raw-net").value;
+        if (!txt) {
+            const allInputs = document.querySelectorAll('[class*="v2-nw-"]');
+            allInputs.forEach(inp => inp.value = "0");
+            setTimeout(() => {
+                v2_calcAll();
+            }, 300);
+            return;
         }
-    });
 
-    // Обов'язково запускаємо перерахунок після оновлення цифр
-    v2_calcAll();
-}
+        const allInputs = document.querySelectorAll('[class*="v2-nw-"]');
+        allInputs.forEach(inp => inp.value = "0");
+        
+        // Створюємо список усіх кодів монет, які ми маємо в даних
+        const coins = V2_DATA.map(c => c.code);
+        coins.forEach(code => {
+            // Регулярний вираз: шукаємо код монети, пропускаємо будь-які пробіли/переноси
+            // і захоплюємо числове значення (навіть якщо воно на новому рядку)
+            const regex = new RegExp(code + "\\s+([\\d\\.,\\s]+)", "i");
+            const match = txt.match(regex);
+
+            if (match) {
+                // Очищаємо число: видаляємо пробіли, переноси рядків (\n) та міняємо кому на крапку
+                let netValue = match[1].trim().replace(/\s/g, '').replace(',', '.');
+
+                // Знаходимо всі інпути для цієї монети
+                const inputs = document.querySelectorAll(`.v2-nw-${code.toLowerCase()}`);
+                inputs.forEach(inp => {
+                    // Додаємо затримку 200 мілісекунд
+                    setTimeout(() => {
+                        inp.value = netValue;
+
+                        // Якщо потрібно відразу підсвітити зміну або викликати рендер
+                        // if (typeof calculateAll === "function") calculateAll();
+                    }, 200);
+                });
+            }
+        });
+
+        // Обов'язково запускаємо перерахунок після оновлення цифр
+        setTimeout(() => {
+            v2_calcAll();
+        }, 300);
+    }
 
     function v2_calcAll() {
-    const pVal = parseFloat(document.getElementById("v2-m-power").value) || 0;
-    const uVal = parseFloat(document.getElementById("v2-m-unit").value) || 1;
-    const myP = (pVal * uVal) / 1e9; 
-    
-    document.querySelectorAll(".v2-row").forEach(r => {
-        const rew = parseFloat(r.querySelector(".v2-rew").textContent);
-        const net = parseFloat(r.querySelector("input").value) || 0;
-        
-        // Беремо значення в хвилинах (наприклад 10.5)
-        const timeInMinutes = parseFloat(r.querySelector(".v2-time-input").value) || 10;
-        
-        if (net > 0 && myP > 0) {
-            const resB = (myP / net) * rew;
-            r.querySelector(".v2-res-b").textContent = resB.toFixed(8);
-            
-            // Формула: (1440 хв у добі / час блоку в хв) * нагорода за блок
-            const daily = resB * (1440 / timeInMinutes);
-            r.querySelector(".v2-res-d").textContent = daily.toFixed(6);
-        } else {
-            r.querySelector(".v2-res-b").textContent = "0";
-            r.querySelector(".v2-res-d").textContent = "0";
+        const pVal = parseFloat(document.getElementById("v2-m-power").value) || 0;
+        const uVal = parseFloat(document.getElementById("v2-m-unit").value) || 1;
+        const myP = (pVal * uVal) / 1e9;
+
+        document.querySelectorAll(".v2-row").forEach(r => {
+            const rew = parseFloat(r.querySelector(".v2-rew").textContent);
+            const net = parseFloat(r.querySelector("input").value) || 0;
+
+            // Беремо значення в хвилинах (наприклад 10.5)
+            const timeInMinutes = parseFloat(r.querySelector(".v2-time-input").value) || 10;
+
+            if (net > 0 && myP > 0) {
+                const resB = (myP / net) * rew;
+                r.querySelector(".v2-res-b").textContent = resB.toFixed(8);
+
+                // Формула: (1440 хв у добі / час блоку в хв) * нагорода за блок
+                const daily = resB * (1440 / timeInMinutes);
+                r.querySelector(".v2-res-d").textContent = daily.toFixed(6);
+            } else {
+                r.querySelector(".v2-res-b").textContent = "0";
+                r.querySelector(".v2-res-d").textContent = "0";
+            }
+        });
+    }
+
+    // Функція для завантаження даних ліг та налаштування списку
+    async function setupLeagueSelector() {
+        const selectElement = document.getElementById('league-select');
+        const textArea = document.getElementById('v2-raw-net');
+        const statusElement = document.getElementById('sync-status');
+
+        try {
+            // 1. Завантажуємо JSON-файл, який створює ваш Python-скрипт
+            const response = await fetch('leagues_data.json');
+
+            if (!response.ok) {
+                throw new Error('Файл даних ще не створено або не знайдено');
+            }
+
+            const leaguesData = await response.json();
+
+            // 2. Наповнюємо список лігами з файлу
+            for (const leagueName in leaguesData) {
+                const option = document.createElement('option');
+                option.value = leagueName;
+                // Показуємо назву та дату оновлення прямо у списку
+                option.textContent = `${leagueName} (Оновлено: ${leaguesData[leagueName].full_date})`;
+                selectElement.appendChild(option);
+            }
+
+            statusElement.textContent = "✅ Дані ліг синхронізовано(взято з дискорда П'єро)";
+            statusElement.style.color = "green";
+
+            // 3. Слухаємо зміни у випадаючому списку
+            selectElement.addEventListener('change', (event) => {
+                const selectedLeague = event.target.value;
+
+                if (selectedLeague && leaguesData[selectedLeague]) {
+                    // Вставляємо чистий текст повідомлення у ваше поле
+                    textArea.value = leaguesData[selectedLeague].text;
+                } else {
+                    // Якщо вибрано "Вставити вручну", очищуємо поле (за бажанням)
+                    textArea.value = "";
+                }
+            });
+
+        } catch (error) {
+            console.error('Помилка:', error);
+            statusElement.textContent = "❌ Не вдалося завантажити дані ліг";
+            statusElement.style.color = "red";
         }
-    });
-}
+    }
+
+    // Запускаємо функцію після повного завантаження сторінки
+    document.addEventListener('DOMContentLoaded', setupLeagueSelector);
+
+    // Очищаємо тільки вікно з даними
+    function clearRawData(elementId) {
+        const area = document.getElementById(elementId);
+        area.value = "";
+
+        // Повертаємо фокус на поле
+        area.focus();
+    }
+
 </script>
 <div class="v2-calc-container">
     <div class="block">
         <div class="block-title">Калькулятор монет (Мережа)</div>
-        <textarea id="v2-raw-net" placeholder="Вставте дані мережі сюди..." rows="3"></textarea>
-        <button class="v2-btn" onclick="v2_parseNet()">Оновити мережу</button>
-        
+
+        <div class="league-select-wrapper" style="margin-bottom: 10px;">
+            <label for="league-select" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Автовставлення складності мережі(виберіть лігу):
+            </label>
+            <select id="league-select" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
+                    onchange="setTimeout(() => v2_parseNet(), 300)">
+                <option value="">-- Вставити дані вручну --</option>
+            </select>
+            <small id="sync-status" style="color: #666; display: block; margin-top: 3px;">
+                Дані підтягуються з GitHub репозиторію
+            </small>
+        </div>
+
+        <textarea id="v2-raw-net" placeholder="Вставте дані мережі сюди..." oninput="v2_parseNet()" rows="3"></textarea>
+
         <div style="display: flex; gap: 10px; margin: 10px 0; width: 100%;">
-    <input type="number" id="v2-m-power" placeholder="Твоя потужність" class="v2-input" style="flex: 1;" oninput="v2_calcAll()">
-    <select id="v2-m-unit" class="v2-input" style="flex: 1;" onchange="v2_calcAll()">
-        <option value="1">TH/s</option>
-        <option value="1000">PH/s</option>
-        <option value="1000000">EH/s</option>
-        <option value="1000000000" selected>ZH/s</option>
-    </select>
-</div>
-        
+            <button class="v2-btn" onclick="v2_parseNet()">Оновити мережу</button>
+            <button class="v2-btn" onclick="clearRawData('v2-raw-net')">Очистити дані мережі</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin: 10px 0; width: 100%;">
+            <input type="number" id="v2-m-power" placeholder="Твоя потужність" class="v2-input" style="flex: 1;"
+                   oninput="v2_calcAll()">
+            <select id="v2-m-unit" class="v2-input" style="flex: 1;" onchange="v2_calcAll()">
+                <option value="1">TH/s</option>
+                <option value="1000">PH/s</option>
+                <option value="1000000">EH/s</option>
+                <option value="1000000000" selected>ZH/s</option>
+            </select>
+        </div>
+
         <select id="v2-league" class="v2-input" style="width: 100% !important; margin-bottom: 10px;" onchange="v2_filter()"></select>
 
         <div class="v2-scroll-box">
             <table class="v2-table">
                 <thead>
-                    <tr>
-                        <th>Монета</th>
-                        <th>Нагорода</th>
-                        <th>Мережа</th>
-                        <th>Час хв</th> 
-                        <th>За блок</th>
-                        <th>За добу</th>
-                    </tr>
+                <tr>
+                    <th>Монета</th>
+                    <th>Нагорода</th>
+                    <th>Мережа</th>
+                    <th>Час хв</th>
+                    <th>За блок</th>
+                    <th>За добу</th>
+                </tr>
                 </thead>
                 <tbody id="v2-body"></tbody>
             </table>
         </div>
     </div>
 </div>
+<script id="_wauk21">var _wau = _wau || []; _wau.push(["small", "xffqqugada", "k21"]);</script><script async src="https://waust.at/s.js"></script>
 </body>
 </html>
