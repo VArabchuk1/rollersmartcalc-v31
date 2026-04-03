@@ -5,151 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RollerSmart v31 - True Impact</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 15px; background-color: #1a1a2e; color: #e0e0e0; max-width: 600px; margin: auto; }
-        .block { background: #16213e; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #0f3460; position: relative; }
-        .block-title { color: #ffffff; font-size: 13px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; opacity: 0.8; display: flex; justify-content: space-between; align-items: center; }
-        textarea { width: 100%; height: 60px; padding: 10px; border-radius: 8px; background: #0f3460; color: #00ff88; border: 1px solid #00d4ff; box-sizing: border-box; font-size: 11px; margin-bottom: 10px; }
+        /* 1. Базові налаштування */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 15px;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            max-width: 600px;
+            margin: auto;
+        }
 
-        .freon-container { display: flex; align-items: center; gap: 10px; background: #1b3a4b; padding: 8px 12px; border-radius: 8px; border: 1px solid #ff4757; margin-bottom: 10px; }
+        /* 2. Блоки та заголовки */
+        .block {
+            background: #16213e;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #00ff88;
+            position: relative;
+        }
+
+        .block-title {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 3. Форми та інпути */
+        textarea {
+            width: 100%; height: 60px; padding: 10px; border-radius: 8px;
+            background: #0f3460; color: #00ff88;
+            border: 1px solid #00ff88; box-sizing: border-box;
+            font-size: 11px; margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%; padding: 8px 2px; border-radius: 6px;
+            background: #0f3460; color: white;
+            border: 1px solid #0f3460; font-size: 11px;
+            box-sizing: border-box; text-align: center;
+        }
+
+        /* 4. Специфічні блоки (Фреон, Ліга) */
+        .freon-container {
+            display: flex; align-items: center; gap: 10px; background: #1b3a4b;
+            padding: 8px 12px; border-radius: 8px; border: 1px solid #ff4757; margin-bottom: 10px;
+        }
         .freon-label { font-size: 11px; font-weight: bold; color: #ff4757; text-transform: uppercase; }
         .freon-input { width: 80px !important; border-color: #ff4757 !important; color: #ff4757 !important; font-weight: bold; }
 
-        .total-block { background: #1b3a4b; border: 2px solid #00ff88; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center; position: relative; }
+        .total-block {
+            background: #1b3a4b; border: 1px solid #00ff88;
+            padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;
+        }
         .league-badge { background: #e84393; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 5px; display: inline-block; }
         .total-value { font-size: 26px; font-weight: bold; }
         .dist-next { font-size: 12px; color: #ff9f43; margin-top: 8px; font-weight: bold; }
 
-        .input-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px; gap: 4px; align-items: center; margin-bottom: 8px; }
-        .grid-labels { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px; gap: 4px; font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 4px; text-align: center; }
+        /* 5. Кнопки та Гріди */
+        .input-grid, .grid-labels {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px;
+            gap: 4px; align-items: center; margin-bottom: 8px;
+        }
+        .grid-labels { font-size: 9px; color: #888; text-transform: uppercase; text-align: center; }
 
-        input, select { width: 100%; padding: 8px 2px; border-radius: 6px; background: #0f3460; color: white; border: 1px solid #0f3460; font-size: 11px; box-sizing: border-box; text-align: center; }
-
-        .indiv-res { font-size: 10px; font-weight: bold; text-align: center; background: #1a2a4a; padding: 6px 2px; border-radius: 6px; border: 1px solid #00ff8833; overflow: hidden; white-space: nowrap; }
+        .indiv-res {
+            font-size: 10px; font-weight: bold; text-align: center; background: #1a2a4a;
+            padding: 6px 2px; border-radius: 6px; border: 1px solid #00ff8833;
+            overflow: hidden; white-space: nowrap;
+        }
 
         .btn-add { background: #00d4ff22; color: #00d4ff; border: 1px dashed #00d4ff; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
         .btn-del { background: #ff475722; color: #ff4757; border: 1px solid #ff475744; border-radius: 6px; cursor: pointer; height: 32px; font-weight: bold; }
+        .v2-btn { background: #0f3460; color: #00ff88; border: 1px solid #00ff88; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin: 10px 0; }
 
-        .result-container { text-align: center; padding: 12px; background: #0f3460; border-radius: 12px; border: 2px solid #00ff88; margin-top: 10px; }
+        .result-container {color: #ff9f43; text-align: center; padding: 12px; background: #0f3460; border-radius: 12px; border: 1px solid #00ff88; margin-top: 10px; }
         .res-val { font-size: 22px; font-weight: bold; color: #00d4ff; }
-        .final-dist-next { font-size: 12px; color: #ff9f43; margin-top: 8px; font-weight: bold; }
 
-        /* Нові стилі, що не чіпають твої старі */
-        .v2-calc-container {
-            margin-top: 30px;
-            border-top: 2px dashed #00d4ff;
-            padding-top: 20px;
-        }
+        /* --- 6. V2 Калькулятор (З сіткою та компактним закругленням) --- */
+        .v2-calc-container { margin-top: 30px; border-top: 2px dashed #00d4ff; padding-top: 20px; }
 
-        /* Контейнер для прокрутки, щоб таблиця не ламалася на телефоні */
         .v2-scroll-box {
-            width: 100%;
-            overflow-x: auto;
-            border: 1px solid #0f3460;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            width: 100%; overflow-x: auto; border: none;
+            margin-bottom: 10px; display: flex; justify-content: center;
         }
 
         .v2-table {
-            width: 100%;
-            min-width: 500px; /* Фіксуємо мінімальну ширину всієї таблиці */
-            border-collapse: collapse;
+            width: 100%; min-width: 500px;
+            border-collapse: separate;
+            border-spacing: 0;
             font-size: 11px;
             background: #16213e;
             color: white;
+            table-layout: fixed;
+            border: 1px solid #1b3a4b;
+            border-radius: 8px; /* Зменшено до 8px для відповідності іншим елементам */
+            overflow: hidden;
         }
 
-        .v2-table th { background: #0f3460; color: #ff9f43; padding: 10px; white-space: nowrap; }
-
-        .v2-table td {
-            padding: 8px 4px;
-            border: 1px solid #0f3460;
+        .v2-table th, .v2-table td {
+            padding: 10px 4px;
             text-align: center;
-            white-space: nowrap; /* Щоб цифри завжди були в один рядок */
+            white-space: nowrap;
+            border: 0.5px solid #1b3a4b;
         }
 
-        /* ФІКСОВАНА ШИРИНА ДЛЯ ІНПУТІВ (Мережа та Час) */
-        .v2-input {
+        .v2-table th {
             background: #0f3460;
-            border: 1px solid #00d4ff;
-            color: #00ff88;
-            padding: 5px;
-            border-radius: 4px;
-            width: 70px !important; /* Робимо трошки ширше, щоб вліз час і великі числа */
-            min-width: 70px;
-            text-align: center;
-            box-sizing: border-box;
+            color: #ff9f43;
+            text-transform: uppercase;
+            border-top: none;
         }
 
-        .v2-btn {
-            background: #0f3460;
-            color: #00ff88;
-            border: 1px solid #00ff88;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .zebra-odd {
-            background: #111827;
-        }
-
-        .zebra-even {
-            background: #0f3460;
-        }
-
-        /* Ховер */
-        .v2-table tbody tr:hover {
-            background: #00ff88 !important;
-            color: #000;
-        }
-
-        /* Контейнер таблиці для ПК і мобільних */
-        .v2-scroll-box {
+        .block-title-miners {
             display: flex;
-            justify-content: center; /* центруємо таблицю на ПК */
-            border-radius: 12px; /* обрізані кути */
-            overflow-x: visible; /* на ПК скролу нема */
+            justify-content: space-between; /* Розштовхує текст вліво, кнопку вправо */
+            align-items: center;            /* Вирівнює їх по одній лінії (висоті) */
+            color: #5fbf37;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
-        /* Таблиця: колонки компактні, всі вміщаються */
-        .v2-table {
-            table-layout: fixed; /* рівномірно розподіляємо колонки */
+        /* Прибираємо подвійні лінії по краях таблиці */
+        .v2-table tr td:first-child, .v2-table tr th:first-child { border-left: none; }
+        .v2-table tr td:last-child, .v2-table tr th:last-child { border-right: none; }
+        .v2-table tr:last-child td { border-bottom: none; }
 
+        /* Інпути в таблиці */
+        .v2-input {
+            background: #0f3460; border: 1px solid #00d4ff; color: #00ff88;
+            padding: 5px; border-radius: 4px; width: 70px !important; text-align: center;
         }
 
-        /* Вузькі колонки */
-        .v2-table th:nth-child(1),
-        .v2-table td:nth-child(1) { width: 5%; }
-        .v2-table th:nth-child(2),
-        .v2-table td:nth-child(2) { width: 12%; }
-        .v2-table th:nth-child(3),
-        .v2-table td:nth-child(3) { width: 12%; }
-        .v2-table th:nth-child(4),
-        .v2-table td:nth-child(4) { width: 10%; }
-        .v2-table th:nth-child(5),
-        .v2-table td:nth-child(5) { width: 10%; }
-        .v2-table th:nth-child(6),
-        .v2-table td:nth-child(6) { width: 10%; }
+        /* Зебра та Ефекти */
+        .zebra-odd { background: #111827; }
+        .zebra-even { background: #16213e; }
+        .v2-table tbody tr:hover { background: #00ff88 !important; color: #000; }
 
-        /* Горизонтальний скрол для мобільних */
+        /* Ширина колонок V2 */
+        .v2-table th:nth-child(1) { width: 8%; }
+        .v2-table th:nth-child(2) { width: 11%; }
+        .v2-table th:nth-child(3) { width: 16%; }
+        .v2-table th:nth-child(4) { width: 15%; }
+        .v2-table th:nth-child(5) { width: 12%; }
+        .v2-table th:nth-child(6) { width: 12%; }
+        .v2-table th:nth-child(7) { width: 12%; }
+
         @media (max-width: 768px) {
-            .v2-scroll-box {
-                overflow-x: auto;
-                justify-content: flex-start; /* залишаємо як було на мобільних */
-            }
-            .v2-table th, .v2-table td {
-                min-width: 90px; /* щоб колонки не ламалися */
-            }
+            .v2-scroll-box { justify-content: flex-start; }
+            .v2-table th, .v2-table td { min-width: 90px; }
         }
     </style>
 </head>
 <body>
 
 <div class="block">
-    <div class="block-title">Profile Stats</div>
+    <div class="block-title">Калькулятор потужності</div>
+    <label for="league-select" style="display: block; margin-bottom: 5px; font-weight: bold;">
+        Profile Stats
+    </label>
     <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..." oninput="calculateAll()"></textarea>
     <button class="v2-btn" onclick="clearRawData('raw_data')">Очистити поле з Profile Stats</button>
     <div class="freon-container" style="display: none;">
@@ -165,8 +187,8 @@
     <div id="dist_next" class="dist-next">До наступної ліги: —</div>
 </div>
 
-<div class="block" style="border-color: #ff9f43;">
-    <div class="block-title" style="color:#ff9f43">
+<div class="block" style="border-color: #00ff88;">
+    <div class="block-title-miners" style="color:#ff9f43">
         Характеристики майнера, який знімається
         <button class="btn-add" onclick="addRow('old_list')">+</button>
     </div>
@@ -175,7 +197,7 @@
 </div>
 
 <div class="block">
-    <div class="block-title">
+    <div class="block-title-miners" style="color:#5fbf37">
         Характеристики майнера, який ставиться в кімнаті
         <button class="btn-add" onclick="addRow('new_list')">+</button>
     </div>
@@ -183,7 +205,7 @@
     <div id="new_list"></div>
 </div>
 
-<div class="result-container">
+<div class="result-container" >
     <div style="font-size:12px">Чистий приріст системи </div>
     <div class="res-val" id="res_total">+0.000 Ph</div>
     <div style="font-size:11px">Фінальна потужність: ≈ <span id="f_total" style="color:#00ff88">0</span></div>
@@ -198,6 +220,34 @@
         { name: "Platinum I", limit: 15000 }, { name: "Platinum II", limit: 50000 }, { name: "Platinum III", limit: 100000 },
         { name: "Diamond I", limit: 200000 }, { name: "Diamond II", limit: 400000 }, { name: "Diamond III", limit: 1000000 }
     ];
+
+    // Глобальний об'єкт з цінами криптовалют
+    let coinPrices = { "rlt": 1, "rst": 0.01, "HMT": 1};
+
+    async function fetchPrices() {
+        try {
+            const ids = "bitcoin,ethereum,dogecoin,ripple,algorand,binancecoin,solana,matic-network,litecoin,tron,tether";
+            const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
+            const data = await res.json();
+            coinPrices = {
+                "btc": data.bitcoin.usd,
+                "eth": data.ethereum.usd,
+                "doge": data.dogecoin.usd,
+                "xrp": data.ripple.usd,
+                "algo": data.algorand.usd,
+                "bnb": data.binancecoin.usd,
+                "sol": data.solana.usd,
+                "matic": data['matic-network'].usd,
+                "pol": data['matic-network'].usd,
+                "ltc": data.litecoin.usd,
+                "trx": data.tron.usd,
+                "usdt": data.tether.usd,
+                "rlt": 1,
+                "rst": 0.01
+            };
+            v2_calcAll();
+        } catch (e) { console.error("Не вдалося завантажити ціни", e); }
+    }
 
     function v2_applyZebra() {
         const visibleRows = Array.from(document.querySelectorAll(".v2-row"))
@@ -265,23 +315,6 @@
             pInp.value = powerPh.toFixed(3);
             uSel.value = "1000"; // PH/s
         }
-
-        // ГОЛОВНЕ: Переклад ліги ("Silver I" -> "block_silver_1")
-        if (leagueName) {
-            // 1. Переводимо "Bronze III" -> "bronze iii"
-            let lowerName = leagueName.toLowerCase();
-
-            // 2. Замінюємо пробіл на підкреслення: "bronze iii" -> "bronze_iii"
-            let formattedName = lowerName.replace(" ", "_");
-
-            // 3. Додаємо префікс "block_": "block_bronze_iii"
-            let technicalName = `block_${formattedName}`;
-
-            // 4. Вибираємо цей пункт у списку
-            lSel.value = technicalName;
-        }
-
-        v2_filter();
         v2_calcAll();
     }
 
@@ -396,7 +429,16 @@
         const b = document.getElementById("v2-body");
         const s = document.getElementById("v2-league");
         if (!b || !s) return;
-        b.innerHTML = ""; s.innerHTML = "";
+        b.innerHTML = "";
+        s.innerHTML = "";
+
+        let defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "-- Виберіть вашу лігу --";
+        defaultOption.disabled = true; // Не можна вибрати знову
+        defaultOption.selected = true; // Вибрано по замовчуванню
+        s.appendChild(defaultOption);
+
         let leagues = new Set();
         V2_DATA.forEach(c => {
             for (let l in c.rewards) {
@@ -411,7 +453,7 @@
     <td><input type="number" class="v2-input v2-time-input" value="${(c.time / 60).toFixed(1)}" step="0.1" oninput="v2_calcAll()"></td>
     <td class="v2-res-b">0</td>
     <td class="v2-res-d">0</td>
-`;
+    <td class="v2-res-usd">0.00 $</td> `;
                 b.appendChild(tr);
             }
         });
@@ -441,7 +483,7 @@
 
         const allInputs = document.querySelectorAll('[class*="v2-nw-"]');
         allInputs.forEach(inp => inp.value = "0");
-        
+
         // Створюємо список усіх кодів монет, які ми маємо в даних
         const coins = V2_DATA.map(c => c.code);
         coins.forEach(code => {
@@ -480,6 +522,28 @@
         const myP = (pVal * uVal) / 1e9;
 
         document.querySelectorAll(".v2-row").forEach(r => {
+            const codeCell = r.cells[0];
+
+            // ПЕРЕВІРКА: Якщо ми вже записали код в пам'ять (dataset), беремо його.
+            // Якщо ні — беремо текст (це змінить назву на картинку лише ОДИН раз)
+            let code = codeCell.dataset.code;
+
+            if (!code) {
+                code = codeCell.textContent.trim().toLowerCase();
+                codeCell.dataset.code = code; // Зберігаємо для наступних розрахунків
+
+                const imgPath = `images/symbols/${code}.svg`;
+                codeCell.innerHTML = `<img src="${imgPath}" alt="${code}"
+             style="width:22px; height:22px; vertical-align:middle; margin-right:5px;"
+             onerror="this.style.display='none'; this.parentElement.innerText='${code.toUpperCase()}';">`;
+            }
+
+            // ВАЖЛИВО: перевірте, чи правильно знаходяться ці елементи
+            const rewElem = r.querySelector(".v2-rew");
+            const inputElem = r.querySelector("input");
+            const timeElem = r.querySelector(".v2-time-input");
+
+            if (!rewElem || !inputElem || !timeElem) return; // Пропускаємо рядок, якщо елементи не знайдені
             const rew = parseFloat(r.querySelector(".v2-rew").textContent);
             const net = parseFloat(r.querySelector("input").value) || 0;
 
@@ -492,10 +556,42 @@
 
                 // Формула: (1440 хв у добі / час блоку в хв) * нагорода за блок
                 const daily = resB * (1440 / timeInMinutes);
+
                 r.querySelector(".v2-res-d").textContent = daily.toFixed(6);
+
+                // Список монет, для яких НЕ треба писати знак "$"
+                const specialCoins = ["hmt", "rlt", "rst"];
+                const targetCell = r.querySelector(".v2-res-usd");
+
+                if (code === "rst") {
+                    const usdDay = daily * (coinPrices[code] || 0);
+                    targetCell.textContent = usdDay.toFixed(2) + " RLT";
+                } else
+
+                if (code === "rlt") {
+                    // Для ігрових валют пишемо RLT
+                    targetCell.textContent = daily.toFixed(2) + " RLT";
+                } else if (code === "hmt") {
+                    // Для HMT пишемо HMT
+                    targetCell.textContent = daily.toFixed(2) + " HMT";
+                } else {
+                    // Для всіх інших (BTC, ETH тощо) рахуємо в доларах
+                    const usdDay = daily * (coinPrices[code] || 0);
+                    targetCell.textContent = usdDay.toFixed(2) + " $";
+                }
             } else {
                 r.querySelector(".v2-res-b").textContent = "0";
                 r.querySelector(".v2-res-d").textContent = "0";
+                const code = r.cells[0].textContent.trim().toLowerCase();
+                const targetCell = r.querySelector(".v2-res-usd");
+
+                if (code === "rlt" || code === "rst") {
+                    targetCell.textContent = "0.00 RLT";
+                } else if (code === "hmt") {
+                    targetCell.textContent = "0.00 HMT";
+                } else {
+                    targetCell.textContent = "0.00 $";
+                }
             }
         });
     }
@@ -549,7 +645,10 @@
     }
 
     // Запускаємо функцію після повного завантаження сторінки
-    document.addEventListener('DOMContentLoaded', setupLeagueSelector);
+    document.addEventListener('DOMContentLoaded', () => {
+        setupLeagueSelector();
+        fetchPrices();
+    });
 
     // Очищаємо тільки вікно з даними
     function clearRawData(elementId) {
@@ -563,7 +662,7 @@
 </script>
 <div class="v2-calc-container">
     <div class="block">
-        <div class="block-title">Калькулятор монет (Мережа)</div>
+        <div class="block-title">Калькулятор монет</div>
 
         <div class="league-select-wrapper" style="margin-bottom: 10px;">
             <label for="league-select" style="display: block; margin-bottom: 5px; font-weight: bold;">
@@ -608,6 +707,7 @@
                     <th>Час хв</th>
                     <th>За блок</th>
                     <th>За добу</th>
+                    <th>USD за добу</th>
                 </tr>
                 </thead>
                 <tbody id="v2-body"></tbody>
