@@ -494,7 +494,7 @@
         results.sort((a, b) => b.usdPrice - a.usdPrice);
         results.forEach(data => {
             const isSpecial = ['rlt', 'rst', 'hmt'].includes(data.name);
-            const row = `<tr>
+                        const row = `<tr>
 <td style="color: #22d3ee; font-weight: bold;">
                 <img src="images/symbols/${data.name}.svg"
                      style="width:24px; height:24px; vertical-align:middle; margin-right:8px;"
@@ -507,9 +507,9 @@
                 <td style="color: #22d3ee;">${data.dailyRaw.toFixed(data.prec)}
                     <br><span style="color: #37f31c;">${data.usdPrice.toFixed(2)}${isSpecial ? '' : '$'}</span></td>
                 <td>${(data.dailyRaw * 7).toFixed(data.prec > 6 ? 6 : data.prec)}
-                    <br>${(data.usdPrice * 7).toFixed(2)}${isSpecial ? '' : '$'}</td>
+                    <br><span style="color: #37f31c;">${(data.usdPrice * 7).toFixed(2)}${isSpecial ? '' : '$'}</span></td>
                 <td>${(data.dailyRaw * 30).toFixed(data.prec > 4 ? 4 : data.prec)}
-                    <br>${(data.usdPrice * 30).toFixed(2)}${isSpecial ? '' : '$'}</td>
+                    <br><span style="color: #37f31c;">${(data.usdPrice * 30).toFixed(2)}${isSpecial ? '' : '$'}</span></td>
             </tr>`;
             tableBody.innerHTML += row;
         });
