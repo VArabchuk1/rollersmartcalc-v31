@@ -648,36 +648,32 @@
         const fTotalElem = document.getElementById('f_total');
         if(fTotalElem) fTotalElem.innerText = formatPower(finalTotal);
 
-        let finalMaxPower = maxPower + netGain;
-        let finalLInfo = getLInfo(finalMaxPower);
+// 1. Рахуємо фінальну лігу після всіх маніпуляцій
+let finalMaxPower = maxPower + netGain;
+let finalLInfo = getLInfo(finalMaxPower);
 
-// Оновлюємо назву поточної ліги (динамічно)
-        const curLeagueElem = document.getElementById('cur_league');
-        if(curLeagueElem) curLeagueElem.innerText = finalLInfo.cur.name;
+// 2. Готуємо текст (один для обох місць)
+let textToDisplay = "";
+if (finalLInfo.nxt) {
+    const diff = finalLInfo.nxt.limit - finalMaxPower;
+    textToDisplay = `До ${finalLInfo.nxt.name} ≈ ${formatPower(diff)}`;
+} else {
+    textToDisplay = "Ти в максимальній лізі!";
+}
 
-// Оновлюємо дистанцію (динамічно)
-        const distNextElem = document.getElementById('dist_next');
-        if(distNextElem) {
-            if(finalLInfo.nxt) {
-                // Рахуємо різницю саме від фінальної потужності
-                const diff = finalLInfo.nxt.limit - finalMaxPower;
-                distNextElem.innerText = `До ${finalLInfo.nxt.name} ≈ ${formatPower(diff)}`;
-            } else {
-                distNextElem.innerText = "Ти в максимальній лізі!";
-            }
-        }
+// 3. Просто "в тупу" копіюємо цей текст у два блоки
+const topElem = document.getElementById('dist_next');
+const bottomElem = document.getElementById('final_dist_next');
 
-        const finalDistNextElem = document.getElementById('final_dist_next');
-        if(finalDistNextElem) {
-            if(finalLInfo.nxt) {
-                finalDistNextElem.innerText = `Після змін до ${finalLInfo.nxt.name} ≈ ${formatPower(finalLInfo.nxt.limit - finalMaxPower)}`;
-            } else {
-                finalDistNextElem.innerText = "Після змін: Ти в максимальній лізі!";
-            }
-        }
+if (topElem) topElem.innerText = textToDisplay;
+if (bottomElem) bottomElem.innerText = "Після змін: " + textToDisplay;
 
-        // Передаємо потужність у Gh/s (1 Ph = 1 000 000 Gh/s) та НАЗВУ ліги
-        syncToV2(finalTotal * 1000000, finalLInfo.cur.name);
+// 4. Оновлюємо назву ліги вгорі
+const curLeagueElem = document.getElementById('cur_league');
+if (curLeagueElem) curLeagueElem.innerText = finalLInfo.cur.name;
+
+// 5. Відправляємо дані в таблицю
+syncToV2(finalTotal * 1000000, finalLInfo.cur.name);
     }
     async function getUserApiforCalculate() {
         const nickInput = document.getElementById('nicknameInput');
