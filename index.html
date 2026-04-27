@@ -592,18 +592,6 @@
         const totalDisp = document.getElementById('total_display');
         if(totalDisp) totalDisp.innerText = formatPower(currentGame);
 
-        const curLInfo = getLInfo(maxPower);
-        const curLeagueElem = document.getElementById('cur_league');
-        if(curLeagueElem) curLeagueElem.innerText = curLInfo.cur.name;
-
-        const distNextElem = document.getElementById('dist_next');
-        if(distNextElem) {
-            if(curLInfo.nxt) {
-                distNextElem.innerText = `До ${curLInfo.nxt.name} ≈ ${formatPower(curLInfo.nxt.limit - maxPower)}`;
-            } else {
-                distNextElem.innerText = "Ти в максимальній лізі!";
-            }
-        }
 
         let bonusLost = 0;
         document.querySelectorAll('#old_list .input-grid').forEach(row => bonusLost += parseFloat(row.querySelector('.b-in').value) || 0);
@@ -662,6 +650,22 @@
 
         let finalMaxPower = maxPower + netGain;
         let finalLInfo = getLInfo(finalMaxPower);
+
+// Оновлюємо назву поточної ліги (динамічно)
+        const curLeagueElem = document.getElementById('cur_league');
+        if(curLeagueElem) curLeagueElem.innerText = finalLInfo.cur.name;
+
+// Оновлюємо дистанцію (динамічно)
+        const distNextElem = document.getElementById('dist_next');
+        if(distNextElem) {
+            if(finalLInfo.nxt) {
+                // Рахуємо різницю саме від фінальної потужності
+                const diff = finalLInfo.nxt.limit - finalMaxPower;
+                distNextElem.innerText = `До ${finalLInfo.nxt.name} ≈ ${formatPower(diff)}`;
+            } else {
+                distNextElem.innerText = "Ти в максимальній лізі!";
+            }
+        }
 
         const finalDistNextElem = document.getElementById('final_dist_next');
         if(finalDistNextElem) {
