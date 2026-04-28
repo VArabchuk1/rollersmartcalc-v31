@@ -536,9 +536,9 @@
             <small style="color: #888; font-size: 11px;">${m.levelLabel}</small> ${tags}
         </div>
     </td>
-    <td style="color:#ccc;">${formatPowerSN(m.power)}</td>
+    <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
     <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
-    <td style="color:#00ff88; font-weight:bold;">${formatPowerSN(m.contribution)}/сл</td>
+    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/сл</td>
 </tr>`;
             }
 
@@ -549,7 +549,7 @@
             loader.style.display = 'none';
         }
     }
-    function formatPowerSN(ghValue) {
+    function formatPowerSNw(ghValue) {
         if (ghValue === 0) return "0 Gh/s";
         const units = ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s'];
         let value = ghValue;
