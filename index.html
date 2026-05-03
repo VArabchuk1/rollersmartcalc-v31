@@ -439,12 +439,7 @@
             const rData = await rResp.json();
             const miners = rData.data.miners;
 
-            // --- ЛОГІКА АНАЛІЗУ (ЧИСТІ GH/s) ---
-            // minersRaw - твоя база (GH/s)
-            // bonusRaw - твій бонус (GH/s)
-
-            // Вираховуємо мультиплікатор твого глобального бонусу (наприклад, 26.5 для +2550%)
-
+            // --- ЛОГІКА АНАЛІЗУ ---
             const globalBonusMult = (bonusRaw / minersRaw) + 1;
 
             const globalCounts = {};
@@ -469,16 +464,9 @@
                     bonusTracker[uniqueKey] = true;
                 }
 
-                const minerBonusPercent = (m.bonus_percent || 0) / 10000; // наприклад, 0.075 для 7.5%
-
-                // РОЗРАХУНОК ВТРАТИ:
-                // 1. Втрата тіла майнера (його потужність * твій глобальний бонус)
+                const minerBonusPercent = (m.bonus_percent || 0) / 10000;
                 const bodyLoss = m.power * globalBonusMult;
-
-                // 2. Втрата відсотка майнера (його % * твоя база)
-                // Додаємо тільки якщо майнер унікальний
                 const bonusLoss = isDupe ? 0 : (minerBonusPercent * minersRaw);
-
                 const totalGrossLoss = bodyLoss + bonusLoss;
                 const contributionPerSlot = totalGrossLoss / (m.width || 1);
 
@@ -500,9 +488,25 @@
             for (const key in globalCounts) {
                 if (globalCounts[key] > 1) {
                     const parts = key.split('_');
+                    const minerName = parts[0];
+                    const minerLvl = parts[1];
+                    const gifUrl = getMinerGifUrl(minerName); // Отримуємо URL гіфки
+
                     dupesBody.innerHTML += `<tr>
-                    <td style="color:#ff4757; font-weight:bold;">${parts[0]} <small style="color:#888">${parts[1]}</small></td>
-                    <td><span style="background:#ff4757; color:white; padding:2px 8px; border-radius:4px;">${globalCounts[key]} шт.</span></td>
+                    <td style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #30475e; padding: 5px 0;">
+                        <div style="width: 45px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
+                            <img src="${gifUrl}"
+                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        <div style="line-height: 1.2;">
+                            <span style="color:#ff4757; font-weight:bold;">${minerName}</span> <br>
+                            <small style="color:#888">${minerLvl}</small>
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <span style="background:#ff4757; color:white; padding:2px 8px; border-radius:4px; font-weight:bold;">${globalCounts[key]} шт.</span>
+                    </td>
                 </tr>`;
                     hasGlobalDupes = true;
                 }
@@ -524,22 +528,22 @@
                 const gifUrl = getMinerGifUrl(m.name);
 
                 worstBody.innerHTML += `<tr>
-    <td style="font-weight:bold; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #30475e;">
-        <div style="width: 50px; height: 35px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
-            <img src="${gifUrl}"
-                 alt=""
-                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                 onerror="this.parentElement.style.display='none'">
-        </div>
-        <div style="line-height: 1.2;">
-            <span style="color: #fff;">${m.name}</span> <br>
-            <small style="color: #888; font-size: 11px;">${m.levelLabel}</small> ${tags}
-        </div>
-    </td>
-    <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
-    <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
-    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/сл</td>
-</tr>`;
+                    <td style="font-weight:bold; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #30475e;">
+                        <div style="width: 50px; height: 35px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
+                            <img src="${gifUrl}"
+                                 alt=""
+                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        <div style="line-height: 1.2;">
+                            <span style="color: #fff;">${m.name}</span> <br>
+                            <small style="color: #888; font-size: 11px;">${m.levelLabel}</small> ${tags}
+                        </div>
+                    </td>
+                    <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
+                    <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
+                    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/сл</td>
+                </tr>`;
             }
 
             results.style.display = 'block';
@@ -927,29 +931,26 @@
         const fTotalElem = document.getElementById('f_total');
         if(fTotalElem) fTotalElem.innerText = formatPower(finalTotal);
 
-// 1. Рахуємо фінальну лігу після всіх маніпуляцій
         let finalMaxPower = maxPower + netGain;
-        let finalLInfo = getLInfo(finalMaxPower);
-
-// 2. Готуємо текст (один для обох місць)
-        let textToDisplay = "";
-        if (finalLInfo.nxt) {
-            const diff = finalLInfo.nxt.limit - finalMaxPower;
-            textToDisplay = `До ${finalLInfo.nxt.name} ≈ ${formatPower(diff)}`;
+        let finalNxtL = getLInfo(finalMaxPower).nxt;
+        if (maxPower < finalMaxPower) {
+            console.log(maxPower < finalMaxPower);
+            if(finalNxtL) {
+                let finalLeft = finalNxtL.limit - finalMaxPower;
+                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPower(finalLeft)} Тестовий режим!!!!!!!! Обережно!!!`;
+            } else {
+                document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
+            }
         } else {
-            textToDisplay = "Ти в максимальній лізі!";
+
+            if(finalNxtL) {
+                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPower(left)} Тестовий режим!!!!!!!! Обережно!!!`;
+            } else {
+                document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
+            }
+
         }
-
-// 3. Просто "в тупу" копіюємо цей текст у два блоки
-        const topElem = document.getElementById('dist_next');
-        const bottomElem = document.getElementById('final_dist_next');
-
-        if (topElem) topElem.innerText = textToDisplay;
-        if (bottomElem) bottomElem.innerText = "Після змін: " + textToDisplay;
-
-// 4. Оновлюємо назву ліги вгорі
-        const curLeagueElem = document.getElementById('cur_league');
-        if (curLeagueElem) curLeagueElem.innerText = finalLInfo.cur.name;
+        let finalLInfo = getLInfo(finalMaxPower);
 
 // 5. Відправляємо дані в таблицю
         syncToV2(finalTotal * 1000000, finalLInfo.cur.name);
