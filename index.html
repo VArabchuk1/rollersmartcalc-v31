@@ -872,9 +872,21 @@
 
         const freonPower = miners * (freon / 100);
 
-        const totalDisp = document.getElementById('total_display');
-        if(totalDisp) totalDisp.innerText = formatPower(currentGame);
 
+        document.getElementById('total_display').innerText = formatPower(currentGame);
+
+        // Передаємо поточну потужність вниз
+        syncToV2(currentGame, getLInfo(maxPower).cur.name);
+
+        document.getElementById('cur_league').innerText = getLInfo(maxPower).cur.name;
+        let left;
+        let nxtL = getLInfo(maxPower).nxt;
+        if(nxtL) {
+            left = nxtL.limit - maxPower;
+            document.getElementById('dist_next').innerText = `До ${nxtL.name} ≈ ${formatPower(left)}`;
+        } else {
+            document.getElementById('dist_next').innerText = "Ти в максимальній лізі!";
+        }
 
         let bonusLost = 0;
         document.querySelectorAll('#old_list .input-grid').forEach(row => bonusLost += parseFloat(row.querySelector('.b-in').value) || 0);
@@ -925,11 +937,9 @@
         let finalTotal = currentGame - totalLoss + totalGain + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff;
         let netGain = finalTotal - currentGame;
 
-        const resTotalElem = document.getElementById('res_total');
-        if(resTotalElem) resTotalElem.innerText = ( netGain >= 0 ? "+" : "") + formatPower(netGain);
+        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPower(netGain);
+        document.getElementById('f_total').innerText = formatPower(finalTotal);
 
-        const fTotalElem = document.getElementById('f_total');
-        if(fTotalElem) fTotalElem.innerText = formatPower(finalTotal);
 
         let finalMaxPower = maxPower + netGain;
         let finalNxtL = getLInfo(finalMaxPower).nxt;
@@ -951,8 +961,6 @@
 
         }
         let finalLInfo = getLInfo(finalMaxPower);
-
-// 5. Відправляємо дані в таблицю
         syncToV2(finalTotal * 1000000, finalLInfo.cur.name);
     }
     async function getUserApiforCalculate() {
