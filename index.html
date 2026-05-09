@@ -298,6 +298,16 @@
             🛠️ Аудитор кімнат
         </h2>
 
+        <h4 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;">
+            Пошук майнреа в кімнаті
+        </h4>
+
+        <input type="text" id="minerSearchInput"
+               placeholder="введіть назву майнера"
+               oninput="searchInputMiner()"
+               style="display: none;">
+        <div id="searchResult" style="margin-top: 10px; font-weight: bold;"></div>
+
         <div id="auditLoader" style="display:none; color: #f1c40f; margin: 15px 0; font-weight: bold; text-align: center;">
             📡 Отримання даних з кімнат...
         </div>
@@ -414,11 +424,11 @@
 <script>
     let minersRaw;
     let bonusRaw;
+    let rData;
     async function runAudit() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('auditLoader');
         const results = document.getElementById('auditResults');
-        const btn = document.getElementById('auditBtn');
         const dupesBody = document.querySelector('#dupesTable tbody');
         const worstBody = document.querySelector('#worstTable tbody');
 
@@ -436,7 +446,7 @@
 
             const roomUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fgame%2Froom-config%2F${pData.data.avatar_id}`;
             const rResp = await fetch(roomUrl);
-            const rData = await rResp.json();
+            rData = await rResp.json();
             const miners = rData.data.miners;
             const racks = rData.data.racks;
 
@@ -573,12 +583,61 @@
             }
 
             results.style.display = 'block';
+            document.getElementById('minerSearchInput').style.display = 'block';
         } catch (e) {
             alert("Помилка: " + e.message);
         } finally {
             loader.style.display = 'none';
         }
     }
+
+    function searchInputMiner() {
+        const miners = rData.data.miners;
+        const racks = rData.data.racks;
+        const searchInput = document.getElementById('minerSearchInput');
+        const searchResultDiv = document.getElementById('searchResult');
+
+        if (searchInput && searchResultDiv) {
+            const query = searchInput.value.trim().toLowerCase();
+            searchResultDiv.innerHTML = "";
+
+            if (query) {
+                // Фільтруємо майнерів (шукаємо збіги в імені)
+                const found = miners.filter(m => m.name.toLowerCase().startsWith(query));
+
+                if (found.length > 0) {
+                    // Формуємо детальний рядок для кожного знайденого екземпляра
+                    const resultsText = found.map(m => {
+                        // 1. Шукаємо стелаж, на якому стоїть цей майнер
+                        const rack = racks.find(r => r._id === m.placement.user_rack_id);
+                        const rLevel = rack?.placement?.room_level ?? 0;
+                        const rX = rack?.placement?.x ?? 0;
+                        const rY = rack?.placement?.y ?? 0;
+
+                        // 2. Визначаємо сітку стелажів (12 для 1-ї кімнати, 18 для інших)
+                        const racksInRow = (rLevel === 0) ? 4 : 6;
+                        const rackNumber = (rY * racksInRow) + (rX + 1);
+
+                        // 3. Формуємо підпис
+                        return `<div>
+                        <b>${m.name}</b> [Lvl ${m.level + 1}] <br>
+                        <span style="color: #5bc0de; font-size: 11px;">📍 Кімн. ${rLevel + 1} | Стел. ${rackNumber} | Пол. ${m.placement.y + 1}</span>
+                    </div>`;
+                    });
+
+                    searchResultDiv.style.color = "#fff";
+                    searchResultDiv.innerHTML = `<div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="color: #00ff88;">✅ Знайдено:</div>
+                    ${resultsText.join('')}
+                </div>`;
+                } else {
+                    searchResultDiv.style.color = "#ff4757";
+                    searchResultDiv.innerHTML = `❌ Майнера "${query}" немає в кімнатах`;
+                }
+            }
+        }
+    }
+
     function formatPowerSNw(ghValue) {
         if (ghValue === 0) return "0 Gh/s";
         const units = ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s'];
@@ -619,11 +678,21 @@
     ];
 
     const LEAGUES = [
-        { name: "Bronze I", limit: 0 }, { name: "Bronze II", limit: 5 }, { name: "Bronze III", limit: 30 },
-        { name: "Silver I", limit: 100 }, { name: "Silver II", limit: 200 }, { name: "Silver III", limit: 500 },
-        { name: "Gold I", limit: 1000 }, { name: "Gold II", limit: 2000 }, { name: "Gold III", limit: 5000 },
-        { name: "Platinum I", limit: 15000 }, { name: "Platinum II", limit: 50000 }, { name: "Platinum III", limit: 100000 },
-        { name: "Diamond I", limit: 200000 }, { name: "Diamond II", limit: 400000 }, { name: "Diamond III", limit: 1000000 }
+        { name: "Bronze I", limit: 0 },
+        { name: "Bronze II", limit: 5000000 },
+        { name: "Bronze III", limit: 30000000 },
+        { name: "Silver I", limit: 100000000 },
+        { name: "Silver II", limit: 200000000 },
+        { name: "Silver III", limit: 500000000 },
+        { name: "Gold I", limit: 1000000000 },
+        { name: "Gold II", limit: 2000000000 },
+        { name: "Gold III", limit: 5000000000 },
+        { name: "Platinum I", limit: 15000000000 },
+        { name: "Platinum II", limit: 50000000000 },
+        { name: "Platinum III", limit: 100000000000 },
+        { name: "Diamond I", limit: 200000000000 },
+        { name: "Diamond II", limit: 400000000000 },
+        { name: "Diamond III", limit: 1000000000000 }
     ];
 
     const tableBody = document.getElementById('tableBody');
@@ -637,7 +706,6 @@
 
     // 1. ГОЛОВНА ІНІЦІАЛІЗАЦІЯ
     async function init() {
-        console.log("Завантаження даних...");
         await loadCryptoPrices();
         await getLeaguesDataApi();
 
@@ -663,13 +731,14 @@
         if (typeof ghValue === 'number') {
             if (ghValue === 0) return "0 Gh/s";
             const units = ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s', 'Zh/s'];
-            let value = ghValue;
+            let value = Math.abs(ghValue);
+            let sign = ghValue < 0 ? "-" : "";
             let unitIndex = 0;
             while (value >= 1000 && unitIndex < units.length - 1) {
                 value /= 1000;
                 unitIndex++;
             }
-            return value.toFixed(3) + " " + units[unitIndex];
+            return sign + value.toFixed(3) + " " + units[unitIndex];
         }
         if (typeof ghValue === 'string') {
             const cleanInput = ghValue.trim().replace(',', '.');
@@ -685,17 +754,13 @@
         return 0;
     }
 
-    function formatPower(ph) {
-        let abs = Math.abs(ph);
-        if (abs >= 1000) return (ph / 1000).toFixed(3) + " Eh";
-        if (abs < 1 && abs > 0) return (ph * 1000).toFixed(0) + " Th";
-        return ph.toFixed(3) + " Ph";
-    }
-
-    function getLInfo(ph) {
+    function getLInfo(gh) {
         let cur = LEAGUES[0], nxt = null;
-        for(let i=0; i<LEAGUES.length; i++) {
-            if(ph >= LEAGUES[i].limit) { cur = LEAGUES[i]; nxt = LEAGUES[i+1]; }
+        for (let i = 0; i < LEAGUES.length; i++) {
+            if (gh >= LEAGUES[i].limit) {
+                cur = LEAGUES[i];
+                nxt = LEAGUES[i + 1] || null;
+            } else break;
         }
         return { cur, nxt };
     }
@@ -834,7 +899,8 @@
         div.innerHTML = `
             <input type="number" class="p-in" placeholder="0" oninput="handleAutoUnit(this)">
             <select class="u-in" onchange="calculateAll()">
-                <option value="1">Ph</option><option value="1000">Eh</option><option value="0.001">Th</option>
+                <option value="1000000">Ph</option><option value="1000000000">Eh</option>
+                <option value="1000">Th</option>
             </select>
             <input type="number" class="b-in" placeholder="0%" oninput="calculateAll()">
             <input type="number" class="r-in" placeholder="0%" oninput="calculateAll()">
@@ -886,8 +952,9 @@
             const m = text.match(r);
             if (!m) return 0;
             let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
-            if (m[2] === 'Eh') v *= 1000;
-            if (m[2] === 'Th') v *= 0.001;
+            if (m[2] === 'Eh') v *= 1000000000;
+            if (m[2] === 'Th') v *= 1000;
+            if (m[2] === 'Ph') v *= 1000000;
             return v;
         };
 
@@ -899,7 +966,7 @@
         const freonPower = miners * (freon / 100);
 
 
-        document.getElementById('total_display').innerText = formatPower(currentGame);
+        document.getElementById('total_display').innerText = formatPowerSN(currentGame);
 
         // Передаємо поточну потужність вниз
         syncToV2(currentGame, getLInfo(maxPower).cur.name);
@@ -909,7 +976,7 @@
         let nxtL = getLInfo(maxPower).nxt;
         if(nxtL) {
             left = nxtL.limit - maxPower;
-            document.getElementById('dist_next').innerText = `До ${nxtL.name} ≈ ${formatPower(left)}`;
+            document.getElementById('dist_next').innerText = `До ${nxtL.name} ≈ ${formatPowerSN(left)} (рахується від maxPower)`;
         } else {
             document.getElementById('dist_next').innerText = "Ти в максимальній лізі!";
         }
@@ -936,7 +1003,7 @@
             totalLoss += loss;
             let trueLossForSystem = loss + (otherMinersBase * (b / 100));
             let resBlock = row.querySelector('.indiv-res');
-            resBlock.innerText = "-" + formatPower(trueLossForSystem);
+            resBlock.innerText = "-" + formatPowerSN(trueLossForSystem);
             resBlock.style.color = "#ff4757";
             resBlock.style.borderColor = "#ff475744";
         });
@@ -951,7 +1018,7 @@
             let baseToBoost = otherMinersBase + newMinersBase - p;
             let trueGainForSystem = gain + (baseToBoost * (b / 100));
             let resBlock = row.querySelector('.indiv-res');
-            resBlock.innerText = "+" + formatPower(trueGainForSystem);
+            resBlock.innerText = "+" + formatPowerSN(trueGainForSystem);
             resBlock.style.color = "#00ff88";
             resBlock.style.borderColor = "#00ff8844";
         });
@@ -963,32 +1030,33 @@
         let finalTotal = currentGame - totalLoss + totalGain + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff;
         let netGain = finalTotal - currentGame;
 
-        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPower(netGain);
-        document.getElementById('f_total').innerText = formatPower(finalTotal);
+        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPowerSN(netGain);
+        document.getElementById('f_total').innerText = formatPowerSN(finalTotal);
 
 
         let finalMaxPower = maxPower + netGain;
         let finalNxtL = getLInfo(finalMaxPower).nxt;
         if (maxPower < finalMaxPower) {
-            console.log(maxPower < finalMaxPower);
+
             if(finalNxtL) {
                 let finalLeft = finalNxtL.limit - finalMaxPower;
-                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPower(finalLeft)} Тестовий режим!!!!!!!! Обережно!!!`;
+                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(finalLeft)} Тестовий режим! (рахується від maxPower)`;
             } else {
                 document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
             }
         } else {
 
             if(finalNxtL) {
-                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPower(left)} Тестовий режим!!!!!!!! Обережно!!!`;
+                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(left)} Тестовий режим! (рахується від maxPower)`;
             } else {
                 document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
             }
 
         }
         let finalLInfo = getLInfo(finalMaxPower);
-        syncToV2(finalTotal * 1000000, finalLInfo.cur.name);
+        syncToV2(finalTotal, finalLInfo.cur.name);
     }
+
     async function getUserApiforCalculate() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('loader');
