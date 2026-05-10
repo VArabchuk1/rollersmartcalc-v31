@@ -948,13 +948,14 @@
         const freon = parseFloat(freonElem ? freonElem.value : 0) || 0;
 
         const find = (lbl) => {
-            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|%)", "i");
+            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh|%)", "i");
             const m = text.match(r);
             if (!m) return 0;
             let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
             if (m[2] === 'Eh') v *= 1000000000;
             if (m[2] === 'Th') v *= 1000;
             if (m[2] === 'Ph') v *= 1000000;
+            if (m[2] === 'Zh') v *= 1000000000000;
             return v;
         };
 
