@@ -555,7 +555,17 @@
 
             for (const m of efficiency) {
                 if (nonSetCount >= 3) break;
-                if (!m.isInSet) nonSetCount++;
+                if (!m.isInSet) {
+                    // Якщо це малий і вже є 2 — пропускаємо
+                    if (m.width === 1 && smallCount >= 2) continue;
+                    // Якщо це великий і вже є 1 — пропускаємо
+                    if (m.width === 2 && bigCount >= 1) continue;
+
+                    // Якщо пройшов ліміти — інкрементуємо лічильники
+                    if (m.width === 1) smallCount++;
+                    if (m.width === 2) bigCount++;
+                    nonSetCount++;
+                }
 
                 let tags = (m.isInSet ? `<span style="background:#f1c40f; color:#000; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">SET</span>` : "") +
                     (m.isDupe ? `<span style="background:#ff4757; color:#fff; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">DUPE</span>` : "");
