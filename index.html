@@ -552,6 +552,8 @@
             efficiency.sort((a, b) => a.contribution - b.contribution);
             worstBody.innerHTML = '';
             let nonSetCount = 0;
+            let smallCount = 0;
+            let bigCount = 0;
 
             for (const m of efficiency) {
                 if (nonSetCount >= 3) break;
