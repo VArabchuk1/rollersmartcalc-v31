@@ -215,12 +215,12 @@
         </label>
         <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..."
                   oninput="calculateAll()"></textarea>
-        <button class="v2-btn" onclick="clearRawData('raw_data')">Очистити поле з Profile Stats</button>
-        <div class="freon-container" style="display: none;">
+        <div class="freon-container" style="display: block;">
             <span class="freon-label">Активний Фреон у відсотках:</span>
             <input type="number" id="freon_pct" class="freon-input" value="0" step="0.5" oninput="calculateAll()">
             <span style="color: #ff4757; font-weight: bold;">%</span>
         </div>
+        <button class="v2-btn" onclick="clearRawData('raw_data'); clearRawData('freon_pct')">Очистити поле з Profile Stats</button>
     </div>
 </div>
 <div id="auto_section" style="display: none;">
@@ -348,6 +348,37 @@
                 </table>
             </div>
         </div>
+    </div>
+</div>
+<div class="block">
+
+    <div class="block-title">Оберіть лігу RollerCoin</div>
+    <select id="leagueSelect" onchange="onLeagueChange(this.value)">
+        <option value="">Завантаження ліг...</option>
+    </select>
+    <button class="v2-btn" onclick="copyLeagueToClipboard()" style="margin-top: 10px;">Скопіювати дані ліги для П'єро</button>
+</div>
+
+<div id="leagueSummaryBlock" style="display: none; margin-top: 20px;">
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px;">
+
+        <div class="block" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+            <svg id="pieChart" width="220" height="220" viewBox="-1 -1 2 2" style="transform: rotate(-90deg); border-radius: 50%; background: #252a4a;"></svg>
+            <div class="total-block" style="border: none; margin: 15px 0 0 0; padding: 0;">
+                <div class="league-badge" id="currentLeagueTitle">Ліга</div>
+                <div class="total-value" id="totalPowerDisplay" style="font-size: 20px;">0.00 Zh/s</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="block-title-miners">Game Currencies</div>
+            <div id="gameCurrenciesContainer"></div>
+
+            <div class="block-title-miners" style="margin-top: 20px; color: #00d4ff;">Crypto Currencies</div>
+            <div id="cryptoCurrenciesContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;"></div>
+        </div>
+
     </div>
 </div>
 
@@ -800,6 +831,7 @@
             const leagueResp = await fetch(PROXY + encodeURIComponent(`${API_BASE}/League`));
             if (!leagueResp.ok) throw new Error("Помилка сервера");
             leaguesData = await leagueResp.json();
+            initLeagueDashboard(leaguesData);
         } catch (e) {
             console.error("Помилка ліг:", e);
             if(tableBody) tableBody.innerHTML = `<tr><td colspan="7" style="color:red; text-align:center;">Помилка отримання даних</td></tr>`;
@@ -982,9 +1014,10 @@
         document.getElementById('total_display').innerText = formatPowerSN(currentGame);
 
         // Передаємо поточну потужність вниз
-        syncToV2(currentGame, getLInfo(maxPower).cur.name);
+        let leagueName = getLInfo(maxPower).cur.name;
+        syncToV2(currentGame, leagueName);
 
-        document.getElementById('cur_league').innerText = getLInfo(maxPower).cur.name;
+        document.getElementById('cur_league').innerText = leagueName;
         let left;
         let nxtL = getLInfo(maxPower).nxt;
         if(nxtL) {
@@ -1091,6 +1124,7 @@
             const racksRaw = data.userPowerResponseDto.racks;
             const gamesRaw = data.userPowerResponseDto.games;
             const tempRaw = data.userPowerResponseDto.temp;
+            const freonPower = data.userPowerResponseDto.freon / minersRaw;
 
             // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
             // Використовуємо Math.max, щоб уникнути ділення на 0, якщо майнерів немає
@@ -1100,6 +1134,12 @@
             const userLeagueId = data.userProfileResponseDto.league_Id;
             const foundLeague = leaguesData.find(l => l.id === userLeagueId);
             const leagueName = foundLeague ? foundLeague.title : "Bronze I";
+
+            const freonInput = document.getElementById('freon_pct');
+            if (freonInput) {
+                freonInput.value = (freonPower * 100).toFixed(2); // Вказуєш потрібний відсоток (як рядок або число)
+                //freonInput.dispatchEvent(new Event('input')); // Примусово запускає calculateAll()
+            }
 
             document.getElementById('raw_data').value = `League
 ${leagueName}
@@ -1198,7 +1238,180 @@ ${formatPowerSN(tempRaw)}`;
         }
     };
 
-    // ЗАПУСК СКРИПТА
+    // Палітра кольорів для секторів діаграми та підсвічування монет
+    const coinColors = ['#f2a900', '#ff4757', '#00ff88', '#00d4ff', '#9c27b0', '#e84393', '#ff9f43', '#25af61'];
+
+    function initLeagueDashboard(LeagueData) {
+        const selectEl = document.getElementById('leagueSelect');
+        if (!selectEl) {
+            setTimeout(() => initLeagueDashboard(LeagueData), 50);
+            return;
+        }
+
+        const leagues = Array.isArray(LeagueData) ? LeagueData : [LeagueData];
+        window.loadedLeagues = leagues;
+
+        selectEl.innerHTML = '';
+        leagues.forEach((league, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.innerText = league.title || `Ліга ${index + 1}`;
+            selectEl.appendChild(opt);
+
+        });
+
+        if (leagues.length > 0) renderSelectedLeague(0);
+    }
+
+    function changeLeagueSelector() {
+        // 1. Отримуємо назву ліги прямо з елемента на сторінці
+        const leagueNameEl = document.getElementById('cur_league');
+        const currentLeagueName = leagueNameEl ? leagueNameEl.innerText.trim() : '';
+        console.log("Поточна ліга з HTML:", currentLeagueName);
+
+        // 2. Обов'язково знаходимо наш селектор на сторінці
+        const selectEl = document.getElementById('leagueSelect');
+
+        // БЕЗПЕКА: Якщо селектор або масив ліг ще не завантажились — виходимо, щоб не було помилки
+        if (!selectEl || !window.loadedLeagues) return;
+
+        // 3. Шукаємо індекс ліги за назвою у глобальному масиві window.loadedLeagues
+        const targetIndex = window.loadedLeagues.findIndex(l => l.title === currentLeagueName);
+
+        // Якщо не знайшли (наприклад, поле порожнє), ставимо 0 (першу лігу)
+        const defaultIndex = targetIndex !== -1 ? targetIndex : 0;
+
+        // 4. Виставляємо селектор у потрібне положення
+        selectEl.value = defaultIndex;
+
+        // 5. Рендеримо вибрану лігу
+        renderSelectedLeague(defaultIndex);
+    }
+
+    function onLeagueChange(index) {
+        if (index === "" || !window.loadedLeagues) return;
+        renderSelectedLeague(Number(index));
+    }
+
+    function renderSelectedLeague(index) {
+        const league = window.loadedLeagues[index];
+        if (!league) return;
+
+        document.getElementById('leagueSummaryBlock').style.display = 'block';
+
+        const gameContainer = document.getElementById('gameCurrenciesContainer');
+        const cryptoContainer = document.getElementById('cryptoCurrenciesContainer');
+        const svgChart = document.getElementById('pieChart');
+
+        gameContainer.innerHTML = '';
+        cryptoContainer.innerHTML = '';
+        svgChart.innerHTML = '';
+
+        const totalPower = league.currencies ? league.currencies.reduce((sum, c) => sum + (c.totalPower || 0), 0) : 0;
+
+        document.getElementById('currentLeagueTitle').innerText = league.title || 'Ліга';
+        document.getElementById('totalPowerDisplay').innerText = formatPowerSN(totalPower);
+
+        const gameTokens = ['RLT', 'RST'];
+        let accumulatedPercent = 0;
+
+        league.currencies.forEach((curr, idx) => {
+            const nameRaw = curr.name ? curr.name.replace('_SMALL', '') : '';
+            const rename = { 'SAT': 'BTC', 'MATIC': 'POL' };
+            const name = rename[nameRaw] || nameRaw;
+            const pctRaw = totalPower > 0 ? (curr.totalPower / totalPower) : 0;
+            const pctString = (pctRaw * 100).toFixed(0) + '%';
+            const color = coinColors[idx % coinColors.length];
+
+            // Форматування часу ГГ:ХХ:СС
+            const h = Math.floor((curr.duration || 0) / 3600).toString().padStart(2, '0');
+            const m = Math.floor(((curr.duration || 0) % 3600) / 60).toString().padStart(2, '0');
+            const s = ((curr.duration || 0) % 60).toString().padStart(2, '0');
+
+            // Генеруємо блок-картку у твоїх стилях інпутів/результатів (.result-container)
+            const cardHtml = `
+            <div class="result-container" style="background: #16213e; text-align: left; padding: 12px; margin-bottom: 8px; border: 1px solid ${color}44;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="color: ${color}; font-size: 14px; font-weight: bold;">${name}</span>
+                    <span class="indiv-res" style="color: ${color}; border-color: ${color}; font-size: 11px; padding: 2px 8px;">${pctString}</span>
+                </div>
+                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                    <span>Power</span>
+                    <span style="color: #fff; text-align: right;">${formatPowerSN(curr.totalPower)}</span>
+                </div>
+                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                    <span>Active Users</span>
+                    <span style="color: #fff; text-align: right;">${(curr.userCount || 0).toLocaleString()}</span>
+                </div>
+                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                    <span>Per Block</span>
+                    <span style="color: #fff; text-align: right;">${curr.payoutAmount / getCoinConfig(name).divisor || 0} ${name}</span>
+                </div>
+                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left;">
+                    <span>Block Time</span>
+                    <span style="color: #fff; text-align: right;">${h}:${m}:${s}</span>
+                </div>
+            </div>
+        `;
+
+            if (gameTokens.includes(name)) {
+                gameContainer.insertAdjacentHTML('beforeend', cardHtml);
+            } else {
+                cryptoContainer.insertAdjacentHTML('beforeend', cardHtml);
+            }
+
+            // Побудова секторів SVG діаграми
+            if (pctRaw > 0) {
+                const getCoords = (p) => [Math.cos(2 * Math.PI * p), Math.sin(2 * Math.PI * p)];
+                const [startX, startY] = getCoords(accumulatedPercent);
+                accumulatedPercent += pctRaw;
+                const [endX, endY] = getCoords(accumulatedPercent);
+                const largeArc = pctRaw > 0.5 ? 1 : 0;
+
+                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pathEl.setAttribute('d', `M 0 0 L ${startX} ${startY} A 1 1 0 ${largeArc} 1 ${endX} ${endY} Z`);
+                pathEl.setAttribute('fill', color);
+                svgChart.appendChild(pathEl);
+            }
+        });
+    }
+
+    function copyLeagueToClipboard() {
+        let textResult = "";
+
+        // Збираємо Game Currencies
+        const gameCards = document.querySelectorAll('#gameCurrenciesContainer .result-container');
+        gameCards.forEach(card => {
+            const name = card.querySelector('span[style*="font-size: 14px"]').innerText;
+            const pct = card.querySelector('.indiv-res').innerText;
+            const lines = card.querySelectorAll('.grid-labels span:nth-child(2)');
+
+            const powerText = lines[0].innerText.replace(/ZH\/S/g, 'Zh/s');
+
+            textResult += `${name}\n${pct}\nPower\n${powerText}\nActive Users\n${lines[1].innerText}\nPer Block\n${lines[2].innerText}\nBlock Time\n${lines[3].innerText}\n`;
+        });
+
+        // ДОДАНО ПЕРЕНΟΣ РЯДКА (\n): Тепер Crypto Currencies буде окремим рядком
+        textResult += "Crypto Currencies\n";
+
+        // Збираємо Crypto Currencies
+        const cryptoCards = document.querySelectorAll('#cryptoCurrenciesContainer .result-container');
+        cryptoCards.forEach(card => {
+            const name = card.querySelector('span[style*="font-size: 14px"]').innerText;
+            const pct = card.querySelector('.indiv-res').innerText;
+            const lines = card.querySelectorAll('.grid-labels span:nth-child(2)');
+
+            const powerText = lines[0].innerText.replace(/ZH\/S/g, 'Zh/s');
+
+            textResult += `${name}\n${pct}\nPower\n${powerText}\nActive Users\n${lines[1].innerText}\nPer Block\n${lines[2].innerText}\nBlock Time\n${lines[3].innerText}\n`;
+        });
+
+        // Відправка в буфер обміну
+        navigator.clipboard.writeText(textResult.trim())
+            .then(() => alert('Тепер усе ідеально скопійовано!'))
+            .catch(err => console.error('Не вдалося скопіювати:', err));
+    }
+
     init();
 </script>
 <img src="https://api.counterapi.dev/v2/vasil-arabcuks-team-3598/rollercalcgithub/up" style="display:none;">
