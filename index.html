@@ -356,7 +356,7 @@
     <select id="leagueSelect" onchange="onLeagueChange(this.value)">
         <option value="">Завантаження ліг...</option>
     </select>
-    <button class="v2-btn" onclick="copyLeagueToClipboard()" style="margin-top: 10px;">Скопіювати дані ліги для П'єро</button>
+    <button class="v2-btn" onclick="copyLeagueToClipboard(this)" style="margin-top: 10px;">Скопіювати дані ліги для П'єро</button>
 </div>
 
 <div id="leagueSummaryBlock" style="display: none; margin-top: 20px;">
@@ -1376,7 +1376,7 @@ ${formatPowerSN(tempRaw)}`;
         });
     }
 
-    function copyLeagueToClipboard() {
+    function copyLeagueToClipboard(buttonElement) {
         let textResult = "";
 
         // Збираємо Game Currencies
@@ -1408,8 +1408,24 @@ ${formatPowerSN(tempRaw)}`;
 
         // Відправка в буфер обміну
         navigator.clipboard.writeText(textResult.trim())
-            .then(() => alert('Тепер усе ідеально скопійовано!'))
-            .catch(err => console.error('Не вдалося скопіювати:', err));
+            .then(() => {
+                // Перевіряємо, чи передали кнопку у функцію
+                if (buttonElement) {
+                    const originalText = buttonElement.innerText; // Запам'ятовуємо стару назву
+                    buttonElement.innerText = "✓ Скопійовано!"; // Ставимо новий текст
+                    buttonElement.style.pointerEvents = "none"; // Тимчасово блокуємо повторні кліки
+
+                    // Рівно через 1000 мілісекунд (1 секунда) повертаємо все назад
+                    setTimeout(() => {
+                        buttonElement.innerText = originalText;
+                        buttonElement.style.pointerEvents = "auto";
+                    }, 1000);
+                }
+            })
+            .catch(err => {
+                console.error('Не вдалося скопіювати:', err);
+                if (buttonElement) buttonElement.innerText = "❌ Помилка";
+            });
     }
 
     init();
