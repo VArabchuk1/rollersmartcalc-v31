@@ -194,54 +194,71 @@
 </head>
 <body>
     <!-- BEGIN AADS AD UNIT 2440201 -->
-<div style="position: absolute; z-index: 99999">
+<div class="aads-sidebar-container aads-left-side">
     <input autocomplete="off" type="checkbox" id="aadsstickymptv693o" hidden />
-    <div style="padding-top: 0; padding-bottom: 0;">
-
-        <div style="width: calc((100vw - 720px) / 2); max-width: 160px; min-width: 0px; height: 100%; position: fixed; text-align: center; font-size: 0; top: 50%; transform: translateY(-50%); left: 0; overflow: hidden;">
-
-            <label for="aadsstickymptv693o" style="bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer">
+    <div class="aads-clickable-wrapper">
+        <div class="aads-fixed-sidebar">
+            <label for="aadsstickymptv693o" class="aads-close-button">
                 <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
                     <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
                 </svg>
             </label>
-
             <div id="left-frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; height: 100%; display: flex; flex-direction: column; justify-content: center">
                 <iframe data-aa=2440201 src=//acceptable.a-ads.com/2440201/?size=Adaptive&background_color=0F3460 style='border:0; padding:0; width:100%; height:90%; overflow:hidden; margin: 0 auto'></iframe>
             </div>
-
         </div>
-        <style>
-            #aadsstickymptv693o:checked + div {
-                display: none;
-            }
-        </style>
+        <style>#aadsstickymptv693o:checked + .aads-clickable-wrapper { display: none; }</style>
     </div>
 </div>
-<div style="position: absolute; z-index: 99999">
+
+<div class="aads-sidebar-container aads-right-side">
     <input autocomplete="off" type="checkbox" id="aadsstickymptv0ize" hidden />
-    <div style="padding-top: 0; padding-bottom: 0;">
-
-        <div style="width: calc((100vw - 720px) / 2); max-width: 160px; min-width: 0px; height: 100%; position: fixed; text-align: center; font-size: 0; top: 50%; transform: translateY(-50%); right: 0; overflow: hidden;">
-
-            <label for="aadsstickymptv0ize" style="bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer">
+    <div class="aads-clickable-wrapper">
+        <div class="aads-fixed-sidebar">
+            <label for="aadsstickymptv0ize" class="aads-close-button">
                 <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
                     <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
                 </svg>
             </label>
-
             <div id="right-frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; height: 100%; display: flex; flex-direction: column; justify-content: center">
                 <iframe data-aa=2440209 src=//acceptable.a-ads.com/2440209/?size=Adaptive&background_color=0F3460 style='border:0; padding:0; width:100%; height:90%; overflow:hidden; margin: 0 auto'></iframe>
             </div>
-
         </div>
-        <style>
-            #aadsstickymptv0ize:checked + div {
-                display: none;
-            }
-        </style>
+        <style>#aadsstickymptv0ize:checked + .aads-clickable-wrapper { display: none; }</style>
     </div>
 </div>
+
+<style>
+/* Загальні налаштування для ПК екранів */
+.aads-sidebar-container {
+    position: absolute;
+    z-index: 99999;
+}
+.aads-fixed-sidebar {
+    width: 160px; /* Фіксована ширина, ідеальна для баннера */
+    height: 100%;
+    position: fixed;
+    text-align: center;
+    font-size: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/* Розносимо по боках екрана */
+.aads-left-side .aads-fixed-sidebar { left: 10px; }
+.aads-right-side .aads-fixed-sidebar { right: 10px; }
+
+/* Стиль хрестика закриття */
+.aads-close-button {
+    bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer;
+}
+
+/* 📱 РІШЕННЯ ПОМИЛКИ: якщо екран менше 1100px (мобілки), повністю приховуємо блоки */
+@media (max-width: 1100px) {
+    .aads-sidebar-container {
+        display: none !important;
+    }
+}
+</style>
 <!-- END AADS AD UNIT 2440209 -->
 
 <div class="block">
