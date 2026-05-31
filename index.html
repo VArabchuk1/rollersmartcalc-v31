@@ -1129,7 +1129,7 @@
         let netGain = finalTotalRaw - currentGameForCalc;
 
         document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPowerSN(netGain)
-            + "\nЗ бонусом фреону та хом'яка: +" + formatPowerSN(netGain + freonDiff + hamsterDiff);
+            + "\nЗ бонусом фреону та хом'яка: " + formatPowerSN(netGain + freonDiff + hamsterDiff);
         document.getElementById('f_total').innerText =
             formatPowerSN(finalTotal) + "\nЗ бонусом фреону та хом'яка: " + formatPowerSN(finalTotalFull);
 
