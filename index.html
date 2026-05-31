@@ -215,12 +215,22 @@
         </label>
         <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..."
                   oninput="calculateAll()"></textarea>
-        <div class="freon-container" style="display: block;">
-            <span class="freon-label">Активний Фреон у відсотках:</span>
-            <input type="number" id="freon_pct" class="freon-input" value="0" step="0.5" oninput="calculateAll()">
-            <span style="color: #ff4757; font-weight: bold;">%</span>
+        <button class="v2-btn" onclick="clearRawData('raw_data');">Очистити поле з Profile Stats</button>
+        <div class="freon-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 15px 0; text-align: center;">
+            <strong>Відсотки від хом'яка та фреону:</strong>
+
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <label for="hamster_pct">Хом'як:</label>
+                <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
+                <span style="color: #ff4757; font-weight: bold;">%</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <label for="freon_pct">Фреон:</label>
+                <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
+                <span style="color: #ff4757; font-weight: bold;">%</span>
+            </div>
         </div>
-        <button class="v2-btn" onclick="clearRawData('raw_data'); clearRawData('freon_pct')">Очистити поле з Profile Stats</button>
+
     </div>
 </div>
 <div id="auto_section" style="display: none;">
@@ -228,7 +238,7 @@
         <div class="block-title">Введіть частину посилання на свій профіль після /p/</div>
         <input style="font-size: 12px;" type="text"
                id="nicknameInput" placeholder="Ввести..." oninput="checkInput()">
-        <button id="calcBtn" class="v2-btn" onclick="getUserApiforCalculate(); handleRefresh(this);" disabled>Заповнити таблицю</button>
+        <button id="calcBtn" class="v2-btn" onclick="getUserApiForCalculateNew(); handleRefresh(this);" disabled>Заповнити таблицю</button>
     </div>
     <div id="loader" class="loader">Синхронізація даних...</div>
     <details class="help-info" style="max-width: 600px; margin: 0 auto;">
@@ -266,7 +276,7 @@
 <div class="result-container" >
     <div style="font-size:12px">Чистий приріст системи </div>
     <div class="res-val" id="res_total">+0.000 Ph</div>
-    <div style="font-size:11px">Фінальна потужність: ≈ <span id="f_total" style="color:#00ff88">0</span></div>
+    <div style="font-size:11px">Фінальна потужність: ≈ <span id="f_total" style="color:#ff9f43">0</span></div>
     <div id="final_dist_next" class="final-dist-next">Після змін до наступної ліги: —</div>
 </div>
 <div class="block">
@@ -456,6 +466,8 @@
     let minersRaw;
     let bonusRaw;
     let rData;
+    let userData;
+    let hamsterPowerRaw;
     async function runAudit() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('auditLoader');
@@ -482,7 +494,9 @@
             const racks = rData.data.racks;
 
             // --- ЛОГІКА АНАЛІЗУ ---
-            const globalBonusMult = (bonusRaw / minersRaw) + 1;
+            const bonusClear = bonusRaw - hamsterPowerRaw;
+            const globalBonusMult = (bonusClear / minersRaw) + 1;
+
 
             const globalCounts = {};
             const bonusTracker = {};
@@ -627,6 +641,7 @@
 
             results.style.display = 'block';
             document.getElementById('minerSearchInput').style.display = 'block';
+
         } catch (e) {
             alert("Помилка: " + e.message);
         } finally {
@@ -705,6 +720,7 @@
 
     const PROXY = 'https://api.codetabs.com/v1/proxy?quest=';
     const API_BASE = 'https://api.rollercoincalculator.app/api';
+    const API_ROLLER_USER_BASE ='https://rollercoin.com/api/profile/user-power-data';
 
     const CURRENCY_CONFIG = [
         { name: "btc",  divisor: 10000000000, prec: 8, geckoId: "bitcoin" },
@@ -752,7 +768,6 @@
         await loadCryptoPrices();
         await getLeaguesDataApi();
 
-        console.log("Дані отримано. Створення інтерфейсу...");
         // Додаємо рядки, але НЕ запускаємо розрахунок відразу
         addRow('old_list', false);
         addRow('new_list', false);
@@ -991,8 +1006,8 @@
         const text = rawElem.value;
         const freon = parseFloat(freonElem ? freonElem.value : 0) || 0;
 
-        const find = (lbl) => {
-            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh|%)", "i");
+        const findCurrentGame = (lbl) => {
+            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)", "i");
             const m = text.match(r);
             if (!m) return 0;
             let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
@@ -1003,12 +1018,44 @@
             return v;
         };
 
-        const miners = find("Miners");
-        const bonus = find("Bonus Power");
-        const currentGame = find("Current power") || 0;
-        const maxPower = find("Maximum power") || currentGame;
+        const find = (lbl) => {
+            // Хитрість тут: ([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)
+            // Вона перевіряє: якщо перше число має знак %, вона його ігнорує і бере ДРУГЕ число, біля якого стоять хеші!
+            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)?\\s*(Eh|Ph|Th|Zh)", "i");
+            const m = text.match(r);
 
+            if (!m) return 0;
+
+            // Якщо m[2] існує, значить регулярка знайшла два числа і друге — це наші хеші.
+            // Якщо m[2] немає, значить було всього одне число (як у старій логіці).
+            let rawNumber = m[2] ? m[2] : m[1];
+            let unit = m[2] ? m[3] : m[2]; // зміщуємо індекс одиниці виміру, якщо знайшли два числа
+
+            // Якщо unit чомусь злетів, беремо останній елемент масиву збігів
+            if (!unit) unit = m[m.length - 1];
+
+            let v = parseFloat(rawNumber.replace(/\s/g, '').replace(',', '.'));
+
+            // Твоя рідна незмінна логіка
+            if (unit === 'Eh') v *= 1000000000;
+            if (unit === 'Th') v *= 1000;
+            if (unit === 'Ph') v *= 1000000;
+            if (unit === 'Zh') v *= 1000000000000;
+
+            return v;
+        };
+
+        const miners = findCurrentGame("Miners");
+        const hamsterPercent = document.getElementById('hamster_pct').value;
+        const hamsterPower = miners * (hamsterPercent / 100);
         const freonPower = miners * (freon / 100);
+        const bonus = find("Bonus Power");
+        const bonusPercent = miners > 0 ? (bonus / miners) * 100 : 0;
+        const currentGame = findCurrentGame("Current power") || 0;
+        const currentGameForCalc = currentGame - hamsterPower - freonPower;
+        const maxPower = findCurrentGame("Maximum power") || currentGame;
+
+        // const hamsterPower = miners * (hamsterPercent);
 
 
         document.getElementById('total_display').innerText = formatPowerSN(currentGame);
@@ -1037,7 +1084,7 @@
             newMinersBase += (parseFloat(row.querySelector('.p-in').value) || 0) * parseFloat(row.querySelector('.u-in').value);
         });
 
-        const finalGlobalBonus = bonus - bonusLost + bonusGained;
+        const finalGlobalBonus = bonusPercent - bonusLost + bonusGained;
         let otherMinersBase = miners - (Array.from(document.querySelectorAll('#old_list .p-in')).reduce((a, b) => a + (parseFloat(b.value)||0) * parseFloat(b.parentElement.querySelector('.u-in').value), 0));
 
         let totalLoss = 0;
@@ -1045,7 +1092,7 @@
             let p = (parseFloat(row.querySelector('.p-in').value) || 0) * parseFloat(row.querySelector('.u-in').value);
             let b = parseFloat(row.querySelector('.b-in').value) || 0;
             let r = parseFloat(row.querySelector('.r-in').value) || 0;
-            let loss = p * (1 + (bonus + r) / 100);
+            let loss = p * (1 + (bonusPercent + r) / 100);
             totalLoss += loss;
             let trueLossForSystem = loss + (otherMinersBase * (b / 100));
             let resBlock = row.querySelector('.indiv-res');
@@ -1071,13 +1118,20 @@
 
         let finalMinersBase = otherMinersBase + newMinersBase;
         let finalFreonPower = finalMinersBase * (freon / 100);
+        let finalHamsterPower = finalMinersBase * (hamsterPercent / 100);
         let freonDiff = finalFreonPower - freonPower;
+        let hamsterDiff = finalHamsterPower - hamsterPower;
+        let finalTotalRaw = currentGameForCalc - totalLoss + totalGain + (otherMinersBase * ((bonusGained - bonusLost) / 100));
+        let finalTotal = finalTotalRaw + freonDiff + hamsterDiff;
+        let finalTotalFull =
+            currentGame - totalLoss + totalGain
+            + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff + hamsterDiff;
+        let netGain = finalTotalRaw - currentGameForCalc;
 
-        let finalTotal = currentGame - totalLoss + totalGain + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff;
-        let netGain = finalTotal - currentGame;
-
-        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPowerSN(netGain);
-        document.getElementById('f_total').innerText = formatPowerSN(finalTotal);
+        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPowerSN(netGain)
+            + "\nЗ бонусом фреону та хом'яка: +" + formatPowerSN(netGain + freonDiff + hamsterDiff);
+        document.getElementById('f_total').innerText =
+            formatPowerSN(finalTotal) + "\nЗ бонусом фреону та хом'яка: " + formatPowerSN(finalTotalFull);
 
 
         let finalMaxPower = maxPower + netGain;
@@ -1100,10 +1154,12 @@
 
         }
         let finalLInfo = getLInfo(finalMaxPower);
-        syncToV2(finalTotal, finalLInfo.cur.name);
+        syncToV2(finalTotalFull, finalLInfo.cur.name);
     }
 
-    async function getUserApiforCalculate() {
+    let hamsterPercent = 0;
+
+    async function getUserApiForCalculateNew() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('loader');
         if (!nickInput || !nickInput.value) return;
@@ -1113,31 +1169,47 @@
         localStorage.setItem('userNickname', userNick);
 
         try {
-            const response = await fetch(PROXY + encodeURIComponent(`${API_BASE}/RollercoinUser?userName=${userNick}`));
-            const data = await response.json();
+            const profileUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fprofile%2Fpublic-user-profile-data%2F${userNick}`;
+            const pResp = await fetch(profileUrl);
+            const pData = await pResp.json();
+            if (!pData.success) throw new Error("Користувача не знайдено");
+
+            const usrData = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fprofile%2Fuser-power-data%2F${pData.data.avatar_id}`;
+            const rResp = await fetch(usrData);
+            userData = await rResp.json();
 
             // 1. Отримуємо основні цифри
-            const curPowerRaw = data.userPowerResponseDto.current_Power;
-            const maxPowerRaw = data.userPowerResponseDto.max_Power;
-            minersRaw = data.userPowerResponseDto.miners;
-            bonusRaw = data.userPowerResponseDto.bonus;
-            const racksRaw = data.userPowerResponseDto.racks;
-            const gamesRaw = data.userPowerResponseDto.games;
-            const tempRaw = data.userPowerResponseDto.temp;
-            const freonPower = data.userPowerResponseDto.freon / minersRaw;
+            const curPowerRaw = userData.data.current_power;
+            const maxPowerRaw = userData.data.max_power;
+            minersRaw = userData.data.miners;
+            bonusRaw = userData.data.bonus;
+            const racksRaw = userData.data.racks;
+            const gamesRaw = userData.data.games;
+            const tempRaw = userData.data.temp;
+            const freonPower = userData.data.freon;
+            const hamsterPercentRaw = userData.data.hamster_expedition_bonus_percent;
+            hamsterPowerRaw = userData.data.hamster_expedition_bonus_power;
+            hamsterPercent = (hamsterPercentRaw / 100).toFixed(2);
+
 
             // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
             // Використовуємо Math.max, щоб уникнути ділення на 0, якщо майнерів немає
-            const bonusPercent = minersRaw > 0 ? (bonusRaw / minersRaw) * 100 : 0;
+            const bonusPercent = ((bonusRaw - hamsterPowerRaw) / minersRaw) * 100;
 
             // 3. Знаходимо назву ліги за ID
-            const userLeagueId = data.userProfileResponseDto.league_Id;
+            const userLeagueId = pData.data.league_Id;
             const foundLeague = leaguesData.find(l => l.id === userLeagueId);
             const leagueName = foundLeague ? foundLeague.title : "Bronze I";
 
             const freonInput = document.getElementById('freon_pct');
             if (freonInput) {
-                freonInput.value = (freonPower * 100).toFixed(2); // Вказуєш потрібний відсоток (як рядок або число)
+                freonInput.value = ((freonPower / minersRaw) * 100).toFixed(2); // Вказуєш потрібний відсоток (як рядок або число)
+                //freonInput.dispatchEvent(new Event('input')); // Примусово запускає calculateAll()
+            }
+
+            const hamsterInput = document.getElementById('hamster_pct');
+            if (hamsterInput) {
+                hamsterInput.value = hamsterPercent; // Вказуєш потрібний відсоток (як рядок або число)
                 //freonInput.dispatchEvent(new Event('input')); // Примусово запускає calculateAll()
             }
 
@@ -1150,11 +1222,11 @@ ${formatPowerSN(curPowerRaw)}
 Miners
 ${formatPowerSN(minersRaw)}
 Bonus Power
-+${bonusPercent}%
-/ ${formatPowerSN(bonusRaw)}
++${bonusPercent.toFixed(2)}%
+/ ${formatPowerSN(bonusRaw - hamsterPowerRaw)}
 Hamster Bonus Power
-0%
-/ 0 Gh/s
+${hamsterPercent}%
+/ ${formatPowerSN(hamsterPowerRaw)}
 Rack Bonus
 ${formatPowerSN(racksRaw)}
 Games
@@ -1165,7 +1237,7 @@ ${formatPowerSN(tempRaw)}`;
             runAudit();
 
         } catch (e) {
-            console.error("Помилка при отриманні даних профілю:", e);
+            alert("Помилка: отримання даних користувача" + e.message);
         } finally {
             loader.style.display = 'none';
         }
@@ -1181,8 +1253,6 @@ ${formatPowerSN(tempRaw)}`;
             console.error("Помилка: Не знайдено блоки manual_section або auto_section!");
             return;
         }
-
-        console.log("Авто режим:", isAuto); // Виведе в консоль true або false
 
         if (isAuto) {
             manual.style.setProperty("display", "none", "important");
@@ -1261,31 +1331,6 @@ ${formatPowerSN(tempRaw)}`;
         });
 
         if (leagues.length > 0) renderSelectedLeague(0);
-    }
-
-    function changeLeagueSelector() {
-        // 1. Отримуємо назву ліги прямо з елемента на сторінці
-        const leagueNameEl = document.getElementById('cur_league');
-        const currentLeagueName = leagueNameEl ? leagueNameEl.innerText.trim() : '';
-        console.log("Поточна ліга з HTML:", currentLeagueName);
-
-        // 2. Обов'язково знаходимо наш селектор на сторінці
-        const selectEl = document.getElementById('leagueSelect');
-
-        // БЕЗПЕКА: Якщо селектор або масив ліг ще не завантажились — виходимо, щоб не було помилки
-        if (!selectEl || !window.loadedLeagues) return;
-
-        // 3. Шукаємо індекс ліги за назвою у глобальному масиві window.loadedLeagues
-        const targetIndex = window.loadedLeagues.findIndex(l => l.title === currentLeagueName);
-
-        // Якщо не знайшли (наприклад, поле порожнє), ставимо 0 (першу лігу)
-        const defaultIndex = targetIndex !== -1 ? targetIndex : 0;
-
-        // 4. Виставляємо селектор у потрібне положення
-        selectEl.value = defaultIndex;
-
-        // 5. Рендеримо вибрану лігу
-        renderSelectedLeague(defaultIndex);
     }
 
     function onLeagueChange(index) {
