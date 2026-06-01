@@ -163,11 +163,6 @@
         .res-val { font-size: 22px; font-weight: bold; color: #00d4ff; }
 
 
-        .v2-scroll-box {
-            width: 100%; overflow-x: auto; border: none;
-            margin-bottom: 10px; display: flex; justify-content: center;
-        }
-
         .block-title-miners {
             display: flex;
             justify-content: space-between; /* Розштовхує текст вліво, кнопку вправо */
@@ -187,13 +182,121 @@
             font-size: 1.1rem;
         }
 
-        @media (max-width: 768px) {
-            .v2-scroll-box { justify-content: flex-start; }
+    </style>
+
+    <style>
+        /* Загальні налаштування для ПК екранів */
+        .aads-sidebar-container {
+            position: absolute;
+            z-index: 99999;
+        }
+        .aads-fixed-sidebar {
+            width: 160px; /* Фіксована ширина, ідеальна для баннера */
+            height: 100%;
+            position: fixed;
+            text-align: center;
+            font-size: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        /* Розносимо по боках екрана */
+        .aads-left-side .aads-fixed-sidebar { left: 10px; }
+        .aads-right-side .aads-fixed-sidebar { right: 10px; }
+
+        /* Стиль хрестика закриття */
+        .aads-close-button {
+            bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer;
+        }
+
+        /* 📱 РІШЕННЯ ПОМИЛКИ: якщо екран менше 1100px (мобілки), повністю приховуємо блоки */
+        @media (max-width: 1100px) {
+            .aads-sidebar-container {
+                display: none !important;
+            }
         }
     </style>
+
+    <style>
+        .audit-container {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #00ff8844;
+            margin: 20px 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Адаптивна обгортка для таблиць */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #30475e;
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #16213e;
+            min-width: 400px; /* Запобігає занадто сильному стисканню */
+        }
+
+        .audit-table th, .audit-table td {
+            border-bottom: 1px solid #30475e;
+            padding: 12px 15px;
+            text-align: left;
+            color: #fff;
+        }
+
+        .audit-table th {
+            background: #0f3460;
+            color: #00ff88;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        /* Стилі для бейджів (SET, DUPE) */
+        .badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Адаптивність для смартфонів */
+        @media (max-width: 600px) {
+            .audit-container {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .audit-table th, .audit-table td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            h2 { font-size: 20px; }
+            h3 { font-size: 16px; }
+        }
+    </style>
+
 </head>
 <body>
-    <!-- BEGIN AADS AD UNIT 2440201 -->
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 10px; gap: 5px;">
+    <select id="langSelect" onchange="switchLanguage(this.value)" style="width: 80px; padding: 5px 2px; border-color: #00ff8844;">
+        <option value="ua">UA</option>
+        <option value="en">EN</option>
+    </select>
+</div>
+
+<!-- BEGIN AADS AD UNIT 2440201 -->
 <div class="aads-sidebar-container aads-left-side">
     <input autocomplete="off" type="checkbox" id="aadsstickymptv693o" hidden />
     <div class="aads-clickable-wrapper">
@@ -228,41 +331,10 @@
     </div>
 </div>
 
-<style>
-/* Загальні налаштування для ПК екранів */
-.aads-sidebar-container {
-    position: absolute;
-    z-index: 99999;
-}
-.aads-fixed-sidebar {
-    width: 160px; /* Фіксована ширина, ідеальна для баннера */
-    height: 100%;
-    position: fixed;
-    text-align: center;
-    font-size: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-/* Розносимо по боках екрана */
-.aads-left-side .aads-fixed-sidebar { left: 10px; }
-.aads-right-side .aads-fixed-sidebar { right: 10px; }
-
-/* Стиль хрестика закриття */
-.aads-close-button {
-    bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer;
-}
-
-/* 📱 РІШЕННЯ ПОМИЛКИ: якщо екран менше 1100px (мобілки), повністю приховуємо блоки */
-@media (max-width: 1100px) {
-    .aads-sidebar-container {
-        display: none !important;
-    }
-}
-</style>
 <!-- END AADS AD UNIT 2440209 -->
 
 <div class="block">
-    <div class="block-title">Калькулятор потужності</div>
+    <div class="block-title" data-lang="title_power_calculator">Калькулятор потужності</div>
     <div class="result-container"
          style="display: flex; align-items: center;
          box-sizing: border-box;
@@ -271,28 +343,28 @@
          padding: 10px; border-radius: 8px;
          margin: 0 auto 15px auto;">
         <label for="auto_toggle" style="cursor: pointer; font-weight: bold;">
-            Автоматичний режим
+            <span data-lang="mode_automatic">Автоматичний режим</span>
         </label>
         <input type="checkbox" id="auto_toggle" onchange="toggleMode()"
                style="cursor: pointer; width: 22px; height: 22px; accent-color: #2ecc71;">
     </div>
     <div id="manual_section">
-        <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;" data-lang="label_profile_stats">
             Profile Stats
         </label>
-        <textarea id="raw_data" placeholder="Вставити свої дані з Profile Stats..."
+        <textarea id="raw_data" data-lang-placeholder="placeholder_profile_stats" placeholder="Вставити свої дані з Profile Stats..."
                   oninput="calculateAll()"></textarea>
-        <button class="v2-btn" onclick="clearRawData('raw_data');">Очистити поле з Profile Stats</button>
+        <button class="v2-btn" onclick="clearRawData('raw_data');" data-lang="btn_clear_profile">Очистити поле з Profile Stats</button>
         <div class="freon-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 15px 0; text-align: center;">
-            <strong>Відсотки від хом'яка та фреону:</strong>
+            <strong data-lang="text_hamster_freon_pct">Відсотки від хом'яка та фреону:</strong>
 
             <div style="display: flex; align-items: center; gap: 5px;">
-                <label for="hamster_pct">Хом'як:</label>
+                <label for="hamster_pct" data-lang="label_hamster">Хом'як:</label>
                 <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
                 <span style="color: #ff4757; font-weight: bold;">%</span>
             </div>
             <div style="display: flex; align-items: center; gap: 5px;">
-                <label for="freon_pct">Фреон:</label>
+                <label for="freon_pct" data-lang="label_freon">Фреон:</label>
                 <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
                 <span style="color: #ff4757; font-weight: bold;">%</span>
             </div>
@@ -302,72 +374,86 @@
 </div>
 <div id="auto_section" style="display: none;">
     <div class="input-group">
-        <div class="block-title">Введіть частину посилання на свій профіль після /p/</div>
+        <div class="block-title" data-lang="title_profile_link">Введіть частину посилання на свій профіль після /p/</div>
         <input style="font-size: 12px;" type="text"
-               id="nicknameInput" placeholder="Ввести..." oninput="checkInput()">
-        <button id="calcBtn" class="v2-btn" onclick="getUserApiForCalculateNew(); handleRefresh(this);" disabled>Заповнити таблицю</button>
+               id="nicknameInput" data-lang-placeholder="placeholder_nickname" placeholder="Ввести..." oninput="checkInput()">
+        <button id="calcBtn" class="v2-btn" onclick="getUserApiForCalculateNew(); handleRefresh(this);" data-lang="btn_sync_table" disabled>Заповнити таблицю</button>
     </div>
-    <div id="loader" class="loader">Синхронізація даних...</div>
+    <div id="loader" class="loader" data-lang="text_syncing">Синхронізація даних...</div>
     <details class="help-info" style="max-width: 600px; margin: 0 auto;">
-        <summary style="cursor: pointer; color: #00ff88; font-weight: bold;">
+        <summary style="cursor: pointer; color: #00ff88; font-weight: bold;" data-lang="summary_help_link">
             Де взяти посилання на профіль?
         </summary>
-        <img src="helpn.png" alt="Приклад нікнейму"
+        <img src="helpn.png" data-lang-alt="alt_help_image" alt="Приклад нікнейму"
              style="width: 100%; height: auto; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
     </details>
 </div>
 <div class="total-block">
     <div id="cur_league" class="league-badge">—</div>
     <div id="total_display" class="total-value">0.000 Ph</div>
-    <div id="dist_next" class="dist-next">До наступної ліги: —</div>
+    <div id="dist_next" class="dist-next" data-lang="text_to_next_league">До наступної ліги: —</div>
 </div>
 
 <div class="block" style="border-color: #00ff88;">
     <div class="block-title-miners" style="color:#ff9f43">
-        Характеристики майнера, який знімається
+        <span data-lang="title_old_miner">Характеристики майнера, який знімається</span>
         <button class="btn-add" onclick="addRow('old_list')">+</button>
     </div>
-    <div class="grid-labels"><span>Потужність</span><span>TH/s / PH/s / EH/s</span><span>Відсоток майнера%</span><span>Відсоток полки%</span><span>Втрата потужності</span><span></span></div>
+    <div class="grid-labels">
+        <span data-lang="grid_power">Потужність</span>
+        <span data-lang="grid_units">TH/s / PH/s / EH/s</span>
+        <span data-lang="grid_miner_pct">Відсоток майнера%</span>
+        <span data-lang="grid_shelf_pct">Відсоток полки%</span>
+        <span data-lang="grid_loss_power">Втрата потужності</span>
+        <span></span>
+    </div>
     <div id="old_list"></div>
 </div>
 
 <div class="block">
     <div class="block-title-miners" style="color:#5fbf37">
-        Характеристики майнера, який ставиться в кімнаті
+        <span data-lang="title_new_miner">Характеристики майнера, який ставиться в кімнаті</span>
         <button class="btn-add" onclick="addRow('new_list')">+</button>
     </div>
-    <div class="grid-labels"><span>Потужність</span><span>TH/s / PH/s / EH/s</span><span>Відсоток майнера%</span><span>Відсоток полки%</span><span>Приріст потужності</span><span></span></div>
+    <div class="grid-labels">
+        <span data-lang="grid_power">Потужність</span>
+        <span data-lang="grid_units">TH/s / PH/s / EH/s</span>
+        <span data-lang="grid_miner_pct">Відсоток майнера%</span>
+        <span data-lang="grid_shelf_pct">Відсоток полки%</span>
+        <span data-lang="grid_gain_power">Приріст потужності</span>
+        <span></span>
+    </div>
     <div id="new_list"></div>
 </div>
 
 <div class="result-container" >
-    <div style="font-size:12px">Чистий приріст системи </div>
+    <div style="font-size:12px" data-lang="text_net_gain">Чистий приріст системи </div>
     <div class="res-val" id="res_total">+0.000 Ph</div>
-    <div style="font-size:11px">Фінальна потужність: ≈ <span id="f_total" style="color:#ff9f43">0</span></div>
-    <div id="final_dist_next" class="final-dist-next">Після змін до наступної ліги: —</div>
+    <div style="font-size:11px"><span data-lang="text_final_power">Фінальна потужність: ≈ </span><span id="f_total" style="color:#ff9f43">0</span></div>
+    <div id="final_dist_next" class="final-dist-next" data-lang="text_after_changes_league">Після змін до наступної ліги: —</div>
 </div>
 
-    <div id="row-frame-2440213" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
+<div id="row-frame-2440213" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
 
     <iframe data-aa='2440213' src='//acceptable.a-ads.com/2440213/?size=Adaptive&background_color=0F3460'
             style='border:0; padding:0; width:100%; height:90px; min-height:60px; overflow:hidden; display: block; margin: auto;'></iframe>
 
 </div>
-    
+
 <div class="block">
-    <div class="block-title">Калькулятор потужності</div>
+    <div class="block-title" data-lang="title_power_calculator">Калькулятор потужності</div>
     <div id="leagueInfo"></div>
     <div class="table-wrapper">
         <table>
             <thead>
             <tr>
-                <th>Койн</th>
-                <th>Блок</th>
-                <th>Потужність<br>мережі</th>
-                <th id="nextLeagueHeader">Необхідна<br>потужність<br><span>лігою вище</span></th>
-                <th>День</th>
-                <th>Тиждень</th>
-                <th>Місяць</th>
+                <th data-lang="table_coin">Койн</th>
+                <th data-lang="table_block">Блок</th>
+                <th data-lang="table_net_power">Потужність<br>мережі</th>
+                <th id="nextLeagueHeader"><span data-lang="table_required_power">Необхідна<br>потужність<br><span>лігою вище</span></span></th>
+                <th data-lang="table_day">День</th>
+                <th data-lang="table_week">Тиждень</th>
+                <th data-lang="table_month">Місяць</th>
             </tr>
             </thead>
             <tbody id="tableBody">
@@ -379,34 +465,35 @@
 
 <div id="extra" style="display: none;">
     <div class="audit-container">
-        <h2 style="color: #00ff88; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <h2 style="color: #00ff88; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 10px;" data-lang="title_room_auditor">
             🛠️ Аудитор кімнат
         </h2>
 
-        <h4 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;">
+        <h4 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;" data-lang="title_find_miner">
             Пошук майнера в кімнаті
         </h4>
 
         <input type="text" id="minerSearchInput"
+               data-lang="placeholder_miner_search"
                placeholder="введіть назву майнера"
                oninput="searchInputMiner()"
                style="display: none;">
         <div id="searchResult" style="margin-top: 10px; font-weight: bold;"></div>
 
-        <div id="auditLoader" style="display:none; color: #f1c40f; margin: 15px 0; font-weight: bold; text-align: center;">
+        <div id="auditLoader" style="display:none; color: #f1c40f; margin: 15px 0; font-weight: bold; text-align: center;" data-lang="text_audit_loading">
             📡 Отримання даних з кімнат...
         </div>
 
         <div id="auditResults" style="display:none;">
             <h3 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;">
-                ⚠️ Дублікати <small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;">(відсоток рахується тільки з одного)</small>
+                <span data-lang="title_duplicates">⚠️ Дублікати </span><small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;" data-lang="text_duplicates_note">(відсоток рахується тільки з одного)</small>
             </h3>
             <div class="table-responsive">
                 <table class="audit-table" id="dupesTable">
                     <thead>
                     <tr>
-                        <th>Майнер + Рівень</th>
-                        <th>Кількість</th>
+                        <th data-lang="table_miner_level">Майнер + Рівень</th>
+                        <th data-lang="table_quantity">Кількість</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -414,8 +501,8 @@
             </div>
 
             <h3 style="color: #22d3ee; font-size: 18px; margin-bottom: 10px; margin-top: 25px;">
-                📉 Рейтинг майнерів з найменшою ефективністю для потужності
-                <small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;">
+                <span data-lang="title_worst_efficiency">📉 Рейтинг майнерів з найменшою ефективністю для потужності</span>
+                <small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;" data-lang="text_efficiency_note">
                     Найменший внесок Ph/слот (SET - майнер з сету, DUPE - повтор майнера)
                 </small>
             </h3>
@@ -423,10 +510,10 @@
                 <table class="audit-table" id="worstTable">
                     <thead>
                     <tr>
-                        <th>Майнер</th>
-                        <th>Потужність</th>
-                        <th>Бонус</th>
-                        <th>Внесок (Ph/Slot)</th>
+                        <th data-lang="table_miner">Майнер</th>
+                        <th data-lang="table_power_short">Потужність</th>
+                        <th data-lang="table_bonus">Бонус</th>
+                        <th data-lang="table_contribution">Внесок (Ph/Slot)</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -437,11 +524,11 @@
 </div>
 <div class="block">
 
-    <div class="block-title">Оберіть лігу RollerCoin</div>
+    <div class="block-title" data-lang="title_select_league">Оберіть лігу RollerCoin</div>
     <select id="leagueSelect" onchange="onLeagueChange(this.value)">
-        <option value="">Завантаження ліг...</option>
+        <option value="" data-lang="option_loading_leagues">Завантаження ліг...</option>
     </select>
-    <button class="v2-btn" onclick="copyLeagueToClipboard(this)" style="margin-top: 10px;">Скопіювати дані ліги для П'єро</button>
+    <button class="v2-btn" onclick="copyLeagueToClipboard(this)" style="margin-top: 10px;" data-lang="btn_copy_league">Скопіювати дані ліги для П'єро</button>
 </div>
 
 <div id="leagueSummaryBlock" style="display: none; margin-top: 20px;">
@@ -451,105 +538,112 @@
         <div class="block" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
             <svg id="pieChart" width="220" height="220" viewBox="-1 -1 2 2" style="transform: rotate(-90deg); border-radius: 50%; background: #252a4a;"></svg>
             <div class="total-block" style="border: none; margin: 15px 0 0 0; padding: 0;">
-                <div class="league-badge" id="currentLeagueTitle">Ліга</div>
+                <div class="league-badge" id="currentLeagueTitle" data-lang="title_league">Ліга</div>
                 <div class="total-value" id="totalPowerDisplay" style="font-size: 20px;">0.00 Zh/s</div>
             </div>
         </div>
 
         <div>
-            <div class="block-title-miners">Game Currencies</div>
+            <div class="block-title-miners" data-lang="title_game_currencies">Game Currencies</div>
             <div id="gameCurrenciesContainer"></div>
 
-            <div class="block-title-miners" style="margin-top: 20px; color: #00d4ff;">Crypto Currencies</div>
+            <div class="block-title-miners" style="margin-top: 20px; color: #00d4ff;" data-lang="title_crypto_currencies">Crypto Currencies</div>
             <div id="cryptoCurrenciesContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;"></div>
         </div>
 
     </div>
 </div>
 
-    <div id="row-frame-2440215" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
+<div id="row-frame-2440215" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
 
     <iframe data-aa='2440215' src='//acceptable.a-ads.com/2440215/?size=Adaptive&background_color=0F3460'
             style='border:0; padding:0; width:100%; height:90px; min-height:60px; overflow:hidden; display: block; margin: auto;'></iframe>
 
 </div>
 
-<style>
-    .audit-container {
-        background: #1a1a2e;
-        padding: 25px;
-        border-radius: 15px;
-        border: 1px solid #00ff8844;
-        margin: 20px 0;
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    /* Адаптивна обгортка для таблиць */
-    .table-responsive {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        border: 1px solid #30475e;
-    }
-
-    .audit-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #16213e;
-        min-width: 400px; /* Запобігає занадто сильному стисканню */
-    }
-
-    .audit-table th, .audit-table td {
-        border-bottom: 1px solid #30475e;
-        padding: 12px 15px;
-        text-align: left;
-        color: #fff;
-    }
-
-    .audit-table th {
-        background: #0f3460;
-        color: #00ff88;
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 1px;
-        white-space: nowrap;
-    }
-
-    /* Стилі для бейджів (SET, DUPE) */
-    .badge {
-        font-size: 10px;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-left: 5px;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    /* Адаптивність для смартфонів */
-    @media (max-width: 600px) {
-        .audit-container {
-            padding: 15px;
-            margin: 10px 0;
-        }
-
-        .audit-table th, .audit-table td {
-            padding: 10px 8px;
-            font-size: 13px;
-        }
-
-        h2 { font-size: 20px; }
-        h3 { font-size: 16px; }
-    }
-</style>
-
 <script>
+
     let minersRaw;
     let bonusRaw;
     let rData;
     let userData;
     let hamsterPowerRaw;
+    let currentTranslations = null;
+
+
+    // Запуск при завантаженні сторінки (Один універсальний метод)
+    document.addEventListener("DOMContentLoaded", () => {
+        // Якщо мову не вибрано раніше — за замовчуванням ставимо 'en'
+        const savedLang = localStorage.getItem('selectedLang') || 'en';
+
+        // Підсвічуємо EN або UA у випадаючому списку (селекті)
+        const select = document.getElementById('langSelect');
+        if (select) select.value = savedLang;
+
+        // Запускаємо переклад сторінки
+        switchLanguage(savedLang);
+    });
+
+    // 1. СПОЧАТКУ МАЄ ЙТИ ЦЯ ФУНКЦІЯ
+    function applyLanguage(translations) {
+        if (!translations) return;
+
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (!translations[key]) return;
+
+            if (key === 'btn_refresh_cooldown') {
+                const seconds = el.getAttribute('data-seconds') || '0';
+                el.innerText = translations[key].replace('{seconds}', seconds);
+                return;
+            }
+
+            if (key === 'calc_dist_next' || key === 'calc_final_dist_next') {
+                const name = el.getAttribute('data-name') || '';
+                const power = el.getAttribute('data-power') || '0';
+                el.innerText = translations[key].replace('{name}', name).replace('{power}', power);
+                return;
+            }
+
+            if (key === 'text_miner_not_found') {
+                const query = el.getAttribute('data-query') || '';
+                el.innerText = translations[key].replace('{query}', query);
+                return;
+            }
+
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = translations[key];
+            } else {
+                if (translations[key].includes('<')) {
+                    el.innerHTML = translations[key];
+                } else {
+                    el.innerText = translations[key];
+                }
+            }
+        });
+
+        document.querySelectorAll('[data-lang-room]').forEach(el => el.innerText = translations['room'] || 'Кімн.');
+        document.querySelectorAll('[data-lang-rack]').forEach(el => el.innerText = translations['rack'] || 'Стел.');
+        document.querySelectorAll('[data-lang-shelf]').forEach(el => el.innerText = translations['shelf'] || 'Пол.');
+    }
+
+    async function switchLanguage(lang) {
+        try {
+            // Якщо файли лежать поруч з index.html, шлях має бути просто `${lang}.json`
+            const response = await fetch(`lang/${lang}.json`);
+            if (!response.ok) throw new Error(`Не вдалося завантажити мовний файл: ${lang}`);
+
+            currentTranslations = await response.json();
+            localStorage.setItem('selectedLang', lang);
+
+            // Тепер браузер точно знайде цю функцію нижче
+            applyLanguage(currentTranslations);
+
+        } catch (error) {
+            console.error("Помилка локалізації:", error);
+        }
+    }
+
     async function runAudit() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('auditLoader');
@@ -604,11 +698,19 @@
                 // Визначаємо кількість стелажів у ряду залежно від кімнати
                 const racksInRow = (rLevel === 0) ? 4 : 6;
 
-// Рахуємо чистий порядковий номер
+                // Рахуємо чистий порядковий номер
                 const rackNumber = (rY * racksInRow) + (rX + 1);
 
-                // 3. Формуємо короткий рядок: Кімната, Номер стелажа, Полиця
-                const locationInfo = `Кімн. ${rLevel + 1} | Стел. ${rackNumber} | Пол. ${m.placement.y + 1}`;
+                // 3. Формуємо короткий рядок: Кімната, Номер стелажа, Полиця (Зберігаємо змінні для шаблонізації)
+                // Використовуємо кастомні дата-атрибути для зберігання чистих значень номерів кімнат/стелажів/полиць
+                const locationHtml =
+                    `<div class="miner-loc"
+data-room="${rLevel + 1}" data-rack="${rackNumber}"
+data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin-top: 2px;">📍
+<span data-lang-room="true">Кімн.</span> ${rLevel + 1} |
+<span data-lang-rack="true">Стел.</span> ${rackNumber} |
+<span data-lang-shelf="true">Пол.</span> ${m.placement.y + 1}</div>`;
+
                 const lvlLabel = `[Lvl ${m.level + 1}]`;
                 const uniqueKey = `${m.name}_${lvlLabel}`;
 
@@ -634,7 +736,7 @@
                     isDupe: isDupe,
                     width: m.width || 1,
                     isInSet: m.is_in_set,
-                    location: locationInfo
+                    locationHtml: locationHtml
                 });
             });
 
@@ -652,7 +754,7 @@
                     // Знаходимо всі локації для цього конкретного дубліката
                     const locations = efficiency
                         .filter(item => `${item.name}_${item.levelLabel}` === key)
-                        .map(item => `<div style="color: #5bc0de; font-size: 10px; margin-top: 2px;">📍 ${item.location}</div>`)
+                        .map(item => item.locationHtml)
                         .join('');
 
                     dupesBody.innerHTML += `<tr>
@@ -663,17 +765,16 @@
                 <div style="line-height: 1.2;">
                     <span style="color:#ff4757; font-weight:bold;">${minerName}</span> <br>
                     <small style="color:#888">${minerLvl}</small>
-                    ${locations} <!-- ТУТ ВИВЕДУТЬСЯ ВСІ АДРЕСИ ЦЬОГО ДУБЛІКАТА -->
-                </div>
+                    ${locations} </div>
             </td>
             <td style="vertical-align: middle;">
-                <span style="background:#ff4757; color:white; padding:2px 8px; border-radius:4px; font-weight:bold;">${globalCounts[key]} шт.</span>
+                <span style="background:#ff4757; color:white; padding:2px 8px; border-radius:4px; font-weight:bold;"><span data-lang="text_quantity_val">${globalCounts[key]}</span> <span data-lang="text_pcs">шт.</span></span>
             </td>
         </tr>`;
                     hasGlobalDupes = true;
                 }
             }
-            if (!hasGlobalDupes) dupesBody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#00ff88;">Усі унікальні! 🎉</td></tr>';
+            if (!hasGlobalDupes) dupesBody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#00ff88;" data-lang="text_all_unique">Усі унікальні! 🎉</td></tr>';
 
             // --- ВИВІД ТАБЛИЦІ 2 (НАЙГІРШІ) ---
             efficiency.sort((a, b) => a.contribution - b.contribution);
@@ -712,12 +813,12 @@
                         <div style="line-height: 1.2;">
                             <span style="color: #fff;">${m.name}</span> <br>
                             <small style="color: #888; font-size: 11px;">${m.levelLabel}</small> ${tags}
-                            <div style="color: #5bc0de; font-size: 10px;">📍 ${m.location}</div>
+                            ${m.locationHtml}
                         </div>
                     </td>
                     <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
                     <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
-                    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/сл</td>
+                    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/<span data-lang="text_per_slot">сл</span></td>
                 </tr>`;
             }
 
@@ -729,6 +830,7 @@
         } finally {
             loader.style.display = 'none';
         }
+        if (currentTranslations) applyLanguage(currentTranslations);
     }
 
     function searchInputMiner() {
@@ -754,28 +856,30 @@
                         const rX = rack?.placement?.x ?? 0;
                         const rY = rack?.placement?.y ?? 0;
 
-                        // 2. Визначаємо сітку стелажів (12 для 1-ї кімнати, 18 для інших)
+                        // 2. Визначаємо сітку стелажів
                         const racksInRow = (rLevel === 0) ? 4 : 6;
                         const rackNumber = (rY * racksInRow) + (rX + 1);
 
-                        // 3. Формуємо підпис
+                        // 3. Формуємо підпис (зберігаємо структуру локації для перекладу)
                         return `<div>
-                        <b>${m.name}</b> [Lvl ${m.level + 1}] <br>
-                        <span style="color: #5bc0de; font-size: 11px;">📍 Кімн. ${rLevel + 1} | Стел. ${rackNumber} | Пол. ${m.placement.y + 1}</span>
-                    </div>`;
+                    <b>${m.name}</b> [Lvl ${m.level + 1}] <br>
+                    <span class="miner-loc" data-room="${rLevel + 1}" data-rack="${rackNumber}" data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 11px;">📍 <span data-lang-room>Кімн.</span> ${rLevel + 1} | <span data-lang-rack>Стел.</span> ${rackNumber} | <span data-lang-shelf>Пол.</span> ${m.placement.y + 1}</span>
+                </div>`;
                     });
 
                     searchResultDiv.style.color = "#fff";
                     searchResultDiv.innerHTML = `<div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="color: #00ff88;">✅ Знайдено:</div>
-                    ${resultsText.join('')}
-                </div>`;
+                <div style="color: #00ff88;" data-lang="text_found">✅ Знайдено:</div>
+                ${resultsText.join('')}
+            </div>`;
                 } else {
                     searchResultDiv.style.color = "#ff4757";
-                    searchResultDiv.innerHTML = `❌ Майнера "${query}" немає в кімнатах`;
+                    // Передаємо query всередину спеціального атрибуту, щоб при зміні мови підставити значення в шаблон
+                    searchResultDiv.innerHTML = `<div class="not-found-wrapper" data-query="${query}" data-lang="text_miner_not_found">❌ Майнера "${query}" немає в кімнатах</div>`;
                 }
             }
         }
+        if (currentTranslations) applyLanguage(currentTranslations);
     }
 
     function formatPowerSNw(ghValue) {
@@ -844,6 +948,7 @@
     let userPower = 0;
     let userLeagueId = null;
     let leaguesData = [];
+    let hamsterPercent = 0;
 
     // 1. ГОЛОВНА ІНІЦІАЛІЗАЦІЯ
     async function init() {
@@ -931,7 +1036,10 @@
             initLeagueDashboard(leaguesData);
         } catch (e) {
             console.error("Помилка ліг:", e);
-            if(tableBody) tableBody.innerHTML = `<tr><td colspan="7" style="color:red; text-align:center;">Помилка отримання даних</td></tr>`;
+            if(tableBody) {
+                // Обертаємо текст у span з атрибутом data-lang для динамічного перекладу помилки
+                tableBody.innerHTML = `<tr><td colspan="7" style="color:red; text-align:center;"><span data-lang="error_fetch_data">Помилка отримання даних</span></td></tr>`;
+            }
         }
     }
 
@@ -952,7 +1060,16 @@
         }
 
         const headerSpan = document.querySelector("#nextLeagueHeader span");
-        if(headerSpan) headerSpan.textContent = nextLeague ? nextLeague.title : "Макс. рівень";
+        if(headerSpan) {
+            if (nextLeague) {
+                headerSpan.textContent = nextLeague.title;
+                headerSpan.removeAttribute('data-lang'); // Якщо є ліга, ставимо її назву напряму
+            } else {
+                // Якщо ліга максимальна, вішаємо мітку для перекладу
+                headerSpan.setAttribute('data-lang', 'text_max_level');
+                headerSpan.textContent = "Макс. рівень";
+            }
+        }
 
         currentLeague.currencies.forEach(coin => {
             const netPower = coin.totalPower;
@@ -1009,6 +1126,12 @@
         results.sort((a, b) => b.usdPrice - a.usdPrice);
         results.forEach(data => {
             const isSpecial = ['rlt', 'rst', 'hmt'].includes(data.name);
+
+            // Замість голого тексту "Недоступно" вставляємо span з тегом перекладу
+            const neededPowerDisplay = data.neededPower > 0
+                ? formatPowerSN(data.neededPower)
+                : `<span data-lang="text_unavailable">Недоступно</span>`;
+
             const row = `<tr>
 <td style="color: #22d3ee; font-weight: bold;">
                 <img src="images/symbols/${data.name}.svg"
@@ -1018,7 +1141,7 @@
             </td>
                 <td>${data.reward}</td>
                 <td>${formatPowerSN(data.netPower)}</td>
-                <td>${data.neededPower > 0 ? formatPowerSN(data.neededPower) : "Недоступно"}</td>
+                <td>${neededPowerDisplay}</td>
                 <td style="color: #22d3ee;">${data.dailyRaw.toFixed(data.prec)}
                     <br><span style="color: #37f31c;">${data.usdPrice.toFixed(2)}${isSpecial ? '' : '$'}</span></td>
                 <td>${(data.dailyRaw * 7).toFixed(data.prec > 6 ? 6 : data.prec)}
@@ -1028,6 +1151,7 @@
             </tr>`;
             tableBody.innerHTML += row;
         });
+        if (currentTranslations) applyLanguage(currentTranslations);
     }
 
     // 5. ВЗАЄМОДІЯ З ІНТЕРФЕЙСОМ
@@ -1069,7 +1193,8 @@
         if(leagueInfo) {
             leagueInfo.style.textAlign = "center";
             leagueInfo.style.width = "100%";
-            leagueInfo.innerHTML = `ПОТОЧНА ЛІГА: ${leagueName}<br>ПОТУЖНІСТЬ: ${formatPowerSN(powerGh)}`;
+            // Огортаємо статичні текстові заголовки в span з атрибутами перекладу
+            leagueInfo.innerHTML = `<span data-lang="text_current_league_badge">ПОТОЧНА ЛІГА:</span> ${leagueName}<br><span data-lang="text_power_badge">ПОТУЖНІСТЬ:</span> ${formatPowerSN(powerGh)}`;
         }
 
         userPower = powerGh;
@@ -1101,24 +1226,18 @@
         };
 
         const find = (lbl) => {
-            // Хитрість тут: ([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)
-            // Вона перевіряє: якщо перше число має знак %, вона його ігнорує і бере ДРУГЕ число, біля якого стоять хеші!
             const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)?\\s*(Eh|Ph|Th|Zh)", "i");
             const m = text.match(r);
 
             if (!m) return 0;
 
-            // Якщо m[2] існує, значить регулярка знайшла два числа і друге — це наші хеші.
-            // Якщо m[2] немає, значить було всього одне число (як у старій логіці).
             let rawNumber = m[2] ? m[2] : m[1];
-            let unit = m[2] ? m[3] : m[2]; // зміщуємо індекс одиниці виміру, якщо знайшли два числа
+            let unit = m[2] ? m[3] : m[2];
 
-            // Якщо unit чомусь злетів, беремо останній елемент масиву збігів
             if (!unit) unit = m[m.length - 1];
 
             let v = parseFloat(rawNumber.replace(/\s/g, '').replace(',', '.'));
 
-            // Твоя рідна незмінна логіка
             if (unit === 'Eh') v *= 1000000000;
             if (unit === 'Th') v *= 1000;
             if (unit === 'Ph') v *= 1000000;
@@ -1137,9 +1256,6 @@
         const currentGameForCalc = currentGame - hamsterPower - freonPower;
         const maxPower = findCurrentGame("Maximum power") || currentGame;
 
-        // const hamsterPower = miners * (hamsterPercent);
-
-
         document.getElementById('total_display').innerText = formatPowerSN(currentGame);
 
         // Передаємо поточну потужність вниз
@@ -1147,13 +1263,22 @@
         syncToV2(currentGame, leagueName);
 
         document.getElementById('cur_league').innerText = leagueName;
+
+        const distNextElem = document.getElementById('dist_next');
         let left;
         let nxtL = getLInfo(maxPower).nxt;
         if(nxtL) {
             left = nxtL.limit - maxPower;
-            document.getElementById('dist_next').innerText = `До ${nxtL.name} ≈ ${formatPowerSN(left)} (рахується від maxPower)`;
+            // Зберігаємо дані в атрибути, щоб перемикач мови міг на льоту зібрати рядок
+            distNextElem.setAttribute('data-name', nxtL.name);
+            distNextElem.setAttribute('data-power', formatPowerSN(left));
+            distNextElem.setAttribute('data-lang', 'calc_dist_next');
+            distNextElem.innerText = `До ${nxtL.name} ≈ ${formatPowerSN(left)} (рахується від maxPower)`;
         } else {
-            document.getElementById('dist_next').innerText = "Ти в максимальній лізі!";
+            distNextElem.removeAttribute('data-name');
+            distNextElem.removeAttribute('data-power');
+            distNextElem.setAttribute('data-lang', 'calc_max_league');
+            distNextElem.innerText = "Ти в максимальній лізі!";
         }
 
         let bonusLost = 0;
@@ -1210,36 +1335,54 @@
             + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff + hamsterDiff;
         let netGain = finalTotalRaw - currentGameForCalc;
 
-        document.getElementById('res_total').innerText = ( netGain >= 0 ? "+" : "") + formatPowerSN(netGain)
-            + "\nЗ бонусом фреону та хом'яка: " + formatPowerSN(netGain + freonDiff + hamsterDiff);
-        document.getElementById('f_total').innerText =
-            formatPowerSN(finalTotal) + "\nЗ бонусом фреону та хом'яка: " + formatPowerSN(finalTotalFull);
+        // Складні виводи блоків результатів з підготовкою під мультиязичність
+        const resTotalElem = document.getElementById('res_total');
+        const fTotalElem = document.getElementById('f_total');
 
+        const prefixNetGain = (netGain >= 0 ? "+" : "");
+        resTotalElem.setAttribute('data-val1', prefixNetGain + formatPowerSN(netGain));
+        resTotalElem.setAttribute('data-val2', formatPowerSN(netGain + freonDiff + hamsterDiff));
+        resTotalElem.innerHTML = `${prefixNetGain}${formatPowerSN(netGain)}<br><small style="font-size:11px; opacity:0.8;"><span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(netGain + freonDiff + hamsterDiff)}</small>`;
 
+        fTotalElem.setAttribute('data-val1', formatPowerSN(finalTotal));
+        fTotalElem.setAttribute('data-val2', formatPowerSN(finalTotalFull));
+        fTotalElem.innerHTML = `${formatPowerSN(finalTotal)}<br><small style="font-size:11px; opacity:0.8;"><span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(finalTotalFull)}</small>`;
+
+        const finalDistElem = document.getElementById('final_dist_next');
         let finalMaxPower = maxPower + netGain;
         let finalNxtL = getLInfo(finalMaxPower).nxt;
-        if (maxPower < finalMaxPower) {
 
+        if (maxPower < finalMaxPower) {
             if(finalNxtL) {
                 let finalLeft = finalNxtL.limit - finalMaxPower;
-                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(finalLeft)} Тестовий режим! (рахується від maxPower)`;
+                finalDistElem.setAttribute('data-name', finalNxtL.name);
+                finalDistElem.setAttribute('data-power', formatPowerSN(finalLeft));
+                finalDistElem.setAttribute('data-lang', 'calc_final_dist_next');
+                finalDistElem.innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(finalLeft)} Тестовий режим! (рахується від maxPower)`;
             } else {
-                document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
+                finalDistElem.removeAttribute('data-name');
+                finalDistElem.removeAttribute('data-power');
+                finalDistElem.setAttribute('data-lang', 'calc_final_max_league');
+                finalDistElem.innerText = "Після змін: Ти в максимальній лізі!";
             }
         } else {
-
             if(finalNxtL) {
-                document.getElementById('final_dist_next').innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(left)} Тестовий режим! (рахується від maxPower)`;
+                finalDistElem.setAttribute('data-name', finalNxtL.name);
+                finalDistElem.setAttribute('data-power', formatPowerSN(left));
+                finalDistElem.setAttribute('data-lang', 'calc_final_dist_next');
+                finalDistElem.innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(left)} Тестовий режим! (рахується від maxPower)`;
             } else {
-                document.getElementById('final_dist_next').innerText = "Після змін: Ти в максимальній лізі!";
+                finalDistElem.removeAttribute('data-name');
+                finalDistElem.removeAttribute('data-power');
+                finalDistElem.setAttribute('data-lang', 'calc_final_max_league');
+                finalDistElem.innerText = "Після змін: Ти в максимальній лізі!";
             }
-
         }
+
         let finalLInfo = getLInfo(finalMaxPower);
         syncToV2(finalTotalFull, finalLInfo.cur.name);
+        if (currentTranslations) applyLanguage(currentTranslations);
     }
-
-    let hamsterPercent = 0;
 
     async function getUserApiForCalculateNew() {
         const nickInput = document.getElementById('nicknameInput');
@@ -1275,7 +1418,6 @@
 
 
             // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
-            // Використовуємо Math.max, щоб уникнути ділення на 0, якщо майнерів немає
             const bonusPercent = ((bonusRaw - hamsterPowerRaw) / minersRaw) * 100;
 
             // 3. Знаходимо назву ліги за ID
@@ -1285,16 +1427,16 @@
 
             const freonInput = document.getElementById('freon_pct');
             if (freonInput) {
-                freonInput.value = ((freonPower / minersRaw) * 100).toFixed(2); // Вказуєш потрібний відсоток (як рядок або число)
-                //freonInput.dispatchEvent(new Event('input')); // Примусово запускає calculateAll()
+                freonInput.value = ((freonPower / minersRaw) * 100).toFixed(2);
             }
 
             const hamsterInput = document.getElementById('hamster_pct');
             if (hamsterInput) {
-                hamsterInput.value = hamsterPercent; // Вказуєш потрібний відсоток (як рядок або число)
-                //freonInput.dispatchEvent(new Event('input')); // Примусово запускає calculateAll()
+                hamsterInput.value = hamsterPercent;
             }
 
+            // Рядки параметрів (League, Maximum power тощо) НЕ перекладаємо,
+            // бо на них зав'язані регулярні вирази в calculateAll()!
             document.getElementById('raw_data').value = `League
 ${leagueName}
 Maximum power
@@ -1319,7 +1461,9 @@ ${formatPowerSN(tempRaw)}`;
             runAudit();
 
         } catch (e) {
-            alert("Помилка: отримання даних користувача" + e.message);
+            // Додаємо кастомну властивість або логування для локалізації алерту за потреби
+            console.error("Error: dynamic fetch failed", e.message);
+            alert("Помилка: отримання даних користувача " + e.message);
         } finally {
             loader.style.display = 'none';
         }
@@ -1355,12 +1499,20 @@ ${formatPowerSN(tempRaw)}`;
         btn.style.cursor = 'not-allowed';
 
         let secondsLeft = 60; // Скільки секунд чекати
-        btn.innerText = `Оновлення даних доступно через ${secondsLeft}с`;
+
+        // Вішаємо мітку перекладу таймера та зберігаємо секунди в атрибут
+        const isEn = localStorage.getItem('selectedLang') === 'en';
+        btn.setAttribute('data-seconds', secondsLeft);
+        btn.setAttribute('data-lang', 'btn_refresh_cooldown');
+        btn.innerText = isEn ? `Data update available in ${secondsLeft}s`
+            : `Оновлення даних доступно через ${secondsLeft}с`;
 
         // 3. Запуск таймера
         const countdown = setInterval(() => {
             secondsLeft--; // Зменшуємо на 1
-            btn.innerText = `Оновлення даних доступно через ${secondsLeft}с`;
+            btn.setAttribute('data-seconds', secondsLeft);
+            btn.innerText = isEn ? `Data update available in ${secondsLeft}s`
+                : `Оновлення даних доступно через ${secondsLeft}с`;
 
             if (secondsLeft <= 0) {
                 // 4. Коли час вийшов — розблоковуємо
@@ -1368,7 +1520,10 @@ ${formatPowerSN(tempRaw)}`;
                 btn.disabled = false;
                 btn.style.opacity = '1';
                 btn.style.cursor = 'pointer';
-                btn.innerText = 'Оновити';
+
+                btn.removeAttribute('data-seconds');
+                btn.setAttribute('data-lang', 'btn_refresh_ready');
+                btn.innerText = isEn ? 'Update' : 'Оновити';
             }
         }, 1000); // Повторювати кожну 1 секунду (1000 мс)
     }
@@ -1407,9 +1562,9 @@ ${formatPowerSN(tempRaw)}`;
         leagues.forEach((league, index) => {
             const opt = document.createElement('option');
             opt.value = index;
+            // Залишаємо назви ліг динамічними або додаємо маркер за потреби
             opt.innerText = league.title || `Ліга ${index + 1}`;
             selectEl.appendChild(opt);
-
         });
 
         if (leagues.length > 0) renderSelectedLeague(0);
@@ -1455,31 +1610,31 @@ ${formatPowerSN(tempRaw)}`;
             const m = Math.floor(((curr.duration || 0) % 3600) / 60).toString().padStart(2, '0');
             const s = ((curr.duration || 0) % 60).toString().padStart(2, '0');
 
-            // Генеруємо блок-картку у твоїх стилях інпутів/результатів (.result-container)
+            // Картки залишаємо з англійськими мітками (Power, Active Users тощо), щоб зберегти сумісність парсингу для П'єро
             const cardHtml = `
-            <div class="result-container" style="background: #16213e; text-align: left; padding: 12px; margin-bottom: 8px; border: 1px solid ${color}44;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <span style="color: ${color}; font-size: 14px; font-weight: bold;">${name}</span>
-                    <span class="indiv-res" style="color: ${color}; border-color: ${color}; font-size: 11px; padding: 2px 8px;">${pctString}</span>
-                </div>
-                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                    <span>Power</span>
-                    <span style="color: #fff; text-align: right;">${formatPowerSN(curr.totalPower)}</span>
-                </div>
-                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                    <span>Active Users</span>
-                    <span style="color: #fff; text-align: right;">${(curr.userCount || 0).toLocaleString()}</span>
-                </div>
-                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                    <span>Per Block</span>
-                    <span style="color: #fff; text-align: right;">${curr.payoutAmount / getCoinConfig(name).divisor || 0} ${name}</span>
-                </div>
-                <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left;">
-                    <span>Block Time</span>
-                    <span style="color: #fff; text-align: right;">${h}:${m}:${s}</span>
-                </div>
+        <div class="result-container" style="background: #16213e; text-align: left; padding: 12px; margin-bottom: 8px; border: 1px solid ${color}44;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="color: ${color}; font-size: 14px; font-weight: bold;">${name}</span>
+                <span class="indiv-res" style="color: ${color}; border-color: ${color}; font-size: 11px; padding: 2px 8px;">${pctString}</span>
             </div>
-        `;
+            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                <span>Power</span>
+                <span style="color: #fff; text-align: right;">${formatPowerSN(curr.totalPower)}</span>
+            </div>
+            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                <span>Active Users</span>
+                <span style="color: #fff; text-align: right;">${(curr.userCount || 0).toLocaleString()}</span>
+            </div>
+            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
+                <span>Per Block</span>
+                <span style="color: #fff; text-align: right;">${curr.payoutAmount / getCoinConfig(name).divisor || 0} ${name}</span>
+            </div>
+            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left;">
+                <span>Block Time</span>
+                <span style="color: #fff; text-align: right;">${h}:${m}:${s}</span>
+            </div>
+        </div>
+    `;
 
             if (gameTokens.includes(name)) {
                 gameContainer.insertAdjacentHTML('beforeend', cardHtml);
@@ -1518,7 +1673,6 @@ ${formatPowerSN(tempRaw)}`;
             textResult += `${name}\n${pct}\nPower\n${powerText}\nActive Users\n${lines[1].innerText}\nPer Block\n${lines[2].innerText}\nBlock Time\n${lines[3].innerText}\n`;
         });
 
-        // ДОДАНО ПЕРЕНΟΣ РЯДКА (\n): Тепер Crypto Currencies буде окремим рядком
         textResult += "Crypto Currencies\n";
 
         // Збираємо Crypto Currencies
@@ -1536,14 +1690,17 @@ ${formatPowerSN(tempRaw)}`;
         // Відправка в буфер обміну
         navigator.clipboard.writeText(textResult.trim())
             .then(() => {
-                // Перевіряємо, чи передали кнопку у функцію
                 if (buttonElement) {
-                    const originalText = buttonElement.innerText; // Запам'ятовуємо стару назву
-                    buttonElement.innerText = "✓ Скопійовано!"; // Ставимо новий текст
-                    buttonElement.style.pointerEvents = "none"; // Тимчасово блокуємо повторні кліки
+                    const originalText = buttonElement.innerText;
 
-                    // Рівно через 1000 мілісекунд (1 секунда) повертаємо все назад
+                    // Додаємо мітки перекладу для інтерактивних станів кнопки копіювання
+                    const isEn = localStorage.getItem('selectedLang') === 'en';
+                    buttonElement.innerText = isEn ? "✓ Copied!" : "✓ Скопійовано!";
+                    buttonElement.setAttribute('data-lang', 'btn_copied_success');
+                    buttonElement.style.pointerEvents = "none";
+
                     setTimeout(() => {
+                        buttonElement.removeAttribute('data-lang'); // Повертаємо дефолтний стан (текст візьметься з базової верстки за id/класом)
                         buttonElement.innerText = originalText;
                         buttonElement.style.pointerEvents = "auto";
                     }, 1000);
@@ -1551,7 +1708,10 @@ ${formatPowerSN(tempRaw)}`;
             })
             .catch(err => {
                 console.error('Не вдалося скопіювати:', err);
-                if (buttonElement) buttonElement.innerText = "❌ Помилка";
+                if (buttonElement) {
+                    buttonElement.setAttribute('data-lang', 'btn_copied_error');
+                    buttonElement.innerText = "❌ Помилка";
+                }
             });
     }
 
