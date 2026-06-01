@@ -1627,7 +1627,7 @@ ${formatPowerSN(tempRaw)}`;
             </div>
             <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
                 <span>Per Block</span>
-                <span style="color: #fff; text-align: right;">${curr.payoutAmount / getCoinConfig(name).divisor || 0} ${name}</span>
+                <span style="color: #fff; text-align: right;">${curr.payoutAmount / getDivisorByName(name) || 0} ${name}</span>
             </div>
             <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left;">
                 <span>Block Time</span>
