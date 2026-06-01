@@ -644,6 +644,22 @@
         }
     }
 
+        function getDivisorByName(coinName) {
+        // Зводимо до нижнього регістру (на випадок, якщо прилетить "BTC" замість "btc")
+        const cleanName = coinName ? coinName.toLowerCase() : '';
+
+        // Шукаємо збіг у конфігу
+        const found = CURRENCY_CONFIG.find(c => c.name === cleanName);
+
+        // Якщо знайшли — віддаємо дільник, якщо ні — беремо дефолтний, якщо і його нема — 1000000
+        if (found) {
+            return found.divisor;
+        } else {
+            const def = CURRENCY_CONFIG.find(c => c.name === 'default');
+            return def ? def.divisor : 1000000;
+        }
+    }
+
     async function runAudit() {
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('auditLoader');
