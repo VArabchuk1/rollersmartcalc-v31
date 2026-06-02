@@ -914,10 +914,14 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         // Перетворюємо "Crypto Kong" на "crypto_kong.gif"
         const formattedName = name.toLowerCase()
             .trim()
-            .replace(/\s+/g, '_')        // Замінюємо всі пробіли на підкреслення
+            .replace(/[\s-]+/g, '_')     // Замінюємо всі пробіли та риски (дефіси) на підкреслення
             .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
 
-        return `https://api.minaryganar.com/assets/rollercoin/miners/${formattedName}.gif`;
+        // Повертаємо нове посилання з розширенням .png
+        return `https://static.rollercoin.com/static/img/market/miners/${formattedName}.gif`;
+
+        // Попередній варіант:
+        // return `https://api.minaryganar.com/assets/rollercoin/miners/${formattedName}.gif`;
     }
 
     const PROXY = 'https://api.codetabs.com/v1/proxy?quest=';
