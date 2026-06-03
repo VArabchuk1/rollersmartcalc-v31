@@ -77,5 +77,13 @@
   "btn_refresh_ready": "Оновити",
   "btn_copy_success": "✓ Скопійовано!",
   "btn_copy_error": "❌ Помилка",
-  "league_option_default": "Ліга "
+  "league_option_default": "Ліга ",
+    "dbq_header_rewards": "НАГОРОДА",
+  "dbq_header_replace": "ЗМІНА",
+  "dbq_header_paid": "ВИКУП",
+  "dbq_bonus": "БОНУС",
+  "dbq_active": "АКТИВНИЙ",
+  "dbq_replace": "Замінити квест",
+  "dbq_paid": "Миттєве виконання",
+  "dbq_history": "Історія квестів"
 }
