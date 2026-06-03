@@ -77,5 +77,13 @@
   "btn_refresh_ready": "Update",
   "btn_copy_success": "✓ Copied!",
   "btn_copy_error": "❌ Error",
-  "league_option_default": "League "
+  "league_option_default": "League ",
+    "dbq_header_rewards": "REWARD",
+  "dbq_header_replace": "REPLACE",
+  "dbq_header_paid": "CLAIM",
+  "dbq_bonus": "BONUS",
+  "dbq_active": "ACTIVE",
+  "dbq_replace": "Replace quest",
+  "dbq_paid": "Instant complete",
+  "dbq_history": "Quest history"
 }
