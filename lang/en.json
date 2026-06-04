@@ -85,5 +85,7 @@
   "dbq_active": "ACTIVE",
   "dbq_replace": "Replace quest",
   "dbq_paid": "Instant complete",
-  "dbq_history": "Quest history"
+  "dbq_history": "Quest history",
+  "miner_can_sell": "Can be sell",
+  "miner_cant_sell": "Can't be sell"
 }
