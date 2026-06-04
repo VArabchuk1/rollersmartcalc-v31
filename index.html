@@ -857,6 +857,8 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
     }
 
     function searchInputMiner() {
+        const res = await fetch('all_miners.json');
+        minersIsSell = await res.json();
         const miners = rData.data.miners;
         const racks = rData.data.racks;
         const searchInput = document.getElementById('minerSearchInput');
