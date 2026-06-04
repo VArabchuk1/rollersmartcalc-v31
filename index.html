@@ -575,6 +575,7 @@
     let userData;
     let hamsterPowerRaw;
     let currentTranslations = null;
+    let minersIsSell;
 
 
     // Запуск при завантаженні сторінки (Один універсальний метод)
@@ -867,7 +868,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
             if (query) {
                 // Фільтруємо майнерів (шукаємо збіги в імені)
-                const found = miners.filter(m => m.name.toLowerCase().startsWith(query));
+                const found = miners.filter(m => m.name.toLowerCase().includes(query));
 
                 if (found.length > 0) {
                     // Формуємо детальний рядок для кожного знайденого екземпляра
@@ -882,18 +883,25 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
                         const racksInRow = (rLevel === 0) ? 4 : 6;
                         const rackNumber = (rY * racksInRow) + (rX + 1);
 
+                        // ПРАВКА: Шукаємо майнера в глобальній змінній за slug для перевірки продажу
+                        const globalMiner = minersIsSell?.items?.find(gm => gm.name === m.name);
+                        const isSellable = globalMiner ? globalMiner.sellable : false;
+                        const sellBadge = isSellable
+                            ? `<span style="color: #2ed573; font-size: 11px;" data-lang="miner_can_sell">Can be sell</span>`
+                            : `<span style="color: #ff4757; font-size: 11px;" data-lang="miner_cant_sell">Can't be sell</span>`;
+
                         // 3. Формуємо підпис (зберігаємо структуру локації для перекладу)
                         return `<div>
-                    <b>${m.name}</b> [Lvl ${m.level + 1}] <br>
-                    <span class="miner-loc" data-room="${rLevel + 1}" data-rack="${rackNumber}" data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 11px;">📍 <span data-lang-room>Кімн.</span> ${rLevel + 1} | <span data-lang-rack>Стел.</span> ${rackNumber} | <span data-lang-shelf>Пол.</span> ${m.placement.y + 1}</span>
-                </div>`;
+                <b>${m.name}</b> [Lvl ${m.level + 1}] — ${sellBadge}<br>
+                <span class="miner-loc" data-room="${rLevel + 1}" data-rack="${rackNumber}" data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 11px;">📍 <span data-lang-room>Кімн.</span> ${rLevel + 1} | <span data-lang-rack>Стел.</span> ${rackNumber} | <span data-lang-shelf>Пол.</span> ${m.placement.y + 1}</span>
+            </div>`;
                     });
 
                     searchResultDiv.style.color = "#fff";
                     searchResultDiv.innerHTML = `<div style="display: flex; flex-direction: column; gap: 8px;">
-                <div style="color: #00ff88;" data-lang="text_found">✅ Знайдено:</div>
-                ${resultsText.join('')}
-            </div>`;
+            <div style="color: #00ff88;" data-lang="text_found">✅ Знайдено:</div>
+            ${resultsText.join('')}
+        </div>`;
                 } else {
                     searchResultDiv.style.color = "#ff4757";
                     // Передаємо query всередину спеціального атрибуту, щоб при зміні мови підставити значення в шаблон
