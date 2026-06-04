@@ -9855,7 +9855,7 @@
       "miner_id": "69983635dc08e86393f04f6b",
       "name": "Red Trail Stallion",
       "slug": "red-trail-stallion",
-      "sellable": false,
+      "sellable": true,
       "mergeable": true,
       "power": "6.50E+6",
       "bonus": "4.00",
