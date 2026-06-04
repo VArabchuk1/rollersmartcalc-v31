@@ -85,5 +85,7 @@
   "dbq_active": "АКТИВНИЙ",
   "dbq_replace": "Замінити квест",
   "dbq_paid": "Миттєве виконання",
-  "dbq_history": "Історія квестів"
+  "dbq_history": "Історія квестів",
+  "miner_can_sell": "Можна продати",
+  "miner_cant_sell": "Не можна продати"
 }
