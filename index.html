@@ -689,6 +689,8 @@
             const roomUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fgame%2Froom-config%2F${pData.data.avatar_id}`;
             const rResp = await fetch(roomUrl);
             rData = await rResp.json();
+            const res = await fetch('all_miners.json');
+            minersIsSell = await res.json();
             const miners = rData.data.miners;
             const racks = rData.data.racks;
 
@@ -857,8 +859,6 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
     }
 
     function searchInputMiner() {
-        const res = await fetch('all_miners.json');
-        minersIsSell = await res.json();
         const miners = rData.data.miners;
         const racks = rData.data.racks;
         const searchInput = document.getElementById('minerSearchInput');
