@@ -244,7 +244,7 @@
         }
 
         .audit-table th, .audit-table td {
-            border-bottom: 1px solid #30475e;
+            border-bottom: 1px solid #2e4a65;
             padding: 12px 15px;
             text-align: left;
             color: #fff;
@@ -286,6 +286,115 @@
         }
     </style>
 
+    <style>
+        /* ==========================================================================
+           ПЕРШИЙ БЛОК (СПРАВА НА ДЕСКТОПІ, ЗНИЗУ НА МОБІЛЦІ)
+           ========================================================================== */
+        .aads-sticky-container {
+            box-sizing: border-box;
+        }
+
+        /* Логіка закриття */
+        #aadsstickympzlfray:checked + .aads-sticky-container {
+            display: none;
+        }
+
+        /* МОБІЛЬНИЙ: Залишається горизонтальним знизу */
+        @media (max-width: 767px) {
+            .aads-sticky-container {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: 350px;
+                padding: 0 10px;
+                z-index: 99999;
+            }
+            .aads-sticky-container iframe {
+                border: 0; padding: 0; display: block;
+                width: 100%;
+                height: 50px;
+            }
+            .aads-sticky-container label {
+                position: absolute; top: -15px; right: 5px;
+                border-radius: 50%; background: rgb(46, 74, 101);
+                padding: 4px; z-index: 100000; cursor: pointer; display: flex;
+            }
+        }
+
+        /* ДЕСКТОП: ВИТЯГНУТИЙ ВЕРТИКАЛЬНО СПРАВА */
+        @media (min-width: 768px) {
+            .aads-sticky-container {
+                position: fixed;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                width: 120px;
+                z-index: 99999;
+            }
+            .aads-sticky-container iframe {
+                border: 0; padding: 0; display: block;
+                width: 100%;
+                height: 90vh;
+            }
+            /* ВИПРАВЛЕНО: Прибрано кнопку закриття на десктопі */
+            .aads-sticky-container label {
+                display: none !important;
+            }
+        }
+
+
+        /* ==========================================================================
+           ДРУГИЙ БЛОК (ЗЛІВА НА ДЕСКТОПІ, В ПОТОЦІ НА МОБІЛЦІ)
+           ========================================================================== */
+        /* Логіка закриття */
+        #aadsstickympzlqkui:checked + .aads-sticky-container {
+            display: none !important;
+        }
+
+        /* МОБІЛКА: Звичайний horizontal блок в тексті */
+        @media (max-width: 767px) {
+            .aads-desktop-left-container {
+                position: relative;
+                width: 100%;
+                max-width: 350px;
+                margin: 15px auto;
+                padding: 0 10px;
+                box-sizing: border-box;
+            }
+            .aads-desktop-left-container iframe {
+                border: 0; padding: 0; display: block; margin: 0 auto;
+                width: 100%;
+                height: 50px;
+            }
+            .aads-desktop-left-container .aads-close-btn {
+                display: none !important;
+            }
+        }
+
+        /* ДЕСКТОП: ВИТЯГНУТИЙ ВЕРТИКАЛЬНО ЗЛІВА */
+        @media (min-width: 768px) {
+            .aads-desktop-left-container {
+                position: fixed;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                width: 120px;
+                z-index: 99999;
+            }
+            .aads-desktop-left-container iframe {
+                border: 0; padding: 0; display: block;
+                width: 100%;
+                height: 90vh;
+            }
+            /* ВИПРАВЛЕНО: Прибрано кнопку закриття на десктопі */
+            .aads-desktop-left-container .aads-close-btn {
+                display: none !important;
+            }
+        }
+    </style>
+
 </head>
 <body>
 
@@ -296,46 +405,36 @@
     </select>
 </div>
 
-<!-- BEGIN AADS AD UNIT 2440201 -->
-<div class="aads-sidebar-container aads-left-side">
-    <input autocomplete="off" type="checkbox" id="aadsstickymptv693o" hidden />
-    <div class="aads-clickable-wrapper">
-        <div class="aads-fixed-sidebar">
-            <label for="aadsstickymptv693o" class="aads-close-button">
-                <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-                    <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-                </svg>
-            </label>
-            <div id="left-frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; height: 100%; display: flex; flex-direction: column; justify-content: center">
-                <iframe data-aa=2440201 src=//acceptable.a-ads.com/2440201/?size=Adaptive&background_color=0F3460 style='border:0; padding:0; width:100%; height:90%; overflow:hidden; margin: 0 auto'></iframe>
-            </div>
-        </div>
-        <style>#aadsstickymptv693o:checked + .aads-clickable-wrapper { display: none; }</style>
+<div>
+    <input autocomplete="off" type="checkbox" id="aadsstickympzlfray" hidden />
+    <div class="aads-sticky-container">
+        <label for="aadsstickympzlfray">
+            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490">
+                <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
+            </svg>
+        </label>
+
+        <iframe data-aa="2441238" src="//acceptable.a-ads.com/2441238/?size=Adaptive&background_color=16213E"></iframe>
     </div>
 </div>
 
-<div class="aads-sidebar-container aads-right-side">
-    <input autocomplete="off" type="checkbox" id="aadsstickymptv0ize" hidden />
-    <div class="aads-clickable-wrapper">
-        <div class="aads-fixed-sidebar">
-            <label for="aadsstickymptv0ize" class="aads-close-button">
-                <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-                    <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-                </svg>
-            </label>
-            <div id="right-frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; height: 100%; display: flex; flex-direction: column; justify-content: center">
-                <iframe data-aa=2440209 src=//acceptable.a-ads.com/2440209/?size=Adaptive&background_color=0F3460 style='border:0; padding:0; width:100%; height:90%; overflow:hidden; margin: 0 auto'></iframe>
-            </div>
-        </div>
-        <style>#aadsstickymptv0ize:checked + .aads-clickable-wrapper { display: none; }</style>
-    </div>
-</div>
 
-<!-- END AADS AD UNIT 2440209 -->
-
-    <div id="bonus-quest-container" style="width: 100%; max-width: 600px;">
+<div id="bonus-quest-container" style="width: 100%; max-width: 600px;">
     <div class="audit-container" style="color: #00ff88; text-align: center;">
         Завантаження бонусного квесту...
+    </div>
+</div>
+
+<div class="aads-desktop-left-container">
+    <input autocomplete="off" type="checkbox" id="aadsstickympzlqkui" hidden />
+    <div class="aads-box-2441240">
+        <label for="aadsstickympzlqkui" class="aads-close-btn">
+            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490">
+                <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
+            </svg>
+        </label>
+
+        <iframe data-aa="2441240" src="//acceptable.a-ads.com/2441240/?size=Adaptive&background_color=16213E"></iframe>
     </div>
 </div>
 
@@ -437,13 +536,6 @@
     <div class="res-val" id="res_total">+0.000 Ph</div>
     <div style="font-size:11px"><span data-lang="text_final_power">Фінальна потужність: ≈ </span><span id="f_total" style="color:#ff9f43">0</span></div>
     <div id="final_dist_next" class="final-dist-next" data-lang="text_after_changes_league">Після змін до наступної ліги: —</div>
-</div>
-
-<div id="row-frame-2440213" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
-
-    <iframe data-aa='2440213' src='//acceptable.a-ads.com/2440213/?size=Adaptive&background_color=0F3460'
-            style='border:0; padding:0; width:100%; height:90px; min-height:60px; overflow:hidden; display: block; margin: auto;'></iframe>
-
 </div>
 
 <div class="block">
@@ -560,13 +652,6 @@
     </div>
 </div>
 
-<div id="row-frame-2440215" style="width: 100%; max-width: 728px; margin: 20px auto; position: relative; z-index: 10; padding: 0 10px; box-sizing: border-box;">
-
-    <iframe data-aa='2440215' src='//acceptable.a-ads.com/2440215/?size=Adaptive&background_color=0F3460'
-            style='border:0; padding:0; width:100%; height:90px; min-height:60px; overflow:hidden; display: block; margin: auto;'></iframe>
-
-</div>
-
 <script>
 
     let minersRaw;
@@ -651,7 +736,7 @@
         }
     }
 
-        function getDivisorByName(coinName) {
+    function getDivisorByName(coinName) {
         // Зводимо до нижнього регістру (на випадок, якщо прилетить "BTC" замість "btc")
         const cleanName = coinName ? coinName.toLowerCase() : '';
 
@@ -691,6 +776,7 @@
             rData = await rResp.json();
             const res = await fetch('all_miners.json');
             minersIsSell = await res.json();
+
             const miners = rData.data.miners;
             const racks = rData.data.racks;
 
@@ -1751,7 +1837,7 @@ ${formatPowerSN(tempRaw)}`;
             });
     }
 
-        const appApiDailyBonusQuest = 'https://api.rollercoincalculator.app/api/DailyBonusQuest';
+    const appApiDailyBonusQuest = 'https://api.rollercoincalculator.app/api/DailyBonusQuest';
 
     // 1. Читання API
     async function fetchQuest() {
@@ -2060,7 +2146,6 @@ ${formatPowerSN(tempRaw)}`;
     }
 
     initF();
-
 
     init();
 </script>
