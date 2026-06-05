@@ -1152,7 +1152,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
     async function getLeaguesDataApi() {
         try {
-            const leagueResp = await fetch(PROXY + encodeURIComponent(`${API_BASE}/League`));
+            const leagueResp = await fetch("https://winter-thunder-5bd1.arabon3.workers.dev/");
             if (!leagueResp.ok) throw new Error("Помилка сервера");
             leaguesData = await leagueResp.json();
             initLeagueDashboard(leaguesData);
