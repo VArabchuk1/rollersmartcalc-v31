@@ -1842,7 +1842,8 @@ ${formatPowerSN(tempRaw)}`;
     // 1. Читання API
     async function fetchQuest() {
         try {
-            const response = await fetch(PROXY + encodeURIComponent(appApiDailyBonusQuest));
+            // const response = await fetch(PROXY + encodeURIComponent(appApiDailyBonusQuest));
+            const response = await fetch("https://polished-wave-ceac.arabon3.workers.dev/");
             if (!response.ok) throw new Error('Proxy error');
             return await response.json();
         } catch (error) {
