@@ -652,6 +652,8 @@
     </div>
 </div>
 
+<script src="base.js"></script>
+
 <script>
 
     let minersRaw;
@@ -1581,6 +1583,7 @@ Temporary
 ${formatPowerSN(tempRaw)}`;
             calculateAll();
             runAudit();
+            await savePlayerToDatabase(userNick, pData.data.avatar_id);
 
         } catch (e) {
             // Додаємо кастомну властивість або логування для локалізації алерту за потреби
