@@ -100,15 +100,19 @@
   "title_miners_list": "Пошук майнерів",
   "text_total": "Всього",
   "th_name": "Назва",
-  "label_power": "Пот-ть",
+  "label_power": "Потужність",
   "text_instruction_miners_rec": "Після натиснення кнопки Заповнити таблицю в авторежимі тут можна буде зробити аналіз вигідних замін майнерів!!!",
   "label_bonus": "Відсоток",
   "th_cells": "Слоти",
   "title_table_miner": "Пошук майнерів",
   "th_sellable": "Маркет",
+  "label_sell": "Маркет",
+  "label_set": "Сет",
+  "label_slot":"Слоти",
   "filter_slots_all": "Всі слоти",
   "miner_optimizer_desc": "Введіть дані нового майнера, щоб побачити, які старі можна прибрати без втрати загальної потужності.",
   "filter_slots_1": "1 слот",
   "filter_set_no": "Без сетових",
-  "filter_slots_2": "2 слоти"
+  "filter_slots_2": "2 слоти",
+  "label_unit": "Одиниці"
 }
