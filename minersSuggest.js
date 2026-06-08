@@ -65,12 +65,19 @@ function renderMinersTable(targetId, minersArray, append = false) {
     }
 
     minersArray.forEach(miner => {
+        const gifUrl = getMinerGifUrl(miner.name);
         const tr = document.createElement('tr');
         const yesText = (typeof currentTranslations !== 'undefined') ? currentTranslations.filter_sellable_yes : "Так";
         const noText = (typeof currentTranslations !== 'undefined') ? currentTranslations.filter_sellable_no : "Ні";
 
         tr.innerHTML = `
-            <td style="text-align: left; font-weight: bold; padding-left: 12px;">${miner.name}</td>
+<td style="text-align: left; font-weight: bold; padding-left: 12px;">
+    <div style="margin-bottom: 4px; display: block;">${miner.name}</div>
+    
+    <div style="width: 75px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
+        <img src="${gifUrl}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.parentElement.style.display='none'">
+    </div>
+</td>
             <td><span>${typeof formatPowerSN === 'function' ? formatPowerSN(parseFloat(miner.power)) : miner.power}</span></td>
             <td><span>${miner.realBonusDisplay || parseFloat(miner.bonus).toFixed(2)}</span>%</td>
             <td>${miner.cells || 1}</td>
@@ -88,7 +95,6 @@ let currentPage = 1; // Глобальна змінна для сторінки
 async function handleMinerSearch(page = 1) { // Прибрали append
     currentPage = page;
     const loader = document.getElementById('minersLoader');
-    const infoContainer = document.getElementById('minersInfoContainer');
 
     if (loader) loader.style.display = 'block';
 
@@ -104,7 +110,6 @@ async function handleMinerSearch(page = 1) { // Прибрали append
         const miners = await response.json();
 
         if (loader) loader.style.display = 'none';
-        if (infoContainer) infoContainer.style.display = 'none';
 
         // Завжди передаємо false, щоб таблиця оновлювалась, а не дописувалась в кінець
         renderMinersTable('minersTableBody', miners, false);
@@ -228,7 +233,8 @@ function renderMinersTableForOptimal (targetId, miners) {
         const tr = document.createElement('tr');
 
         tr.innerHTML = `
-            <td style="font-weight:bold; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #30475e;">
+            <td style="font-weight:bold; display: flex; padding: 6px 2px; font-size: 10px;
+             align-items: center; gap: 12px; border-bottom: 1px solid #30475e;">
                 <div style="width: 50px; height: 35px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
                     <img src="${gifUrl}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.parentElement.style.display='none'">
                 </div>
@@ -238,10 +244,10 @@ function renderMinersTableForOptimal (targetId, miners) {
                     ${m.locationHtml}
                 </div>
             </td>
-            <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
-            <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
-            <td style="color:#00ff88; font-size: 11px;">${m.width}</td>
-            <td><span style="color: ${m.sellable ? '#00ff88' : '#ff4757'}; font-size: 11px;" 
+            <td style="color:#ccc; padding: 6px 2px; font-size: 10px;">${formatPowerSNw(m.power)}</td>
+            <td style="color:#ffa502; padding: 6px 2px; font-size: 10px;">${m.realBonusDisplay}%</td>
+            <td style="color:#00ff88; font-size: 10px;">${m.width}</td>
+            <td><span style="color: ${m.sellable ? '#00ff88' : '#ff4757'}; font-size: 10px; padding: 6px 2px;" 
         data-lang="${m.sellable ? 'filter_sellable_yes' : 'filter_sellable_no'}">${m.sellable ? yesText : noText}</span></td>
         `;
 
@@ -253,9 +259,9 @@ function renderMinersTableForOptimal (targetId, miners) {
     const totalTr = document.createElement('tr');
 
     totalTr.innerHTML = `
-        <td data-lang="text_total">${totalText}</td>
-        <td>${formatPowerSNw(finalPower)}</td>
-        <td>${finalPercent.toFixed(2)}%</td>
+        <td style="color:#ffa502; font-size: 10px;" data-lang="text_total">${totalText}</td>
+        <td style="color:#00ff88; font-size: 10px;">${formatPowerSNw(finalPower)}</td>
+        <td style="color:#00ff88; font-size: 10px;">${finalPercent.toFixed(2)}%</td>
         <td></td>
         <td></td>
     `;
