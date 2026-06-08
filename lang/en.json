@@ -37,6 +37,9 @@
   "placeholder_miner_search": "enter miner name",
   "text_instruction_miners_rec": "After clicking the Autofill table button, you can analyze profitable miner replacements here!!!",
   "text_audit_loading": "📡 Fetching room data...",
+  "label_sell": "Market",
+  "label_set": "Set",
+  "label_slot":"Slots",
   "title_duplicates": "⚠️ Duplicates",
   "text_duplicates_note": "(bonus percent counts from one only)",
   "table_miner_level": "Miner + Level",
@@ -111,5 +114,6 @@
   "th_sellable": "Market",
   "filter_slots_all": "All slots",
   "filter_slots_1": "1 slot",
-  "filter_slots_2": "2 slots"
+  "filter_slots_2": "2 slots",
+  "label_unit": "Units"
 }
