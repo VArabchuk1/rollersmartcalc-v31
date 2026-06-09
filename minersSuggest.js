@@ -1,3 +1,6 @@
+let baseEfficiency = 0;
+let testEfficiency = 0;
+
 function suggestMinersToRemove(filterValue) {
 
     const target = document.getElementById('minerPower').value;
@@ -9,8 +12,8 @@ function suggestMinersToRemove(filterValue) {
 
 // 1. Рахуємо базу: поточна потужність * (1 + бонус/100)
     let currentPower = minersRaw;
-    let currentBonus = (bonusClear/ minersRaw) * 100;
-    const baseEfficiency = currentPower * (1 + currentBonus / 100);
+    let currentBonus = bonusPercentClear;
+    baseEfficiency = currentPower * (1 + currentBonus / 100);
     console.log(baseEfficiency)
 
     let minersToRemove = []; // Список тих, кого викидаємо
@@ -26,7 +29,7 @@ function suggestMinersToRemove(filterValue) {
         let nextBonus = tempBonus - m.realBonusDisplay;
 
         // Додаємо дані нового (target)
-        let testEfficiency = (nextPower + formatPowerSN(power)) * (1 + (nextBonus + bonus) / 100);
+        testEfficiency = (nextPower + formatPowerSN(power)) * (1 + (nextBonus + bonus) / 100);
 
         // Якщо приріст або рівність зберігається — додаємо в список на видалення
         if (testEfficiency >= baseEfficiency) {
@@ -224,7 +227,9 @@ function renderMinersTableForOptimal (targetId, miners) {
 
     for (const m of miners) {
         finalPower += m.power;
-        finalPercent += parseFloat(m.realBonusDisplay) || 0;
+        if (!m.isDupe) {
+            finalPercent += parseFloat(m.realBonusDisplay) || 0;
+        }
 
         let tags = (m.isInSet ? `<span style="background:#f1c40f; color:#000; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">SET</span>` : "") +
             (m.isDupe ? `<span style="background:#ff4757; color:#fff; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">DUPE</span>` : "");
@@ -262,7 +267,7 @@ function renderMinersTableForOptimal (targetId, miners) {
         <td style="color:#ffa502; font-size: 10px;" data-lang="text_total">${totalText}</td>
         <td style="color:#00ff88; font-size: 10px;">${formatPowerSNw(finalPower)}</td>
         <td style="color:#00ff88; font-size: 10px;">${finalPercent.toFixed(2)}%</td>
-        <td></td>
+        <td style="color:#00ff88; font-size: 10px;">+ ≈ (Soon...)</td>
         <td></td>
     `;
 
