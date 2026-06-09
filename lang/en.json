@@ -103,7 +103,7 @@
   "table_status": "Market",
   "text_instruction_fill_table": "The data will appear after clicking the button to fill the table in auto-mode.",
   "title_miners_list": "Miners Search",
-  "title_table_miner": "Miners Search",
+  "title_table_miner": "Miner stats (to remove)",
   "title_miner_characteristics": "",
   "miner_optimizer_desc": "Enter the new miner's stats to see which old ones can be removed without losing total power.",
   "text_total": "Total",
