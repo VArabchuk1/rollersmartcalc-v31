@@ -816,6 +816,7 @@
     let currentTranslations = null;
     let minersIsSell;
     let bonusClear;
+    let freonRawGh;
 
     function openTab(event, tabId) {
         // 1. Ховаємо всі вкладки контенту
@@ -1314,6 +1315,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
     let userLeagueId = null;
     let leaguesData = [];
     let hamsterPercent = 0;
+    let bonusPercentClear = 0;
 
     // 1. ГОЛОВНА ІНІЦІАЛІЗАЦІЯ
     async function init() {
@@ -1613,10 +1615,11 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
         const miners = findCurrentGame("Miners");
         const hamsterPercent = document.getElementById('hamster_pct').value;
+        console.log(hamsterPercent);
         const hamsterPower = miners * (hamsterPercent / 100);
         const freonPower = miners * (freon / 100);
         const bonus = find("Bonus Power");
-        const bonusPercent = miners > 0 ? (bonus / miners) * 100 : 0;
+        const bonusPercent = miners > 0 ? ((bonus - hamsterPower - freonPower) / miners) * 100 : 0;
         const currentGame = findCurrentGame("Current power") || 0;
         const currentGameForCalc = currentGame - hamsterPower - freonPower;
         const maxPower = findCurrentGame("Maximum power") || currentGame;
@@ -1707,11 +1710,16 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         const prefixNetGain = (netGain >= 0 ? "+" : "");
         resTotalElem.setAttribute('data-val1', prefixNetGain + formatPowerSN(netGain));
         resTotalElem.setAttribute('data-val2', formatPowerSN(netGain + freonDiff + hamsterDiff));
-        resTotalElem.innerHTML = `${prefixNetGain}${formatPowerSN(netGain)}<br><small style="font-size:11px; opacity:0.8;"><span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(netGain + freonDiff + hamsterDiff)}</small>`;
+        resTotalElem.innerHTML = `${prefixNetGain}${formatPowerSN(netGain)}
+<br><small style="font-size:11px; opacity:0.8;">
+<span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:
+</span> ${formatPowerSN(netGain + freonDiff + hamsterDiff)}</small>`;
 
         fTotalElem.setAttribute('data-val1', formatPowerSN(finalTotal));
         fTotalElem.setAttribute('data-val2', formatPowerSN(finalTotalFull));
-        fTotalElem.innerHTML = `${formatPowerSN(finalTotal)}<br><small style="font-size:11px; opacity:0.8;"><span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(finalTotalFull)}</small>`;
+        fTotalElem.innerHTML = `${formatPowerSN(finalTotal)}
+<br><small style="font-size:11px; opacity:0.8;">
+<span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(finalTotalFull)}</small>`;
 
         const finalDistElem = document.getElementById('final_dist_next');
         let finalMaxPower = maxPower + netGain;
@@ -1783,7 +1791,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
 
             // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
-            const bonusPercent = ((bonusRaw - hamsterPowerRaw) / minersRaw) * 100;
+            bonusPercentClear = ((bonusRaw - hamsterPowerRaw - freonPower) / minersRaw) * 100;
 
             // 3. Знаходимо назву ліги за ID
             const userLeagueId = pData.data.league_Id;
@@ -1811,7 +1819,7 @@ ${formatPowerSN(curPowerRaw)}
 Miners
 ${formatPowerSN(minersRaw)}
 Bonus Power
-+${bonusPercent.toFixed(2)}%
++${bonusPercentClear.toFixed(2)}%
 / ${formatPowerSN(bonusRaw - hamsterPowerRaw)}
 Hamster Bonus Power
 ${hamsterPercent}%
