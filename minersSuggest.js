@@ -1,5 +1,8 @@
 let baseEfficiency = 0;
 let testEfficiency = 0;
+let newMinerGain = 0;
+let oldMinersGain = 0;
+let isMinersLoaded = false;
 
 function suggestMinersToRemove(filterValue) {
 
@@ -7,29 +10,35 @@ function suggestMinersToRemove(filterValue) {
     const unit = document.getElementById('minerUnit').value;
     const bonus = parseFloat(document.getElementById('minerBonus').value) || 0;
 
+    if (!target) {
+        return;
+    }
+
     const power = target + unit;
 
+
+    let formatPowerNewMiner = formatPowerSN(power) || 0;
 
 // 1. Рахуємо базу: поточна потужність * (1 + бонус/100)
     let currentPower = minersRaw;
     let currentBonus = bonusPercentClear;
     baseEfficiency = currentPower * (1 + currentBonus / 100);
-    console.log(baseEfficiency)
 
+    console.log(baseEfficiency)
     let minersToRemove = []; // Список тих, кого викидаємо
     let tempPower = currentPower;
+
+
     let tempBonus = currentBonus;
 
-
     let filteredMiners = filterMiners(efficiency);
-
     for (let m of filteredMiners) {
         // Віднімаємо дані слабкого
         let nextPower = tempPower - m.power;
-        let nextBonus = tempBonus - m.realBonusDisplay;
 
+        let nextBonus = tempBonus - m.realBonusDisplay;
         // Додаємо дані нового (target)
-        testEfficiency = (nextPower + formatPowerSN(power)) * (1 + (nextBonus + bonus) / 100);
+        testEfficiency = (nextPower + formatPowerNewMiner) * (1 + (nextBonus + bonus) / 100);
 
         // Якщо приріст або рівність зберігається — додаємо в список на видалення
         if (testEfficiency >= baseEfficiency) {
@@ -44,7 +53,23 @@ function suggestMinersToRemove(filterValue) {
         }
     }
 
+    // 🛠️ НОВІ ЗМІННІ ПРИРОСТУ (ДОДАНІ В КІНЕЦЬ ПЕРЕД РЕНДЕРОМ)
+    // ==========================================================================
+
+
+    // 2. Який сумарний приріст (база + бонус) ТИМЧАСОВО ДАВАЛИ ці старі майнери в системі
+    // Формула: Початкова загальна ефективність мінус ефективність системи після їх видалення
+    oldMinersGain = baseEfficiency - tempPower * (1 + tempBonus / 100);
+
+    // 3. Який приріст (база + бонус) ДАСТЬ ОДИН НАШ НОВИЙ МАЙНЕР на порожньому місці
+
+    newMinerGain = minersToRemove.length > 0 ? formatPowerNewMiner * (1 + (tempBonus + bonus) / 100) : 0;
+
+    // 4. Фінальний чистий профіт від такої рокіровки (Різниця)
+    const optimalNetDifference = newMinerGain - oldMinersGain;
+
     renderMinersTableForOptimal('minersTableBodyRecommendation',minersToRemove);
+    document.getElementById('minPowerGainResult').textContent = formatPowerSN(optimalNetDifference);
 }
 
 // ==========================================
@@ -88,6 +113,7 @@ function renderMinersTable(targetId, minersArray, append = false) {
         `;
         targetTbody.appendChild(tr);
     });
+    isMinersLoaded = true;
 }
 
 // ==========================================
@@ -267,9 +293,12 @@ function renderMinersTableForOptimal (targetId, miners) {
         <td style="color:#ffa502; font-size: 10px;" data-lang="text_total">${totalText}</td>
         <td style="color:#00ff88; font-size: 10px;">${formatPowerSNw(finalPower)}</td>
         <td style="color:#00ff88; font-size: 10px;">${finalPercent.toFixed(2)}%</td>
-        <td style="color:#00ff88; font-size: 10px;">+ ≈ (Soon...)</td>
-        <td></td>
-    `;
+        <td style="color:#00ff88; font-size: 10px;">
+        <span data-lang="text_loss">Втрата</span><br>-${formatPowerSN(oldMinersGain)}
+        </td>
+        <td style="color:#00ff88; font-size: 10px;">
+        <span data-lang="text_gain">Приріст</span><br>+${formatPowerSN(newMinerGain)}
+        </td>`;
 
     body.appendChild(totalTr);
 

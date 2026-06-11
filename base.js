@@ -1,44 +1,42 @@
-// Твої дані для підключення до Supabase
-const SUPABASE_URL = 'https://rfvdlxffujyhsvmdfzxg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmdmRseGZmdWp5aHN2bWRmenhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3MDg0NDksImV4cCI6MjA5NjI4NDQ0OX0.UDuXbK0oDvBCQ_BKeLcaq43QRc6zNNVzno0rHTfmNAA';
-
 /**
- * Функція для збереження гравця в базу даних Supabase
- * @param {string} nickname - Нікнейм користувача
- * @param {string} userId - Унікальний ID користувача з RollerCoin
+ * Securely saves a player to the database via a proxy worker
+ * @param {string} nickname - User's nickname
+ * @param {string} userId - User's ID
  */
 async function savePlayerToDatabase(nickname, userId) {
     if (!userId || !nickname) return { success: false };
 
+    // Link to your standalone Cloudflare Worker
+    const proxyUrl = "https://billowing-leaf-save-pl.arabon3.workers.dev/";
+
     try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/players`, {
+        const response = await fetch(proxyUrl, {
             method: 'POST',
             headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${SUPABASE_KEY}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'return=representation'
+                'Content-Type': 'application/json'
+                // No keys or authorization headers here anymore — they are secure
             },
             body: JSON.stringify({ nickname, user_id: userId })
         });
 
         if (response.ok) {
-            console.log(`[База] Збережено: ${nickname}`);
+            console.log(`[DB] Successfully saved: ${nickname}`);
             return { success: true };
         }
 
         const errorData = await response.json().catch(() => ({}));
 
+        // If the player already exists (unique key constraint in Supabase)
         if (errorData.code === '23505') {
-            console.log(`[База] Пропущено (вже є): ${nickname}`);
+            console.log(`[DB] Player ${nickname} already exists in the database (skipped)`);
             return { success: true };
         }
 
-        console.log(`[База] Не збережено: ${errorData.message}`);
+        console.log(`[DB] Failed to save: ${errorData.message || 'Unknown error'}`);
         return { success: false };
 
     } catch (error) {
-        console.log(`[Мережа] Помилка для ${nickname}, але йдемо далі...`);
+        console.log(`[Network] Failed to send data for ${nickname}, but continuing execution...`);
         return { success: false };
     }
 }

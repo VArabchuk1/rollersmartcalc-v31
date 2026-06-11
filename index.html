@@ -497,7 +497,7 @@
             <summary style="cursor: pointer; color: #00ff88; font-weight: bold;" data-lang="summary_help_link">
                 Де взяти посилання на профіль?
             </summary>
-            <img src="helpn.png" data-lang-alt="alt_help_image" alt="Приклад нікнейму"
+            <img src="images/help/help.png" data-lang-alt="alt_help_image" alt="Приклад нікнейму"
                  style="width: 100%; height: auto; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
         </details>
     </div>
@@ -653,6 +653,10 @@
                 <tbody id="minersTableBodyRecommendation">
                 </tbody>
             </table>
+            <div style="margin-top: 12px; font-family: sans-serif; font-size: 12px; color: #00ff88; text-align: left; padding: 0 4px;">
+                <span data-lang="min_power_gain">Різниця</span>
+                <span id="minPowerGainResult" style="font-weight: bold;">0 Gh/s</span>
+            </div>
         </div>
         </div>
 
@@ -835,7 +839,7 @@
         event.currentTarget.style.background = '#16213e';
         event.currentTarget.style.opacity = '1';
 
-        if (tabId === 'tab-miners') {
+        if (tabId === 'tab-miners' && !isMinersLoaded) {
             handleMinerSearch().catch(err => console.error("Помилка табу майнерів:", err));
         }
     }
@@ -977,6 +981,7 @@
     }
 
     const efficiency = [];
+    let userDataFromApi = {};
 
     async function runAudit() {
         const nickInput = document.getElementById('nicknameInput');
@@ -1327,7 +1332,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         addRow('new_list', false);
 
         // Запускаємо перший розрахунок тільки коли все готово
-        calculateAll();
+        // calculateAll();
     }
 
     // 2. ДОПОМІЖНІ ФУНКЦІЇ
@@ -1573,56 +1578,81 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
     // 6. ОСНОВНИЙ РОЗРАХУНОК КАЛЬКУЛЯТОРА
     function calculateAll() {
+        let miners = 0;
+        let hamsterPercent = 0;
+        let hamsterPower = 0;
+        let freonPower = 0;
+        let bonus = 0;
+        let bonusPercent = 0;
+        let currentGame = 0;
+        let currentGameForCalc = 0;
+        let maxPower = 0;
         const rawElem = document.getElementById('raw_data');
         const freonElem = document.getElementById('freon_pct');
-        if(!rawElem) return;
-
-        const text = rawElem.value;
         const freon = parseFloat(freonElem ? freonElem.value : 0) || 0;
 
-        const findCurrentGame = (lbl) => {
-            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)", "i");
-            const m = text.match(r);
-            if (!m) return 0;
-            let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
-            if (m[2] === 'Eh') v *= 1000000000;
-            if (m[2] === 'Th') v *= 1000;
-            if (m[2] === 'Ph') v *= 1000000;
-            if (m[2] === 'Zh') v *= 1000000000000;
-            return v;
-        };
+        if(!rawElem) return;
 
-        const find = (lbl) => {
-            const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)?\\s*(Eh|Ph|Th|Zh)", "i");
-            const m = text.match(r);
+        if (userDataFromApi.length === 0) {
 
-            if (!m) return 0;
 
-            let rawNumber = m[2] ? m[2] : m[1];
-            let unit = m[2] ? m[3] : m[2];
+            const text = rawElem.value;
 
-            if (!unit) unit = m[m.length - 1];
+            const findCurrentGame = (lbl) => {
+                const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)", "i");
+                const m = text.match(r);
+                if (!m) return 0;
+                let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
+                if (m[2] === 'Eh') v *= 1000000000;
+                if (m[2] === 'Th') v *= 1000;
+                if (m[2] === 'Ph') v *= 1000000;
+                if (m[2] === 'Zh') v *= 1000000000000;
+                return v;
+            };
 
-            let v = parseFloat(rawNumber.replace(/\s/g, '').replace(',', '.'));
+            const find = (lbl) => {
+                const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)?\\s*(Eh|Ph|Th|Zh)", "i");
+                const m = text.match(r);
 
-            if (unit === 'Eh') v *= 1000000000;
-            if (unit === 'Th') v *= 1000;
-            if (unit === 'Ph') v *= 1000000;
-            if (unit === 'Zh') v *= 1000000000000;
+                if (!m) return 0;
 
-            return v;
-        };
+                let rawNumber = m[2] ? m[2] : m[1];
+                let unit = m[2] ? m[3] : m[2];
 
-        const miners = findCurrentGame("Miners");
-        const hamsterPercent = document.getElementById('hamster_pct').value;
-        console.log(hamsterPercent);
-        const hamsterPower = miners * (hamsterPercent / 100);
-        const freonPower = miners * (freon / 100);
-        const bonus = find("Bonus Power");
-        const bonusPercent = miners > 0 ? ((bonus - hamsterPower - freonPower) / miners) * 100 : 0;
-        const currentGame = findCurrentGame("Current power") || 0;
-        const currentGameForCalc = currentGame - hamsterPower - freonPower;
-        const maxPower = findCurrentGame("Maximum power") || currentGame;
+                if (!unit) unit = m[m.length - 1];
+
+                let v = parseFloat(rawNumber.replace(/\s/g, '').replace(',', '.'));
+
+                if (unit === 'Eh') v *= 1000000000;
+                if (unit === 'Th') v *= 1000;
+                if (unit === 'Ph') v *= 1000000;
+                if (unit === 'Zh') v *= 1000000000000;
+
+                return v;
+            };
+
+            miners = findCurrentGame("Miners");
+            hamsterPercent = document.getElementById('hamster_pct').value;
+            console.log(hamsterPercent);
+            hamsterPower = miners * (hamsterPercent / 100);
+            freonPower = miners * (freon / 100);
+            bonus = find("Bonus Power");
+            bonusPercent = miners > 0 ? ((bonus - hamsterPower - freonPower) / miners) * 100 : 0;
+            currentGame = findCurrentGame("Current power") || 0;
+            currentGameForCalc = currentGame - hamsterPower - freonPower;
+            maxPower = findCurrentGame("Maximum power") || currentGame;
+        } else {
+            miners = userDataFromApi.miners;
+            hamsterPercent = userDataFromApi.hamsterBonusPercent;
+            hamsterPower = userDataFromApi.hamsterBonusValue;
+            freonPower = userDataFromApi.freonPower;
+            bonusPercent = userDataFromApi.bonusPowerPercent
+            currentGame = userDataFromApi.currentPower;
+            currentGameForCalc = currentGame - hamsterPower - freonPower;
+            maxPower = userDataFromApi.maximumPower;
+        }
+
+
 
         document.getElementById('total_display').innerText = formatPowerSN(currentGame);
 
@@ -1758,6 +1788,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
     }
 
     async function getUserApiForCalculateNew() {
+        const baseUrl = 'https://tiny-mouse-rget.arabon3.workers.dev'
         const nickInput = document.getElementById('nicknameInput');
         const loader = document.getElementById('loader');
         if (!nickInput || !nickInput.value) return;
@@ -1767,12 +1798,15 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         localStorage.setItem('userNickname', userNick);
 
         try {
-            const profileUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fprofile%2Fpublic-user-profile-data%2F${userNick}`;
+            const profileUrl = baseUrl + `/public-user-profile-data/${userNick}`;
             const pResp = await fetch(profileUrl);
             const pData = await pResp.json();
-            if (!pData.success) throw new Error("Користувача не знайдено");
+            if (!pData.success) {
+                const errorText = window.currentTrans?.user_not_found || "Користувача не знайдено / User not found";
+                throw new Error(errorText);
+            }
 
-            const usrData = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fprofile%2Fuser-power-data%2F${pData.data.avatar_id}`;
+            const usrData = baseUrl + `/user-power-data/${pData.data.avatar_id}`;
             const rResp = await fetch(usrData);
             userData = await rResp.json();
 
@@ -1785,6 +1819,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             const gamesRaw = userData.data.games;
             const tempRaw = userData.data.temp;
             const freonPower = userData.data.freon;
+            console.log(freonPower);
             const hamsterPercentRaw = userData.data.hamster_expedition_bonus_percent;
             hamsterPowerRaw = userData.data.hamster_expedition_bonus_power;
             hamsterPercent = (hamsterPercentRaw / 100).toFixed(2);
@@ -1807,6 +1842,21 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             if (hamsterInput) {
                 hamsterInput.value = hamsterPercent;
             }
+
+            userDataFromApi = {
+                league: leagueName,
+                maximumPower: maxPowerRaw,
+                currentPower: curPowerRaw,
+                miners: minersRaw,
+                bonusPowerPercent: bonusPercentClear,
+                bonusPowerValue: bonusRaw - hamsterPowerRaw,
+                hamsterBonusPercent: hamsterPercent,
+                hamsterBonusValue: hamsterPowerRaw,
+                rackBonus: racksRaw,
+                games: gamesRaw,
+                temporary: tempRaw,
+                freonPower: freonPower
+            };
 
             // Рядки параметрів (League, Maximum power тощо) НЕ перекладаємо,
             // бо на них зав'язані регулярні вирази в calculateAll()!
@@ -1837,7 +1887,7 @@ ${formatPowerSN(tempRaw)}`;
         } catch (e) {
             // Додаємо кастомну властивість або логування для локалізації алерту за потреби
             console.error("Error: dynamic fetch failed", e.message);
-            alert("Помилка: отримання даних користувача " + e.message);
+            alert("Failed to fetch user data " + e.message);
         } finally {
             loader.style.display = 'none';
         }
