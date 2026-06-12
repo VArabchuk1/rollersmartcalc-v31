@@ -78,6 +78,7 @@ function suggestMinersToRemove(filterValue) {
         netProfit = finalEfficiencyWithNew - baseEfficiency;
         document.getElementById('minPowerGainResult').textContent
             = formatPowerSN(netProfit);
+        minersToRemove?.sort((a, b) => a.name.localeCompare(b.name));
 
         renderMinersTableForOptimal(targetId,minersToRemove);
     } else {
