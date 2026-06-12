@@ -3,6 +3,7 @@ let testEfficiency = 0;
 let newMinerGain = 0;
 let oldMinersGain = 0;
 let isMinersLoaded = false;
+let netProfit = 0;
 
 function suggestMinersToRemove(filterValue) {
 
@@ -16,7 +17,6 @@ function suggestMinersToRemove(filterValue) {
 
     const power = target + unit;
 
-
     let formatPowerNewMiner = formatPowerSN(power) || 0;
 
 // 1. Рахуємо базу: поточна потужність * (1 + бонус/100)
@@ -26,20 +26,25 @@ function suggestMinersToRemove(filterValue) {
 
     console.log(baseEfficiency)
     let minersToRemove = []; // Список тих, кого викидаємо
+    let targetId = 'minersTableBodyRecommendation';
+    getClearTableBody(targetId);
+    netProfit = 0;
+
+
     let tempPower = currentPower;
 
-
     let tempBonus = currentBonus;
-
     let filteredMiners = filterMiners(efficiency);
+    let optimalNetDifference = 0;
     for (let m of filteredMiners) {
         // Віднімаємо дані слабкого
-        let nextPower = tempPower - m.power;
 
+        let nextPower = tempPower - m.power;
         let nextBonus = tempBonus - m.realBonusDisplay;
         // Додаємо дані нового (target)
-        testEfficiency = (nextPower + formatPowerNewMiner) * (1 + (nextBonus + bonus) / 100);
 
+
+        testEfficiency = (nextPower + formatPowerNewMiner) * (1 + (nextBonus + bonus) / 100);
         // Якщо приріст або рівність зберігається — додаємо в список на видалення
         if (testEfficiency >= baseEfficiency) {
             minersToRemove.push(m);
@@ -49,27 +54,36 @@ function suggestMinersToRemove(filterValue) {
         } else {
             // Якщо ефективність впала — зупиняємось, бо це межа
             console.log("Межу досягнуто, далі видаляти невигідно.");
+            optimalNetDifference = 0;
             break;
         }
+
     }
 
-    // 🛠️ НОВІ ЗМІННІ ПРИРОСТУ (ДОДАНІ В КІНЕЦЬ ПЕРЕД РЕНДЕРОМ)
-    // ==========================================================================
+    if (minersToRemove.length > 0) {
+        // 1. Ефективність системи "В ЯМІ" (Коли старі майнери ВЖЕ ВИДАЛИЛИ, а новий ЩЕ НЕ ПОСТАВИЛИ)
 
+        let efficiencyWithoutOld = tempPower * (1 + tempBonus / 100);
+        // 2. Фінальна ефективність системи (Старі видалили + НОВИЙ ПОСТАВИЛИ)
 
-    // 2. Який сумарний приріст (база + бонус) ТИМЧАСОВО ДАВАЛИ ці старі майнери в системі
-    // Формула: Початкова загальна ефективність мінус ефективність системи після їх видалення
-    oldMinersGain = baseEfficiency - tempPower * (1 + tempBonus / 100);
+        let finalEfficiencyWithNew = (tempPower + formatPowerNewMiner) * (1 + (tempBonus + bonus) / 100);
+        // 3. Скільки ми ВТРАТИЛИ сумарно від видалення старих майнерів
+        oldMinersGain = baseEfficiency - efficiencyWithoutOld;
 
-    // 3. Який приріст (база + бонус) ДАСТЬ ОДИН НАШ НОВИЙ МАЙНЕР на порожньому місці
+        // Якщо нікого не видаляли, тут буде 0. Якщо видаляли — додатне число (чиста втрата).
+        // 4. Скільки ЧИСТОГО ПРИРОСТУ дає новий майнер, встаючи на це місце (з урахуванням його потужності та бонусу)
 
-    newMinerGain = minersToRemove.length > 0 ? formatPowerNewMiner * (1 + (tempBonus + bonus) / 100) : 0;
+        newMinerGain = finalEfficiencyWithNew - efficiencyWithoutOld;
+        // 5. Фінальний чистий профіт від всієї рокіровки (Різниця)
+        netProfit = finalEfficiencyWithNew - baseEfficiency;
+        document.getElementById('minPowerGainResult').textContent
+            = formatPowerSN(netProfit);
 
-    // 4. Фінальний чистий профіт від такої рокіровки (Різниця)
-    const optimalNetDifference = newMinerGain - oldMinersGain;
-
-    renderMinersTableForOptimal('minersTableBodyRecommendation',minersToRemove);
-    document.getElementById('minPowerGainResult').textContent = formatPowerSN(optimalNetDifference);
+        renderMinersTableForOptimal(targetId,minersToRemove);
+    } else {
+        document.getElementById('minPowerGainResult').textContent
+            = formatPowerSN(netProfit);
+    }
 }
 
 // ==========================================
@@ -239,11 +253,16 @@ function filterMiners(miners) {
     });
 }
 
-function renderMinersTableForOptimal (targetId, miners) {
+function getClearTableBody(targetId) {
     const body = document.getElementById(targetId);
     if (!body) return;
-
     body.innerHTML = "";
+    return body;
+}
+
+function renderMinersTableForOptimal (targetId, miners) {
+
+    const body = getClearTableBody(targetId);
 
     const yesText = (typeof currentTranslations !== 'undefined') ? currentTranslations.filter_sellable_yes : "Так";
     const noText = (typeof currentTranslations !== 'undefined') ? currentTranslations.filter_sellable_no : "Ні";
@@ -305,4 +324,5 @@ function renderMinersTableForOptimal (targetId, miners) {
     if (typeof currentTranslations !== 'undefined' && typeof applyLanguage === 'function') {
         applyLanguage(currentTranslations);
     }
+    oldMinersGain = 0;
 }
