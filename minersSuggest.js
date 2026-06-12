@@ -11,10 +11,6 @@ function suggestMinersToRemove(filterValue) {
     const unit = document.getElementById('minerUnit').value;
     const bonus = parseFloat(document.getElementById('minerBonus').value) || 0;
 
-    if (!target) {
-        return;
-    }
-
     const power = target + unit;
 
     let formatPowerNewMiner = formatPowerSN(power) || 0;
@@ -23,8 +19,8 @@ function suggestMinersToRemove(filterValue) {
     let currentPower = minersRaw;
     let currentBonus = bonusPercentClear;
     baseEfficiency = currentPower * (1 + currentBonus / 100);
-
     console.log(baseEfficiency)
+
     let minersToRemove = []; // Список тих, кого викидаємо
     let targetId = 'minersTableBodyRecommendation';
     getClearTableBody(targetId);
@@ -41,6 +37,7 @@ function suggestMinersToRemove(filterValue) {
 
         let nextPower = tempPower - m.power;
         let nextBonus = tempBonus - m.realBonusDisplay;
+
         // Додаємо дані нового (target)
 
 
@@ -127,7 +124,6 @@ function renderMinersTable(targetId, minersArray, append = false) {
         `;
         targetTbody.appendChild(tr);
     });
-    isMinersLoaded = true;
 }
 
 // ==========================================
@@ -312,12 +308,9 @@ function renderMinersTableForOptimal (targetId, miners) {
         <td style="color:#ffa502; font-size: 10px;" data-lang="text_total">${totalText}</td>
         <td style="color:#00ff88; font-size: 10px;">${formatPowerSNw(finalPower)}</td>
         <td style="color:#00ff88; font-size: 10px;">${finalPercent.toFixed(2)}%</td>
-        <td style="color:#00ff88; font-size: 10px;">
-        <span data-lang="text_loss">Втрата</span><br>-${formatPowerSN(oldMinersGain)}
-        </td>
-        <td style="color:#00ff88; font-size: 10px;">
-        <span data-lang="text_gain">Приріст</span><br>+${formatPowerSN(newMinerGain)}
-        </td>`;
+        <td style="color:#00ff88; font-size: 10px;">+ ≈ (Soon...)</td>
+        <td></td>
+    `;
 
     body.appendChild(totalTr);
 
