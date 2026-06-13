@@ -150,7 +150,7 @@ async function handleMinerSearch(page = 1) { // Прибрали append
     if (sellableFilter === 'true' || sellableFilter === 'false') params.append('sellable', sellableFilter);
 
     try {
-        const response = await fetch(`https://wispy-credit-1be8.arabon3.workers.dev/?${params.toString()}`);
+        const response = await fetch(`wispy-miners-sync-1be8.arabon3.workers.dev/?${params.toString()}`);
         const miners = await response.json();
 
         if (loader) loader.style.display = 'none';
