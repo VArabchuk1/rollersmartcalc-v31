@@ -2134,49 +2134,65 @@ ${formatPowerSN(tempRaw)}`;
     }
 
     // 1. Читання API
-function renderQuestCard(questData) {
-    if (!questData) return '';
+    async function fetchQuest() {
+        try {
+            const response = await fetch("https://polished-wave-ceac.arabon3.workers.dev/");
+            if (!response.ok) throw new Error('Proxy error');
+            return await response.json();
+        } catch (error) {
+            console.error("Помилка завантаження даних:", error);
+            document.getElementById('bonus-quest-container').innerHTML = `
+                    <div class="audit-container" style="color: #ff3838; text-align: center; border-color: #ff383844;">
+                        Помилка завантаження бонусного квесту
+                    </div>`;
+            return null;
+        }
+    }
 
-    const DIV = 1000000;
-    const fmt = (amount) => {
-        const v = amount / DIV;
-        return v.toLocaleString("en-US", { maximumFractionDigits: v >= 1 ? 2 : 6 });
-    };
+    // 2. Парсинг у твої класи таблиці
+    function renderQuestCard(questData) {
+        if (!questData) return '';
 
-    let extra = null;
-    try {
-        extra = questData.additionalData
-            ? (typeof questData.additionalData === 'string'
-                ? JSON.parse(questData.additionalData)
-                : questData.additionalData)
-            : null;
-    } catch (e) { console.warn("Failed to parse additionalData", e); }
+        const DIV = 1000000;
+        const fmt = (amount) => {
+            const v = amount / DIV;
+            return v.toLocaleString("en-US", { maximumFractionDigits: v >= 1 ? 2 : 6 });
+        };
 
-    const gameName = extra?.game_name || "";
-    const rawTitle = (questData.title || "").trim().toLowerCase();
-    const rawDesc  = (questData.description || "").trim().toLowerCase();
-    const isExchange = (questData.replaceConfigCurrency === 'RLT' || questData.paidConfigCurrency === 'RLT')
-                    && (rawTitle.startsWith("exchange") || rawDesc.startsWith("exchange"));
+        let extra = null;
+        try {
+            extra = questData.additionalData
+                ? (typeof questData.additionalData === 'string'
+                    ? JSON.parse(questData.additionalData)
+                    : questData.additionalData)
+                : null;
+        } catch (e) { console.warn("Failed to parse additionalData", e); }
 
-    let repeats = questData.countRepeats ?? 0;
-    if (isExchange && repeats > 0) repeats /= DIV;
+        const gameName = extra?.game_name || "";
+        const rawTitle = (questData.title || "").trim().toLowerCase();
+        const rawDesc  = (questData.description || "").trim().toLowerCase();
+        const isExchange = (questData.replaceConfigCurrency === 'RLT' || questData.paidConfigCurrency === 'RLT')
+            && (rawTitle.startsWith("exchange") || rawDesc.startsWith("exchange"));
 
-    const fmtRepeats = Number.isInteger(repeats) ? repeats.toLocaleString("en-US") : String(repeats);
-    const replace = (s) => s.replace(/\{count_repeats\}/g, fmtRepeats).replace(/\{game_name\}/g, gameName);
+        let repeats = questData.countRepeats ?? 0;
+        if (isExchange && repeats > 0) repeats /= DIV;
 
-    const title = replace(questData.title || "");
-    const desc  = replace(questData.description || "");
+        const fmtRepeats = Number.isInteger(repeats) ? repeats.toLocaleString("en-US") : String(repeats);
+        const replace = (s) => s.replace(/\{count_repeats\}/g, fmtRepeats).replace(/\{game_name\}/g, gameName);
 
-    const rewards = (questData.dailyBonusQuestRewards || [])
-        .map(i => i?.dailyBonusReward).filter(Boolean)
-        .map(r => r.type === "season_xp"
-            ? `<div class="dbq-badge dbq-xp"><span class="dbq-lbl">XP</span><span>${r.amount}</span></div>`
-            : r.type === "money" && r.currency
-                ? `<div class="dbq-badge dbq-money"><span class="dbq-tok">Ⓡ</span><span>${fmt(r.amount)}</span></div>`
-                : ''
-        ).join('');
+        const title = replace(questData.title || "");
+        const desc  = replace(questData.description || "");
 
-    const actionBlock = (label, langKey, icon, price, currency) => `
+        const rewards = (questData.dailyBonusQuestRewards || [])
+            .map(i => i?.dailyBonusReward).filter(Boolean)
+            .map(r => r.type === "season_xp"
+                ? `<div class="dbq-badge dbq-xp"><span class="dbq-lbl">XP</span><span>${r.amount}</span></div>`
+                : r.type === "money" && r.currency
+                    ? `<div class="dbq-badge dbq-money"><span class="dbq-tok">Ⓡ</span><span>${fmt(r.amount)}</span></div>`
+                    : ''
+            ).join('');
+
+        const actionBlock = (label, langKey, icon, price, currency) => `
 <div class="dbq-col">
     <span class="dbq-lbl-s" data-lang="${langKey}">${label}</span>
     <div class="dbq-badge dbq-money" style="pointer-events:none;">
@@ -2185,14 +2201,14 @@ function renderQuestCard(questData) {
     </div>
 </div>`;
 
-    const replaceHtml = questData.replaceConfigIsAvailable
-        ? actionBlock("ЗМІНА", "dbq_header_replace", "🔄", questData.replaceConfigPrice, questData.replaceConfigCurrency)
-        : '';
-    const paidHtml = questData.paidConfigIsAvailable
-        ? actionBlock("ВИКУП", "dbq_header_paid", "⏩", questData.paidConfigPrice, questData.paidConfigCurrency)
-        : '';
+        const replaceHtml = questData.replaceConfigIsAvailable
+            ? actionBlock("ЗМІНА", "dbq_header_replace", "🔄", questData.replaceConfigPrice, questData.replaceConfigCurrency)
+            : '';
+        const paidHtml = questData.paidConfigIsAvailable
+            ? actionBlock("ВИКУП", "dbq_header_paid", "⏩", questData.paidConfigPrice, questData.paidConfigCurrency)
+            : '';
 
-    return `
+        return `
 <style>
 .dbq-container{border-color:#2dd8d0!important;box-shadow:0 0 15px rgba(45,216,208,.15)!important;box-sizing:border-box;width:100%;padding:10px 12px!important}
 .dbq-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
@@ -2223,7 +2239,7 @@ function renderQuestCard(questData) {
         <div class="dbq-actions">${replaceHtml}${paidHtml}</div>
     </div>
 </div>`;
-}
+    }
 
     async function initF() {
         try {
