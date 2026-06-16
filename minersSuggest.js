@@ -20,12 +20,12 @@ function suggestMinersToRemove(filterValue) {
     let formatPowerNewMiner = formatPowerSN(power) || 0;
 
 // 1. Рахуємо базу: поточна потужність * (1 + бонус/100)
+    let minersToRemove = []; // Список тих, кого викидаємо
     let currentPower = minersRaw;
     let currentBonus = bonusPercentClear;
-    baseEfficiency = currentPower * (1 + currentBonus / 100);
 
+    baseEfficiency = currentPower * (1 + currentBonus / 100);
     console.log(baseEfficiency)
-    let minersToRemove = []; // Список тих, кого викидаємо
     let targetId = 'minersTableBodyRecommendation';
     getClearTableBody(targetId);
     netProfit = 0;
@@ -40,7 +40,7 @@ function suggestMinersToRemove(filterValue) {
         // Віднімаємо дані слабкого
 
         let nextPower = tempPower - m.power;
-        let nextBonus = tempBonus - m.realBonusDisplay;
+        let nextBonus = tempBonus - (!m.isDupe ? m.realBonusDisplay : 0);
         // Додаємо дані нового (target)
 
 
@@ -75,10 +75,19 @@ function suggestMinersToRemove(filterValue) {
 
         newMinerGain = finalEfficiencyWithNew - efficiencyWithoutOld;
         // 5. Фінальний чистий профіт від всієї рокіровки (Різниця)
-        netProfit = finalEfficiencyWithNew - baseEfficiency;
+        netProfit = newMinerGain - oldMinersGain;
         document.getElementById('minPowerGainResult').textContent
             = formatPowerSN(netProfit);
-        minersToRemove?.sort((a, b) => a.name.localeCompare(b.name));
+
+        const sortRadio = document.querySelector('input[name="minerSortDir"]:checked');
+        const sortBy = sortRadio ? sortRadio.value : 'name';
+
+        // Сортуємо фінальний список перед виводом на екран
+        if (sortBy === 'name') {
+            minersToRemove?.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortBy === 'power') {
+            minersToRemove?.sort((a, b) => a.power - b.power); // від більшого до меншого
+        }
 
         renderMinersTableForOptimal(targetId,minersToRemove);
     } else {
@@ -325,5 +334,23 @@ function renderMinersTableForOptimal (targetId, miners) {
     if (typeof currentTranslations !== 'undefined' && typeof applyLanguage === 'function') {
         applyLanguage(currentTranslations);
     }
-    oldMinersGain = 0;
+}
+
+function sortMinersByName(minersList, ascending = true) {
+
+    // Сортуємо оригінальний масив прямо на місці
+    return minersList.sort((a, b) => {
+        if (ascending) {
+            return a.name.localeCompare(b.name); // від А до Я
+        } else {
+            return b.name.localeCompare(a.name); // від Я до А
+        }
+    });
+}
+
+function sortMinersByPowerOld(minersList, ascending = true) {
+    // Сортуємо оригінальний масив прямо на місці
+    return minersList.sort((a, b) => {
+        return ascending ? a.power - b.power : b.power - a.power;
+    });
 }

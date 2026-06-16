@@ -638,6 +638,23 @@
             </div>
 
         </div>
+            <div style="display: flex; flex-wrap: nowrap; align-items: center; gap: 12px; margin-top: 5px; font-size: 11px; color: #ccc; width: max-content;">
+                <span data-lang="label_sort" style="white-space: nowrap;">Сортувати:</span>
+
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                    <input type="radio" name="minerSortDir" value="name" checked
+                           onchange="suggestMinersToRemove();"
+                           style="cursor: pointer; margin: 0;">
+                    <span data-lang="sort_az">A-Z</span>
+                </label>
+
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                    <input type="radio" name="minerSortDir" value="power"
+                           onchange="suggestMinersToRemove();"
+                           style="cursor: pointer; margin: 0;">
+                    <span data-lang="sort_power">По павер</span>
+                </label>
+            </div>
 
         <div class="miners-table-container" style="margin-top: 10px;">
             <table style="width: 100%; border-collapse: collapse; color: #fff; font-family: sans-serif; font-size: 14px; text-align: center;">
@@ -1258,11 +1275,11 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         // Перетворюємо "Crypto Kong" на "crypto_kong.gif"
         const formattedName = name.toLowerCase()
             .trim()
-            .replace(/[\s-]+/g, '_')     // Замінюємо всі пробіли та риски (дефіси) на підкреслення
-            .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
+            .replace(/[\s-]+/g, '_');    // Замінюємо всі пробіли та риски (дефіси) на підкреслення
+            // .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
 
         // Повертаємо нове посилання з розширенням .png
-        return `https://static.rollercoin.com/static/img/market/miners/${formattedName}.gif`;
+        return `https://static.rollercoin.com/static/img/market/miners/${encodeURIComponent(formattedName)}.gif`;
 
         // Попередній варіант:
         // return `https://api.minaryganar.com/assets/rollercoin/miners/${formattedName}.gif`;
@@ -1586,7 +1603,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
 
         if(!rawElem) return;
 
-        if (userDataFromApi.length === 0) {
+        if (!Object.keys(userDataFromApi).length) {
 
 
             const text = rawElem.value;
@@ -1625,8 +1642,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             };
 
             miners = findCurrentGame("Miners");
-            hamsterPercent = document.getElementById('hamster_pct').value;
-            console.log(hamsterPercent);
+            hamsterPercent = parseFloat(document.getElementById('hamster_pct').value) || 0;
             hamsterPower = miners * (hamsterPercent / 100);
             freonPower = miners * (freon / 100);
             bonus = find("Bonus Power");
@@ -1644,8 +1660,6 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             currentGameForCalc = currentGame - hamsterPower - freonPower;
             maxPower = userDataFromApi.maximumPower;
         }
-
-
 
         document.getElementById('total_display').innerText = formatPowerSN(currentGame);
 
