@@ -471,26 +471,15 @@
             <div class="freon-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 15px 0; text-align: center;">
                 <strong data-lang="text_hamster_freon_pct">Відсотки від хом'яка та фреону:</strong>
 
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 5px;">
                     <label for="hamster_pct" data-lang="label_hamster">Хом'як:</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="color: #ff4757; font-weight: bold;">%</span>
-                    </div>
+                    <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
+                    <span style="color: #ff4757; font-weight: bold;">%</span>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <label for="hammy_hooks" data-lang="label_hammy_hooks" style="text-align: left;">Hammy Hooks</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="hammy_hooks" class="freon-input" value="0" step="1" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="width: 14px; display: inline-block;"></span>
-                    </div>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 5px;">
                     <label for="freon_pct" data-lang="label_freon">Фреон:</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="color: #ff4757; font-weight: bold;">%</span>
-                    </div>
+                    <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
+                    <span style="color: #ff4757; font-weight: bold;">%</span>
                 </div>
             </div>
 
@@ -593,62 +582,62 @@
         <div id="minersLastUpdateBlock" style="display: none;">
 
 
-        <div  class="block-title">
-            <span data-lang="miner_optimizer_desc">Характеристики майнера</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
-
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_power">Пот-ть</label>
-                <input type="number" id="minerPower" placeholder="0.00" oninput="suggestMinersToRemove()">
-            </div>
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_unit">Одиниці</label>
-                <select id="minerUnit" onchange="suggestMinersToRemove()">
-                    <option value="gh">GH/s</option>
-                    <option value="ph">PH/s</option>
-                    <option value="eh">EH/s</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_bonus">Відсоток</label>
-                <input type="number" id="minerBonus" placeholder="0.00" oninput="suggestMinersToRemove()">
+            <div  class="block-title">
+                <span data-lang="miner_optimizer_desc">Характеристики майнера</span>
             </div>
 
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
+
+                <div>
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_power">Пот-ть</label>
+                    <input type="number" id="minerPower" placeholder="0.00" oninput="suggestMinersToRemove()">
+                </div>
+                <div>
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_unit">Одиниці</label>
+                    <select id="minerUnit" onchange="suggestMinersToRemove()">
+                        <option value="gh">GH/s</option>
+                        <option value="ph">PH/s</option>
+                        <option value="eh">EH/s</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_bonus">Відсоток</label>
+                    <input type="number" id="minerBonus" placeholder="0.00" oninput="suggestMinersToRemove()">
+                </div>
+
+                <div style="flex: 1.3; min-width: 130px;">
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase;
                 display: block; margin-bottom: 3px;" data-lang="label_sell">Маркет</label>
-                <select id="minerSellableFilterRec" style="text-align: center;
+                    <select id="minerSellableFilterRec" style="text-align: center;
                 padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
-                    <option value="all" data-lang="filter_all">Всі майнери</option>
-                    <option value="true" data-lang="filter_sellable_yes">Продажні</option>
-                    <option value="false" data-lang="filter_sellable_no">Не продажні</option>
-                </select>
-            </div>
+                        <option value="all" data-lang="filter_all">Всі майнери</option>
+                        <option value="true" data-lang="filter_sellable_yes">Продажні</option>
+                        <option value="false" data-lang="filter_sellable_no">Не продажні</option>
+                    </select>
+                </div>
 
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
+                <div style="flex: 1.3; min-width: 130px;">
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase;
                 display: block; margin-bottom: 3px;" data-lang="label_set">Сет</label>
-                <select id="minerSetFilterRec" style="text-align: center;
+                    <select id="minerSetFilterRec" style="text-align: center;
                 padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
-                    <option value="all" data-lang="filter_set_all">Із сетовими</option>
-                    <option value="true" data-lang="filter_set_no">Без сетових</option>
-                </select>
-            </div>
+                        <option value="all" data-lang="filter_set_all">Із сетовими</option>
+                        <option value="true" data-lang="filter_set_no">Без сетових</option>
+                    </select>
+                </div>
 
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
+                <div style="flex: 1.3; min-width: 130px;">
+                    <label style="font-size: 8px; color: #888; text-transform: uppercase;
                 display: block; margin-bottom: 3px;" data-lang="label_slot">Слоти</label>
-                <select id="minerWidthFilterRec" style="text-align: center;
+                    <select id="minerWidthFilterRec" style="text-align: center;
                 padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
-                    <option value="all" data-lang="filter_slots_all">Всі слоти</option>
-                    <option value="1" data-lang="filter_slots_1">1 слот</option>
-                    <option value="2" data-lang="filter_slots_2">2 слоти</option>
-                </select>
-            </div>
+                        <option value="all" data-lang="filter_slots_all">Всі слоти</option>
+                        <option value="1" data-lang="filter_slots_1">1 слот</option>
+                        <option value="2" data-lang="filter_slots_2">2 слоти</option>
+                    </select>
+                </div>
 
-        </div>
+            </div>
             <div style="display: flex; flex-wrap: nowrap; align-items: center; gap: 12px; margin-top: 5px; font-size: 11px; color: #ccc; width: max-content;">
                 <span data-lang="label_sort" style="white-space: nowrap;">Сортувати:</span>
 
@@ -667,25 +656,25 @@
                 </label>
             </div>
 
-        <div class="miners-table-container" style="margin-top: 10px;">
-            <table style="width: 100%; border-collapse: collapse; color: #fff; font-family: sans-serif; font-size: 14px; text-align: center;">
-                <thead>
-                <tr style="border-bottom: 2px solid #333; color: #888; font-size: 10px; text-transform: uppercase;">
-                    <th style="text-align: center; padding: 8px 12px;" data-lang="th_name">Назва</th>
-                    <th style="padding: 6px 4px;" data-lang="label_power">Пот-ть</th>
-                    <th style="padding: 6px 4px;" data-lang="label_bonus">Відсоток</th>
-                    <th style="padding: 6px 4px;" data-lang="th_cells">Слоти</th>
-                    <th style="padding: 6px 4px;" data-lang="th_sellable">Маркет</th>
-                </tr>
-                </thead>
-                <tbody id="minersTableBodyRecommendation">
-                </tbody>
-            </table>
-            <div style="margin-top: 12px; font-family: sans-serif; font-size: 12px; color: #00ff88; text-align: left; padding: 0 4px;">
-                <span data-lang="min_power_gain">Різниця</span>
-                <span id="minPowerGainResult" style="font-weight: bold;">0 Gh/s</span>
+            <div class="miners-table-container" style="margin-top: 10px;">
+                <table style="width: 100%; border-collapse: collapse; color: #fff; font-family: sans-serif; font-size: 14px; text-align: center;">
+                    <thead>
+                    <tr style="border-bottom: 2px solid #333; color: #888; font-size: 10px; text-transform: uppercase;">
+                        <th style="text-align: center; padding: 8px 12px;" data-lang="th_name">Назва</th>
+                        <th style="padding: 6px 4px;" data-lang="label_power">Пот-ть</th>
+                        <th style="padding: 6px 4px;" data-lang="label_bonus">Відсоток</th>
+                        <th style="padding: 6px 4px;" data-lang="th_cells">Слоти</th>
+                        <th style="padding: 6px 4px;" data-lang="th_sellable">Маркет</th>
+                    </tr>
+                    </thead>
+                    <tbody id="minersTableBodyRecommendation">
+                    </tbody>
+                </table>
+                <div style="margin-top: 12px; font-family: sans-serif; font-size: 12px; color: #00ff88; text-align: left; padding: 0 4px;">
+                    <span data-lang="min_power_gain">Різниця</span>
+                    <span id="minPowerGainResult" style="font-weight: bold;">0 Gh/s</span>
+                </div>
             </div>
-        </div>
         </div>
 
         <div class="block-title" style="display: flex; margin-top: 25px; justify-content: space-between; width: 100%;">
@@ -1286,9 +1275,8 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         // Перетворюємо "Crypto Kong" на "crypto_kong.gif"
         const formattedName = name.toLowerCase()
             .trim()
-            .replace(/[\s-]+/g, '_')
-            .replace(/['’`‘]/g, '');    // Замінюємо всі пробіли та риски (дефіси) на підкреслення
-            // .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
+            .replace(/[\s-]+/g, '_').replace(/['’`‘]/g, '');    // Замінюємо всі пробіли та риски (дефіси) на підкреслення
+        // .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
 
         // Повертаємо нове посилання з розширенням .png
         return `https://static.rollercoin.com/static/img/market/miners/${encodeURIComponent(formattedName)}.gif`;
@@ -1330,7 +1318,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         { name: "Platinum III", limit: 100000000000 },
         { name: "Diamond I", limit: 200000000000 },
         { name: "Diamond II", limit: 400000000000 },
-        { name: "Diamond III", limit: 1000000000000 }
+        { name: "Diamond III", limit: 10000000000000 }
     ];
 
     const tableBody = document.getElementById('tableBody');
@@ -1609,10 +1597,8 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         let currentGame = 0;
         let currentGameForCalc = 0;
         let maxPower = 0;
-        let hammyHooksPower = 0;
         const rawElem = document.getElementById('raw_data');
         const freonElem = document.getElementById('freon_pct');
-        const hammyHooksCount = document.getElementById('hammy_hooks');
         const freon = parseFloat(freonElem ? freonElem.value : 0) || 0;
 
         if(!rawElem) return;
@@ -1662,11 +1648,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             bonus = find("Bonus Power");
             bonusPercent = miners > 0 ? ((bonus - hamsterPower - freonPower) / miners) * 100 : 0;
             currentGame = findCurrentGame("Current power") || 0;
-            hammyHooksPower = (miners * 5) * parseFloat(hammyHooksCount.value) || 0;
-            currentGameForCalc = currentGame
-                - hamsterPower
-                - freonPower
-                - hammyHooksPower;
+            currentGameForCalc = currentGame - hamsterPower - freonPower;
             maxPower = findCurrentGame("Maximum power") || currentGame;
         } else {
             miners = userDataFromApi.miners;
@@ -1675,11 +1657,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             freonPower = userDataFromApi.freonPower;
             bonusPercent = userDataFromApi.bonusPowerPercent
             currentGame = userDataFromApi.currentPower;
-            hammyHooksPower = hammyHooksDetails.hamstersPower;
-            currentGameForCalc = currentGame
-                - hamsterPower
-                - freonPower
-                - hammyHooksPower;
+            currentGameForCalc = currentGame - hamsterPower - freonPower;
             maxPower = userDataFromApi.maximumPower;
         }
 
@@ -1755,10 +1733,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         let finalHamsterPower = finalMinersBase * (hamsterPercent / 100);
         let freonDiff = finalFreonPower - freonPower;
         let hamsterDiff = finalHamsterPower - hamsterPower;
-        let finalTotalRaw = currentGameForCalc
-            - totalLoss
-            + totalGain
-            + (otherMinersBase * ((bonusGained - bonusLost) / 100));
+        let finalTotalRaw = currentGameForCalc - totalLoss + totalGain + (otherMinersBase * ((bonusGained - bonusLost) / 100));
         let finalTotal = finalTotalRaw + freonDiff + hamsterDiff;
         let finalTotalFull =
             currentGame - totalLoss + totalGain
@@ -1819,8 +1794,6 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
         if (currentTranslations) applyLanguage(currentTranslations);
     }
 
-    let hammyHooksDetails = {};
-
     async function getUserApiForCalculateNew() {
         const baseUrl = 'https://tiny-mouse-rget.arabon3.workers.dev'
         const nickInput = document.getElementById('nicknameInput');
@@ -1851,21 +1824,21 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             bonusRaw = userData.data.bonus;
             const racksRaw = userData.data.racks;
             const gamesRaw = userData.data.games;
-            const tempForDisplay = userData.data.temp;
+            const tempRaw = userData.data.temp;
             const freonPower = userData.data.freon;
             console.log(freonPower);
             const hamsterPercentRaw = userData.data.hamster_expedition_bonus_percent;
             hamsterPowerRaw = userData.data.hamster_expedition_bonus_power;
             hamsterPercent = (hamsterPercentRaw / 100).toFixed(2);
 
-            hammyHooksDetails = getHammyHooksDetails(tempForDisplay, minersRaw);
-
 
             // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
             bonusPercentClear = ((bonusRaw - hamsterPowerRaw - freonPower) / minersRaw) * 100;
 
             // 3. Знаходимо назву ліги за ID
-            const leagueName = pData.data.league.title.en || "Bronze I";
+            const userLeagueId = pData.data.league_Id;
+            const foundLeague = leaguesData.find(l => l.id === userLeagueId);
+            const leagueName = foundLeague ? foundLeague.title : "Bronze I";
 
             const freonInput = document.getElementById('freon_pct');
             if (freonInput) {
@@ -1875,10 +1848,6 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
             const hamsterInput = document.getElementById('hamster_pct');
             if (hamsterInput) {
                 hamsterInput.value = hamsterPercent;
-            }
-            const hammyHooksInput = document.getElementById('hammy_hooks');
-            if (hammyHooksInput) {
-                hammyHooksInput.value = hammyHooksDetails.hamstersCount;
             }
 
             userDataFromApi = {
@@ -1892,7 +1861,7 @@ data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin
                 hamsterBonusValue: hamsterPowerRaw,
                 rackBonus: racksRaw,
                 games: gamesRaw,
-                temporary: tempForDisplay,
+                temporary: tempRaw,
                 freonPower: freonPower
             };
 
@@ -1917,7 +1886,7 @@ ${formatPowerSN(racksRaw)}
 Games
 ${formatPowerSN(gamesRaw)}
 Temporary
-${formatPowerSN(tempForDisplay)}`;
+${formatPowerSN(tempRaw)}`;
             calculateAll();
             runAudit();
             await savePlayerToDatabase(userNick, pData.data.avatar_id);
@@ -1929,36 +1898,6 @@ ${formatPowerSN(tempForDisplay)}`;
         } finally {
             loader.style.display = 'none';
         }
-    }
-
-    function getHammyHooksDetails(tempPower, minersPowerFromApi) {
-        const totalTemp = tempPower || 0;
-        const minersPower = minersPowerFromApi || 0;
-
-        // Потужність, яку дає рівно 1 максимальний хом'як
-        const powerPerHamster = minersPower * 5;
-
-        let hamstersCount = 0;
-        let hamstersPower = 0;
-        let cleanTempWithoutHamsters = totalTemp;
-
-        // Якщо мінери є, рахуємо хом'яків
-        if (powerPerHamster > 0) {
-            // 1. Скільки цілих хом'яків вміщається в твій temp
-            hamstersCount = Math.floor(totalTemp / powerPerHamster);
-
-            // 2. Точна потужність, яку вони забирають на себе
-            hamstersPower = hamstersCount * powerPerHamster;
-
-            // 3. Чистий темп — це залишок (інші квести, івенти тощо)
-            cleanTempWithoutHamsters = totalTemp - hamstersPower;
-        }
-
-        return {
-            hamstersCount: hamstersCount,               // Кількість хом'яків (ціле число)
-            hamstersPower: hamstersPower,               // Потужність хом'яків
-            cleanTemp: cleanTempWithoutHamsters         // Чистий темп без хом'яків
-        };
     }
 
     function toggleMode() {

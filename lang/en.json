@@ -43,6 +43,7 @@
   "text_audit_loading": "📡 Fetching room data...",
   "label_sell": "Market",
   "label_set": "Set",
+  "label_hammy_hooks" : "Active Hamsters (Hammy Hooks)",
   "label_slot":"Slots",
   "title_duplicates": "⚠️ Duplicates",
   "text_duplicates_note": "(bonus percent counts from one only)",
