@@ -354,3 +354,19 @@ function sortMinersByPowerOld(minersList, ascending = true) {
         return ascending ? a.power - b.power : b.power - a.power;
     });
 }
+
+function getSortedByEfficiency(miners) {
+    if (!Array.isArray(miners)) return [];
+
+    return [...miners].sort((a, b) => {
+        const bonusA = parseFloat(a.realBonusDisplay) || 0;
+        const bonusB = parseFloat(b.realBonusDisplay) || 0;
+
+        // Захист від ділення на 0: якщо бонус 0, вважаємо ефективність рівною 0
+        const scoreA = bonusA > 0 ? (a.power / bonusA) : 0;
+        const scoreB = bonusB > 0 ? (b.power / bonusB) : 0;
+
+        // Сортування за спаданням (найвища ефективність на початку)
+        return scoreB - scoreA;
+    });
+}
