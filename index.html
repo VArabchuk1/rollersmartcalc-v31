@@ -1,527 +1,123 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RollerSmart v31 - True Impact</title>
-    <style>
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-            background: #16213e; /* Колір як у твоїх блоків */
-            border: 1px solid #00ff8844; /* Напівпрозорий зелений бордюр */
-            margin: 15px 0 20px 0;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate; /* Дозволяє скругляти кути та робити відступи */
-            border-spacing: 0;
-            font-size: 11px;
-            color: #e0e0e0;
-        }
-
-        /* Заголовки */
-        thead tr {
-            background: #0f3460;
-        }
-
-        th {
-            padding: 12px 8px;
-            text-transform: uppercase;
-            font-size: 10px;
-            color: #00ff88;
-            border-bottom: 2px solid #00ff88;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        /* Клітинки */
-        td {
-            padding: 10px 6px;
-            border-bottom: 1px solid #00ff8811; /* Тонка лінія розділення */
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        /* Виділення кожного другого рядка для читабельності */
-        tbody tr:nth-child(even) {
-            background: rgba(127, 155, 241, 0.2);
-        }
-
-        /* ЕФЕКТ ПРИ НАВЕДЕННІ (Active Row) */
-        tbody tr:hover {
-            background: #3e7ec6 !important; /* Легке зелене підсвічування */
-            transition: background 0.2s ease;
-        }
-
-        /* Окремі акценти для цифр */
-        td span {
-            font-weight: bold;
-        }
-
-        /* Стиль для "лігою вище" у заголовку */
-        #nextLeagueHeader span {
-            color: #ff9f43; /* Твій помаранчевий колір для акценту */
-            font-size: 9px;
-        }
-
-        /* Скроллбар для мобільних (опціонально, щоб був гарнішим) */
-        .table-wrapper::-webkit-scrollbar {
-            height: 4px;
-        }
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background: #00ff88;
-            border-radius: 10px;
-        }
-
-        /* 1. Базові налаштування */
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            padding: 15px;
-            background-color: #1a1a2e;
-            color: #e0e0e0;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        /* 2. Блоки та заголовки */
-        .block {
-            background: #16213e;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #00ff88;
-            position: relative;
-        }
-
-        .block-title {
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            opacity: 0.8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 3. Форми та інпути */
-        textarea {
-            width: 100%; height: 60px; padding: 10px; border-radius: 8px;
-            background: #0f3460; color: #00ff88;
-            border: 1px solid #00ff88; box-sizing: border-box;
-            font-size: 11px; margin-bottom: 10px;
-        }
-
-        input, select {
-            width: 100%; padding: 8px 2px; border-radius: 6px;
-            background: #0f3460; color: white;
-            border: 1px solid #0f3460; font-size: 11px;
-            box-sizing: border-box; text-align: center;
-        }
-
-        /* 4. Специфічні блоки (Фреон, Ліга) */
-        .freon-container {
-            display: flex; align-items: center; gap: 10px; background: #1b3a4b;
-            padding: 8px 12px; border-radius: 8px; border: 1px solid #ff4757; margin-bottom: 10px;
-        }
-        .freon-label { font-size: 11px; font-weight: bold; color: #ff4757; text-transform: uppercase; }
-        .freon-input { width: 80px !important; border-color: #ff4757 !important; color: #ff4757 !important; font-weight: bold; }
-
-        .total-block {
-            background: #1b3a4b; border: 1px solid #00ff88;
-            padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;
-        }
-        .league-badge { background: #e84393; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 5px; display: inline-block; }
-        .total-value { font-size: 26px; font-weight: bold; }
-        .dist-next { font-size: 12px; color: #ff9f43; margin-top: 8px; font-weight: bold; }
-
-        /* 5. Кнопки та Гріди */
-        .input-grid, .grid-labels {
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 30px;
-            gap: 4px; align-items: center; margin-bottom: 8px;
-        }
-        .grid-labels { font-size: 9px; color: #888; text-transform: uppercase; text-align: center; }
-
-        .indiv-res {
-            font-size: 10px; font-weight: bold; text-align: center; background: #1a2a4a;
-            padding: 6px 2px; border-radius: 6px; border: 1px solid #00ff8833;
-            overflow: hidden; white-space: nowrap;
-        }
-
-        .btn-add { background: #00d4ff22; color: #00d4ff; border: 1px dashed #00d4ff; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
-        .btn-del { background: #ff475722; color: #ff4757; border: 1px solid #ff475744; border-radius: 6px; cursor: pointer; height: 32px; font-weight: bold; }
-        .v2-btn { background: #0f3460; color: #00ff88; border: 1px solid #00ff88; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin: 10px 0; }
-
-        .result-container {color: #ff9f43; margin-bottom: 12px; text-align: center; padding: 12px; background: #0f3460; border-radius: 12px; border: 1px solid #00ff88; margin-top: 10px; }
-        .res-val { font-size: 22px; font-weight: bold; color: #00d4ff; }
-
-
-        .block-title-miners {
-            display: flex;
-            justify-content: space-between; /* Розштовхує текст вліво, кнопку вправо */
-            align-items: center;            /* Вирівнює їх по одній лінії (висоті) */
-            color: #5fbf37;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-    </style>
-
-    <style>
-        /* Загальні налаштування для ПК екранів */
-        .aads-sidebar-container {
-            position: absolute;
-            z-index: 99999;
-        }
-        .aads-fixed-sidebar {
-            width: 160px; /* Фіксована ширина, ідеальна для баннера */
-            height: 100%;
-            position: fixed;
-            text-align: center;
-            font-size: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        /* Розносимо по боках екрана */
-        .aads-left-side .aads-fixed-sidebar { left: 10px; }
-        .aads-right-side .aads-fixed-sidebar { right: 10px; }
-
-        /* Стиль хрестика закриття */
-        .aads-close-button {
-            bottom: 24px; margin: 0 auto; right: 0; left: 0; max-width: 24px; position: absolute; border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px; z-index: 99999; cursor: pointer;
-        }
-
-        /* 📱 РІШЕННЯ ПОМИЛКИ: якщо екран менше 1100px (мобілки), повністю приховуємо блоки */
-        @media (max-width: 1100px) {
-            .aads-sidebar-container {
-                display: none !important;
-            }
-        }
-    </style>
-
-    <style>
-        .audit-container {
-            background: #1a1a2e;
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid #00ff8844;
-            margin: 20px 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        /* Адаптивна обгортка для таблиць */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #30475e;
-        }
-
-        .audit-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #16213e;
-            min-width: 400px; /* Запобігає занадто сильному стисканню */
-        }
-
-        .audit-table th, .audit-table td {
-            border-bottom: 1px solid #2e4a65;
-            padding: 12px 15px;
-            text-align: left;
-            color: #fff;
-        }
-
-        .audit-table th {
-            background: #0f3460;
-            color: #00ff88;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        /* Стилі для бейджів (SET, DUPE) */
-        .badge {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* Адаптивність для смартфонів */
-        @media (max-width: 600px) {
-            .audit-container {
-                padding: 15px;
-                margin: 10px 0;
-            }
-
-            .audit-table th, .audit-table td {
-                padding: 10px 8px;
-                font-size: 13px;
-            }
-
-            h2 { font-size: 20px; }
-            h3 { font-size: 16px; }
-        }
-    </style>
-
-    <style>
-        /* ==========================================================================
-           ПЕРШИЙ БЛОК (СПРАВА НА ДЕСКТОПІ, ЗНИЗУ НА МОБІЛЦІ)
-           ========================================================================== */
-        .aads-sticky-container {
-            box-sizing: border-box;
-        }
-
-        /* Логіка закриття */
-        #aadsstickympzlfray:checked + .aads-sticky-container {
-            display: none;
-        }
-
-        /* МОБІЛЬНИЙ: Залишається горизонтальним знизу */
-        @media (max-width: 767px) {
-            .aads-sticky-container {
-                position: fixed;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 100%;
-                max-width: 350px;
-                padding: 0 10px;
-                z-index: 99999;
-            }
-            .aads-sticky-container iframe {
-                border: 0; padding: 0; display: block;
-                width: 100%;
-                height: 50px;
-            }
-            .aads-sticky-container label {
-                position: absolute; top: -15px; right: 5px;
-                border-radius: 50%; background: rgb(46, 74, 101);
-                padding: 4px; z-index: 100000; cursor: pointer; display: flex;
-            }
-        }
-
-        /* ДЕСКТОП: ВИТЯГНУТИЙ ВЕРТИКАЛЬНО СПРАВА */
-        @media (min-width: 768px) {
-            .aads-sticky-container {
-                position: fixed;
-                top: 50%;
-                right: 10px;
-                transform: translateY(-50%);
-                width: 120px;
-                z-index: 99999;
-            }
-            .aads-sticky-container iframe {
-                border: 0; padding: 0; display: block;
-                width: 100%;
-                height: 90vh;
-            }
-            /* ВИПРАВЛЕНО: Прибрано кнопку закриття на десктопі */
-            .aads-sticky-container label {
-                display: none !important;
-            }
-        }
-
-
-        /* ==========================================================================
-           ДРУГИЙ БЛОК (ЗЛІВА НА ДЕСКТОПІ, В ПОТОЦІ НА МОБІЛЦІ)
-           ========================================================================== */
-        /* Логіка закриття */
-        #aadsstickympzlqkui:checked + .aads-sticky-container {
-            display: none !important;
-        }
-
-        /* МОБІЛКА: Звичайний horizontal блок в тексті */
-        @media (max-width: 767px) {
-            .aads-desktop-left-container {
-                position: relative;
-                width: 100%;
-                max-width: 350px;
-                margin: 15px auto;
-                padding: 0 10px;
-                box-sizing: border-box;
-            }
-            .aads-desktop-left-container iframe {
-                border: 0; padding: 0; display: block; margin: 0 auto;
-                width: 100%;
-                height: 50px;
-            }
-            .aads-desktop-left-container .aads-close-btn {
-                display: none !important;
-            }
-        }
-
-        /* ДЕСКТОП: ВИТЯГНУТИЙ ВЕРТИКАЛЬНО ЗЛІВА */
-        @media (min-width: 768px) {
-            .aads-desktop-left-container {
-                position: fixed;
-                top: 50%;
-                left: 10px;
-                transform: translateY(-50%);
-                width: 120px;
-                z-index: 99999;
-            }
-            .aads-desktop-left-container iframe {
-                border: 0; padding: 0; display: block;
-                width: 100%;
-                height: 90vh;
-            }
-            /* ВИПРАВЛЕНО: Прибрано кнопку закриття на десктопі */
-            .aads-desktop-left-container .aads-close-btn {
-                display: none !important;
-            }
-        }
-    </style>
-
+    <link rel="preconnect" href="https://winter-thunder-5bd1.arabon3.workers.dev" crossorigin>
+    <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+    <link rel="stylesheet" href="css/style.css?v=8">
+    <script src="lang/ua.js?v=8"></script>
+    <script src="lang/en.js?v=8"></script>
+    <script src="js/core.js?v=8" defer></script>
+    <script src="js/calculator.js?v=8" defer></script>
+    <script src="js/miners.js?v=8" defer></script>
+    <script src="js/auditor.js?v=8" defer></script>
+    <script src="js/quest.js?v=8" defer></script>
+    <script src="js/app.js?v=8" defer></script>
 </head>
 <body>
 
-<div style="display: flex; justify-content: flex-end; margin-bottom: 10px; gap: 5px;">
-    <select id="langSelect" onchange="switchLanguage(this.value)" style="width: 80px; padding: 5px 2px; border-color: #00ff8844;">
+<div class="lang-bar">
+    <select id="langSelect">
         <option value="ua">UA</option>
         <option value="en">EN</option>
     </select>
 </div>
 
 <div>
-    <input autocomplete="off" type="checkbox" id="aadsstickympzlfray" hidden />
+    <input autocomplete="off" type="checkbox" id="aadsstickympzlfray" hidden>
     <div class="aads-sticky-container">
         <label for="aadsstickympzlfray">
-            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490">
-                <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-            </svg>
+            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490"><polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337"/></svg>
         </label>
-
-        <iframe data-aa="2441238" src="//acceptable.a-ads.com/2441238/?size=Adaptive&background_color=16213E"></iframe>
+        <iframe data-aa="2441238" title="ad" src="//acceptable.a-ads.com/2441238/?size=Adaptive&background_color=16213E"></iframe>
     </div>
 </div>
 
-
-<div id="bonus-quest-container" style="width: 100%; max-width: 600px;">
-    <div class="audit-container" style="color: #00ff88; text-align: center;">
-        Bonus...
-    </div>
+<div id="bonus-quest-container">
+    <div class="audit-container bonus-placeholder">Bonus...</div>
 </div>
 
 <div class="aads-desktop-left-container">
-    <input autocomplete="off" type="checkbox" id="aadsstickympzlqkui" hidden />
-    <div class="aads-box-2441240">
+    <input autocomplete="off" type="checkbox" id="aadsstickympzlqkui" hidden>
+    <div class="aads-box">
         <label for="aadsstickympzlqkui" class="aads-close-btn">
-            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490">
-                <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-            </svg>
+            <svg fill="white" height="10px" width="10px" viewBox="0 0 490 490"><polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337"/></svg>
         </label>
-
-        <iframe data-aa="2441240" src="//acceptable.a-ads.com/2441240/?size=Adaptive&background_color=16213E"></iframe>
+        <iframe data-aa="2441240" title="ad" src="//acceptable.a-ads.com/2441240/?size=Adaptive&background_color=16213E"></iframe>
     </div>
 </div>
 
-<div class="tabs-navigation" style="display: flex; gap: 3px; margin-bottom: 15px; overflow-x: hidden;">
-    <button class="v2-btn tab-btn" onclick="openTab(event, 'tab-calculator')" style="margin: 0; background: #16213e; padding: 1px 5px; font-size: 12px;" data-lang="tab_calculator">Калькулятор</button>
-    <button class="v2-btn tab-btn" onclick="openTab(event, 'tab-miners')" style="margin: 0; opacity: 0.5; padding: 6px 10px; font-size: 12px;" data-lang="tab_miners">Заміна Майнерів</button>
-    <button class="v2-btn tab-btn" onclick="openTab(event, 'tab-auditor')" style="margin: 0; opacity: 0.5; padding: 6px 10px; font-size: 12px;" data-lang="tab_auditor">Аудитор</button>
-    <button class="v2-btn tab-btn" onclick="openTab(event, 'tab-league')" style="margin: 0; opacity: 0.5; padding: 6px 10px; font-size: 12px;" data-lang="tab_league">Ліга</button>
+<div class="tabs-navigation">
+    <button type="button" class="v2-btn tab-btn active" data-tab="tab-calculator" data-lang="tab_calculator">Калькулятор</button>
+    <button type="button" class="v2-btn tab-btn" data-tab="tab-miners" data-lang="tab_miners">Заміна Майнерів</button>
+    <button type="button" class="v2-btn tab-btn" data-tab="tab-auditor" data-lang="tab_auditor">Аудитор</button>
+    <button type="button" class="v2-btn tab-btn" data-tab="tab-top" data-lang="tab_top">Топ ліги</button>
 </div>
 
-<div id="tab-calculator" class="tab-content">
+<!-- ================= КАЛЬКУЛЯТОР ================= -->
+<div id="tab-calculator" class="tab-content active">
     <div class="block">
         <div class="block-title" data-lang="title_power_calculator">Калькулятор потужності</div>
-        <div class="result-container"
-             style="display: flex; align-items: center;
-         box-sizing: border-box;
-         justify-content: space-between; width: 100%;
-         max-width: 300px; margin-bottom: 15px;
-         padding: 10px; border-radius: 8px;
-         margin: 0 auto 15px auto;">
-            <label for="auto_toggle" style="cursor: pointer; font-weight: bold;">
-                <span data-lang="mode_automatic">Автоматичний режим</span>
-            </label>
-            <input type="checkbox" id="auto_toggle" onchange="toggleMode()"
-                   style="cursor: pointer; width: 22px; height: 22px; accent-color: #2ecc71;">
+        <div class="result-container mode-toggle">
+            <label for="auto_toggle"><span data-lang="mode_automatic">Автоматичний режим</span></label>
+            <input type="checkbox" id="auto_toggle">
         </div>
         <div id="manual_section">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;" data-lang="label_profile_stats">
-                Profile Stats
-            </label>
-            <textarea id="raw_data" data-lang-placeholder="placeholder_profile_stats" placeholder="Вставити свої дані з Profile Stats..."
-                      oninput="calculateAll()"></textarea>
-            <button class="v2-btn" onclick="clearRawData('raw_data');" data-lang="btn_clear_profile">Очистити поле з Profile Stats</button>
-            <div class="freon-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 15px 0; text-align: center;">
+            <label class="lbl-bold" for="raw_data" data-lang="label_profile_stats">Profile Stats</label>
+            <textarea id="raw_data" data-lang-placeholder="placeholder_profile_stats" placeholder="Вставити свої дані з Profile Stats..."></textarea>
+            <button type="button" id="btnClearProfile" class="v2-btn" data-lang="btn_clear_profile">Очистити поле з Profile Stats</button>
+            <div class="freon-container">
                 <strong data-lang="text_hamster_freon_pct">Відсотки від хом'яка та фреону:</strong>
-
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="freon-row">
                     <label for="hamster_pct" data-lang="label_hamster">Хом'як:</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="color: #ff4757; font-weight: bold;">%</span>
+                    <div class="freon-field">
+                        <input type="number" id="hamster_pct" class="freon-input" value="0" step="0.01">
+                        <span class="freon-pct">%</span>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <label for="hammy_hooks" data-lang="label_hammy_hooks" style="text-align: left;">Hammy Hooks</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="hammy_hooks" class="freon-input" value="0" step="1" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="width: 14px; display: inline-block;"></span>
+                <div class="freon-row">
+                    <label for="hammy_hooks" data-lang="label_hammy_hooks" style="text-align:left">Hammy Hooks</label>
+                    <div class="freon-field">
+                        <input type="number" id="hammy_hooks" class="freon-input" value="0" step="1">
+                        <span class="freon-spacer"></span>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="freon-row">
                     <label for="freon_pct" data-lang="label_freon">Фреон:</label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01" oninput="calculateAll()" style="width: 70px; text-align: center;">
-                        <span style="color: #ff4757; font-weight: bold;">%</span>
+                    <div class="freon-field">
+                        <input type="number" id="freon_pct" class="freon-input" value="0" step="0.01">
+                        <span class="freon-pct">%</span>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <div id="auto_section" style="display: none;">
+
+    <div id="auto_section" hidden>
         <div class="input-group">
             <div class="block-title" data-lang="title_profile_link">Введіть частину посилання на свій профіль після /p/</div>
-            <input style="font-size: 12px;" type="text"
-                   id="nicknameInput" data-lang-placeholder="placeholder_nickname" placeholder="Ввести..." oninput="checkInput()">
-            <button id="calcBtn" class="v2-btn" onclick="getUserApiForCalculateNew(); handleRefresh(this);" data-lang="btn_sync_table" disabled>Заповнити таблицю</button>
+            <input type="text" id="nicknameInput" data-lang-placeholder="placeholder_nickname" placeholder="Ввести...">
+            <button id="calcBtn" type="button" class="v2-btn" data-lang="btn_sync_table" disabled>Заповнити таблицю</button>
         </div>
-        <div id="loader" class="loader" data-lang="text_syncing">Синхронізація даних...</div>
-        <details class="help-info" style="max-width: 600px; margin: 0 auto;">
-            <summary style="cursor: pointer; color: #00ff88; font-weight: bold;" data-lang="summary_help_link">
-                Де взяти посилання на профіль?
-            </summary>
-            <img src="images/help/help.png" data-lang-alt="alt_help_image" alt="Приклад нікнейму"
-                 style="width: 100%; height: auto; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <div id="loader" class="loader" data-lang="text_syncing" hidden>Синхронізація даних...</div>
+        <details class="help-info">
+            <summary data-lang="summary_help_link">Де взяти посилання на профіль?</summary>
+            <img src="images/help/help.png" data-lang-alt="alt_help_image" alt="Приклад нікнейму" loading="lazy" decoding="async">
         </details>
     </div>
+
     <div class="total-block">
         <div id="cur_league" class="league-badge">—</div>
         <div id="total_display" class="total-value">0.000 Ph</div>
         <div id="dist_next" class="dist-next" data-lang="text_to_next_league">До наступної ліги: —</div>
     </div>
 
-    <div class="block" style="border-color: #00ff88;">
-        <div class="block-title-miners" style="color:#ff9f43">
+    <div class="block">
+        <div class="block-title-miners old">
             <span data-lang="title_table_miner">Характеристики майнера, який знімається</span>
-            <button class="btn-add" onclick="addRow('old_list')">+</button>
+            <button type="button" class="btn-add" data-add="old_list">+</button>
         </div>
         <div class="grid-labels">
             <span data-lang="grid_power">Потужність</span>
@@ -535,9 +131,9 @@
     </div>
 
     <div class="block">
-        <div class="block-title-miners" style="color:#5fbf37">
+        <div class="block-title-miners">
             <span data-lang="title_new_miner">Характеристики майнера, який ставиться в кімнаті</span>
-            <button class="btn-add" onclick="addRow('new_list')">+</button>
+            <button type="button" class="btn-add" data-add="new_list">+</button>
         </div>
         <div class="grid-labels">
             <span data-lang="grid_power">Потужність</span>
@@ -550,10 +146,10 @@
         <div id="new_list"></div>
     </div>
 
-    <div class="result-container" >
-        <div style="font-size:12px" data-lang="text_net_gain">Чистий приріст системи </div>
+    <div class="result-container">
+        <div class="res-label" data-lang="text_net_gain">Чистий приріст системи </div>
         <div class="res-val" id="res_total">+0.000 Ph</div>
-        <div style="font-size:11px"><span data-lang="text_final_power">Фінальна потужність: ≈ </span><span id="f_total" style="color:#ff9f43">0</span></div>
+        <div class="res-sub"><span data-lang="text_final_power">Фінальна потужність: ≈ </span><span id="f_total" class="acc-orange">0</span></div>
         <div id="final_dist_next" class="final-dist-next" data-lang="text_after_changes_league">Після змін до наступної ліги: —</div>
     </div>
 
@@ -567,202 +163,151 @@
                     <th data-lang="table_coin">Койн</th>
                     <th data-lang="table_block">Блок</th>
                     <th data-lang="table_net_power">Потужність<br>мережі</th>
-                    <th id="nextLeagueHeader"><span data-lang="table_required_power">Необхідна<br>потужність<br><span>лігою вище</span></span></th>
+                    <th id="nextLeagueHeader"><span data-lang="table_same_income">Для такого ж<br>доходу в</span><br><b class="nl-name">—</b></th>
                     <th data-lang="table_day">День</th>
                     <th data-lang="table_week">Тиждень</th>
                     <th data-lang="table_month">Місяць</th>
                 </tr>
                 </thead>
-                <tbody id="tableBody">
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
-
     </div>
 </div>
 
-<div id="tab-miners"  class="tab-content" style="display: none;">
-
-    <div class="block" >
-        <div id="minersInfoContainer" class="block" style="display: block;">
-        <span data-lang="text_instruction_miners_rec" style="font-size: 14px; color: #c2c6cf;">
-        Дані появляться після натиснення кнопки заповнити таблицю в авторежимі.
-    </span>
+<!-- ================= ЗАМІНА МАЙНЕРІВ ================= -->
+<div id="tab-miners" class="tab-content">
+    <div class="block">
+        <div id="minersInfoContainer" class="block">
+            <span data-lang="text_instruction_miners_rec" style="font-size:14px;color:#c2c6cf">Дані появляться після натиснення кнопки заповнити таблицю в авторежимі.</span>
         </div>
 
-        <div id="minersLastUpdateBlock" style="display: none;">
+        <div id="minersLastUpdateBlock" hidden>
+            <div class="block-title"><span data-lang="miner_optimizer_desc">Характеристики майнера</span></div>
 
+            <div class="filters-grid">
+                <div>
+                    <label class="fld-label" for="minerPower" data-lang="label_power">Пот-ть</label>
+                    <input type="number" id="minerPower" placeholder="0.00">
+                </div>
+                <div>
+                    <label class="fld-label" for="minerUnit" data-lang="label_unit">Одиниці</label>
+                    <select id="minerUnit">
+                        <option value="gh">GH/s</option>
+                        <option value="ph">PH/s</option>
+                        <option value="eh">EH/s</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="fld-label" for="minerBonus" data-lang="label_bonus">Відсоток</label>
+                    <input type="number" id="minerBonus" placeholder="0.00">
+                </div>
+                <div class="wide">
+                    <label class="fld-label" for="minerSellableFilterRec" data-lang="label_sell">Маркет</label>
+                    <select id="minerSellableFilterRec" class="sel-filter">
+                        <option value="all" data-lang="filter_all">Всі майнери</option>
+                        <option value="true" data-lang="filter_sellable_yes">Продажні</option>
+                        <option value="false" data-lang="filter_sellable_no">Не продажні</option>
+                    </select>
+                </div>
+                <div class="wide">
+                    <label class="fld-label" for="minerSetFilterRec" data-lang="label_set">Сет</label>
+                    <select id="minerSetFilterRec" class="sel-filter">
+                        <option value="all" data-lang="filter_set_all">Із сетовими</option>
+                        <option value="true" data-lang="filter_set_no">Без сетових</option>
+                    </select>
+                </div>
+                <div class="wide">
+                    <label class="fld-label" for="minerWidthFilterRec" data-lang="label_slot">Слоти</label>
+                    <select id="minerWidthFilterRec" class="sel-filter">
+                        <option value="all" data-lang="filter_slots_all">Всі слоти</option>
+                        <option value="1" data-lang="filter_slots_1">1 слот</option>
+                        <option value="2" data-lang="filter_slots_2">2 слоти</option>
+                    </select>
+                </div>
+            </div>
 
-        <div  class="block-title">
-            <span data-lang="miner_optimizer_desc">Характеристики майнера</span>
+            <div class="sort-row">
+                <span data-lang="label_sort">Сортувати:</span>
+                <label><input type="radio" name="minerSortDir" value="name" checked><span data-lang="sort_az">A-Z</span></label>
+                <label><input type="radio" name="minerSortDir" value="power"><span data-lang="sort_power">По павер</span></label>
+            </div>
+
+            <div style="margin-top:10px">
+                <table class="rec-table">
+                    <thead>
+                    <tr>
+                        <th data-lang="th_name">Назва</th>
+                        <th data-lang="label_power">Пот-ть</th>
+                        <th data-lang="label_bonus">Відсоток</th>
+                        <th data-lang="th_cells">Слоти</th>
+                        <th data-lang="th_sellable">Маркет</th>
+                    </tr>
+                    </thead>
+                    <tbody id="minersTableBodyRecommendation"></tbody>
+                </table>
+                <div class="gain-line">
+                    <span data-lang="min_power_gain">Різниця</span>
+                    <span id="minPowerGainResult">0 Gh/s</span>
+                </div>
+            </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
+        <div class="block-title spaced"><span data-lang="title_miners_list">Пошук майнерів</span></div>
 
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_power">Пот-ть</label>
-                <input type="number" id="minerPower" placeholder="0.00" oninput="suggestMinersToRemove()">
+        <div class="search-row">
+            <div class="grow">
+                <input type="text" id="minerSearchInside" data-lang="placeholder_miner_search" placeholder="Введіть назву майнера...">
             </div>
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_unit">Одиниці</label>
-                <select id="minerUnit" onchange="suggestMinersToRemove()">
-                    <option value="gh">GH/s</option>
-                    <option value="ph">PH/s</option>
-                    <option value="eh">EH/s</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px;" data-lang="label_bonus">Відсоток</label>
-                <input type="number" id="minerBonus" placeholder="0.00" oninput="suggestMinersToRemove()">
-            </div>
-
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
-                display: block; margin-bottom: 3px;" data-lang="label_sell">Маркет</label>
-                <select id="minerSellableFilterRec" style="text-align: center;
-                padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
+            <div class="sel">
+                <select id="minerSellableFilter">
                     <option value="all" data-lang="filter_all">Всі майнери</option>
                     <option value="true" data-lang="filter_sellable_yes">Продажні</option>
                     <option value="false" data-lang="filter_sellable_no">Не продажні</option>
                 </select>
             </div>
-
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
-                display: block; margin-bottom: 3px;" data-lang="label_set">Сет</label>
-                <select id="minerSetFilterRec" style="text-align: center;
-                padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
-                    <option value="all" data-lang="filter_set_all">Із сетовими</option>
-                    <option value="true" data-lang="filter_set_no">Без сетових</option>
-                </select>
-            </div>
-
-            <div style="flex: 1.3; min-width: 130px;">
-                <label style="font-size: 8px; color: #888; text-transform: uppercase;
-                display: block; margin-bottom: 3px;" data-lang="label_slot">Слоти</label>
-                <select id="minerWidthFilterRec" style="text-align: center;
-                padding: 8px 12px; cursor: pointer; margin: 0;" onchange="suggestMinersToRemove(this.value)">
-                    <option value="all" data-lang="filter_slots_all">Всі слоти</option>
-                    <option value="1" data-lang="filter_slots_1">1 слот</option>
-                    <option value="2" data-lang="filter_slots_2">2 слоти</option>
-                </select>
-            </div>
-
         </div>
-            <div style="display: flex; flex-wrap: nowrap; align-items: center; gap: 12px; margin-top: 5px; font-size: 11px; color: #ccc; width: max-content;">
-                <span data-lang="label_sort" style="white-space: nowrap;">Сортувати:</span>
 
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                    <input type="radio" name="minerSortDir" value="name" checked
-                           onchange="suggestMinersToRemove();"
-                           style="cursor: pointer; margin: 0;">
-                    <span data-lang="sort_az">A-Z</span>
-                </label>
+        <div id="minersLoader" class="loader" data-lang="text_loading" hidden>Завантаження...</div>
 
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                    <input type="radio" name="minerSortDir" value="power"
-                           onchange="suggestMinersToRemove();"
-                           style="cursor: pointer; margin: 0;">
-                    <span data-lang="sort_power">По павер</span>
-                </label>
-            </div>
-
-        <div class="miners-table-container" style="margin-top: 10px;">
-            <table style="width: 100%; border-collapse: collapse; color: #fff; font-family: sans-serif; font-size: 14px; text-align: center;">
+        <div class="table-wrapper tight">
+            <table class="search-table">
                 <thead>
-                <tr style="border-bottom: 2px solid #333; color: #888; font-size: 10px; text-transform: uppercase;">
-                    <th style="text-align: center; padding: 8px 12px;" data-lang="th_name">Назва</th>
-                    <th style="padding: 6px 4px;" data-lang="label_power">Пот-ть</th>
-                    <th style="padding: 6px 4px;" data-lang="label_bonus">Відсоток</th>
-                    <th style="padding: 6px 4px;" data-lang="th_cells">Слоти</th>
-                    <th style="padding: 6px 4px;" data-lang="th_sellable">Маркет</th>
+                <tr>
+                    <th data-lang="table_miner">Майнер</th>
+                    <th data-lang="table_power_short">Пот-ть</th>
+                    <th data-lang="table_bonus">Бонус</th>
+                    <th data-lang="table_cells">Слоти</th>
+                    <th data-lang="table_status">Статус</th>
                 </tr>
                 </thead>
-                <tbody id="minersTableBodyRecommendation">
-                </tbody>
-            </table>
-            <div style="margin-top: 12px; font-family: sans-serif; font-size: 12px; color: #00ff88; text-align: left; padding: 0 4px;">
-                <span data-lang="min_power_gain">Різниця</span>
-                <span id="minPowerGainResult" style="font-weight: bold;">0 Gh/s</span>
-            </div>
-        </div>
-        </div>
-
-        <div class="block-title" style="display: flex; margin-top: 25px; justify-content: space-between; width: 100%;">
-            <span data-lang="title_miners_list">Пошук майнерів</span>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 12px; margin-top: 5px; align-items: center;">
-
-            <div style="flex: 2;">
-                <input type="text" id="minerSearchInside" data-lang="placeholder_miner_search" placeholder="Введіть назву майнера..." style="text-align: left; padding: 8px 12px; margin: 0;">
-            </div>
-
-            <div style="flex: 1.3; min-width: 130px;">
-                <select id="minerSellableFilter" style="text-align: left; padding: 8px 12px; cursor: pointer; margin: 0;">
-                    <option value="all" data-lang="filter_all">Всі майнери</option>
-                    <option value="true" data-lang="filter_sellable_yes">Продажні</option>
-                    <option value="false" data-lang="filter_sellable_no">Не продажні</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div id="minersLoader" class="loader" data-lang="text_loading">Завантаження...</div>
-
-        <div class="table-wrapper" style="margin: 5px 0 0 0; width: 100%; overflow: hidden; box-sizing: border-box;">
-            <table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-                <thead>
-                <tr style="font-size: 11px;">
-                    <th data-lang="table_miner" style="width: 35%; padding: 6px 4px; text-align: left; word-break: break-word;">Майнер</th>
-                    <th data-lang="table_power_short" style="width: 18%; padding: 6px 2px; text-align: center;">Пот-ть</th>
-                    <th data-lang="table_bonus" style="width: 15%; padding: 6px 2px; text-align: center;">Бонус</th>
-                    <th data-lang="table_cells" style="width: 14%; padding: 6px 2px; text-align: center;">Слоти</th>
-                    <th data-lang="table_status" style="width: 18%; padding: 6px 2px; text-align: center;">Статус</th>
-                </tr>
-                </thead>
-                <tbody id="minersTableBody" style="font-size: 10px;">
-                </tbody>
+                <tbody id="minersTableBody"></tbody>
             </table>
         </div>
 
-        <div id="paginationContainer"
-             style="display: flex; gap: 8px; justify-content: center; margin-top: 15px;"></div>
+        <div id="paginationContainer"></div>
     </div>
 </div>
 
-
-<div id="tab-auditor" class="tab-content" style="display: none;">
-    <div id="minersInfoContainerAudit" class="block" style="display: block;">
-        <span data-lang="text_instruction_fill_table" style="font-size: 14px; color: #c2c6cf;">
-        Дані появляться після натиснення кнопки заповнити таблицю в авторежимі.
-    </span>
+<!-- ================= АУДИТОР ================= -->
+<div id="tab-auditor" class="tab-content">
+    <div id="minersInfoContainerAudit" class="block">
+        <span data-lang="text_instruction_fill_table" style="font-size:14px;color:#c2c6cf">Дані появляться після натиснення кнопки заповнити таблицю в авторежимі.</span>
     </div>
 
-    <div id="extra" style="display: none;">
+    <div id="extra" hidden>
         <div class="audit-container">
-            <h2 style="color: #00ff88; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 10px;" data-lang="title_room_auditor">
-                🛠️ Аудитор кімнат
-            </h2>
+            <h2 class="audit-title" data-lang="title_room_auditor">🛠️ Аудитор кімнат</h2>
+            <h4 class="audit-h4" data-lang="title_find_miner">Пошук майнера в кімнаті</h4>
 
-            <h4 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;" data-lang="title_find_miner">
-                Пошук майнера в кімнаті
-            </h4>
+            <input type="text" id="minerSearchInput" data-lang="placeholder_miner_search" placeholder="введіть назву майнера" hidden>
+            <div id="searchResult"></div>
 
-            <input type="text" id="minerSearchInput"
-                   data-lang="placeholder_miner_search"
-                   placeholder="введіть назву майнера"
-                   oninput="searchInputMiner()"
-                   style="display: none;">
-            <div id="searchResult" style="margin-top: 10px; font-weight: bold;"></div>
+            <div id="auditLoader" class="audit-loader" data-lang="text_audit_loading" hidden>📡 Отримання даних з кімнат...</div>
 
-            <div id="auditLoader" style="display:none; color: #f1c40f; margin: 15px 0; font-weight: bold; text-align: center;" data-lang="text_audit_loading">
-                📡 Отримання даних з кімнат...
-            </div>
-
-            <div id="auditResults" style="display:none;">
-                <h3 style="color: #ff4757; font-size: 18px; margin-bottom: 10px;">
-                    <span data-lang="title_duplicates">⚠️ Дублікати </span><small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;" data-lang="text_duplicates_note">(відсоток рахується тільки з одного)</small>
+            <div id="auditResults" hidden>
+                <h3 class="audit-h3 red">
+                    <span data-lang="title_duplicates">⚠️ Дублікати </span><small class="audit-note" data-lang="text_duplicates_note">(відсоток рахується тільки з одного)</small>
                 </h3>
                 <div class="table-responsive">
                     <table class="audit-table" id="dupesTable">
@@ -776,11 +321,9 @@
                     </table>
                 </div>
 
-                <h3 style="color: #22d3ee; font-size: 18px; margin-bottom: 10px; margin-top: 25px;">
+                <h3 class="audit-h3 cyan">
                     <span data-lang="title_worst_efficiency">📉 Рейтинг майнерів з найменшою ефективністю для потужності</span>
-                    <small style="font-size: 12px; color: #ccc; font-weight: normal; display: block;" data-lang="text_efficiency_note">
-                        Найменший внесок Ph/слот (SET - майнер з сету, DUPE - повтор майнера)
-                    </small>
+                    <small class="audit-note" data-lang="text_efficiency_note">Найменший внесок Ph/слот (SET - майнер з сету, DUPE - повтор майнера)</small>
                 </h3>
                 <div class="table-responsive">
                     <table class="audit-table" id="worstTable">
@@ -800,1545 +343,35 @@
     </div>
 </div>
 
-<div id="tab-league" class="tab-content" style="display: none;">
+<!-- ================= ТОП ЛІГИ ================= -->
+<div id="tab-top" class="tab-content">
     <div class="block">
-
-        <div class="block-title" data-lang="title_select_league">Оберіть лігу RollerCoin</div>
-        <select id="leagueSelect" onchange="onLeagueChange(this.value)">
-            <option value="" data-lang="option_loading_leagues">Завантаження ліг...</option>
-        </select>
-        <button class="v2-btn" onclick="copyLeagueToClipboard(this)" style="margin-top: 10px;" data-lang="btn_copy_league">Скопіювати дані ліги для П'єро</button>
-    </div>
-
-    <div id="leagueSummaryBlock" style="display: none; margin-top: 20px;">
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px;">
-
-            <div class="block" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
-                <svg id="pieChart" width="220" height="220" viewBox="-1 -1 2 2" style="transform: rotate(-90deg); border-radius: 50%; background: #252a4a;"></svg>
-                <div class="total-block" style="border: none; margin: 15px 0 0 0; padding: 0;">
-                    <div class="league-badge" id="currentLeagueTitle" data-lang="title_league">Ліга</div>
-                    <div class="total-value" id="totalPowerDisplay" style="font-size: 20px;">0.00 Zh/s</div>
-                </div>
-            </div>
-
-            <div>
-                <div class="block-title-miners" data-lang="title_game_currencies">Game Currencies</div>
-                <div id="gameCurrenciesContainer"></div>
-
-                <div class="block-title-miners" style="margin-top: 20px; color: #00d4ff;" data-lang="title_crypto_currencies">Crypto Currencies</div>
-                <div id="cryptoCurrenciesContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;"></div>
-            </div>
-
+        <div class="block-title" data-lang="title_top_league">Дохід на межі ліги (на 1 Gh/s нижче переходу)</div>
+        <label class="fld-label" for="topLeagueSelect" data-lang="title_select_league">Оберіть лігу RollerCoin</label>
+        <select id="topLeagueSelect"></select>
+        <div id="topCustomPower" hidden>
+            <label class="fld-label" for="topLegendPower" data-lang="label_legend_power">Потужність (Zh/s)</label>
+            <input type="number" id="topLegendPower" value="1000" min="0" step="any">
+        </div>
+        <div id="topLeagueInfo" class="top-info"></div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th data-lang="table_coin">Койн</th>
+                    <th data-lang="table_block">Блок</th>
+                    <th data-lang="table_net_power">Потужність<br>мережі</th>
+                    <th data-lang="table_day">День</th>
+                    <th data-lang="table_week">Тиждень</th>
+                    <th data-lang="table_month">Місяць</th>
+                </tr>
+                </thead>
+                <tbody id="topTableBody"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
-
-<script src="base.js"></script>
-<script src="minersSuggest.js"></script>
-
-<script>
-
-    let minersRaw;
-    let bonusRaw;
-    let rData;
-    let userData;
-    let hamsterPowerRaw;
-    let currentTranslations = null;
-    let bonusClear;
-    let freonRawGh;
-
-    function openTab(event, tabId) {
-        // 1. Ховаємо всі вкладки контенту
-        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-
-        // 2. Показуємо вибрану
-        document.getElementById(tabId).style.display = 'block';
-
-        // 3. Скидаємо стилі активності для всіх кнопок табів
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.style.background = '';
-            btn.style.opacity = '0.5';
-        });
-
-        // 4. Підсвічуємо поточну кнопку (колір як у .block)
-        event.currentTarget.style.background = '#16213e';
-        event.currentTarget.style.opacity = '1';
-
-        if (tabId === 'tab-miners' && !isMinersLoaded) {
-            handleMinerSearch().catch(err => console.error("Помилка табу майнерів:", err));
-        }
-    }
-
-
-    // Запуск при завантаженні сторінки (Один універсальний метод)
-    document.addEventListener("DOMContentLoaded", () => {
-        // Якщо мову не вибрано раніше — за замовчуванням ставимо 'en'
-        const savedLang = localStorage.getItem('selectedLang') || 'en';
-
-        // Підсвічуємо EN або UA у випадаючому списку (селекті)
-        const select = document.getElementById('langSelect');
-        if (select) select.value = savedLang;
-
-        // Запускаємо переклад сторінки
-        switchLanguage(savedLang);
-    });
-
-    // 1. СПОЧАТКУ МАЄ ЙТИ ЦЯ ФУНКЦІЯ
-    function applyLanguage(translations) {
-        if (!translations) return;
-
-        document.querySelectorAll('[data-lang]').forEach(el => {
-            const key = el.getAttribute('data-lang');
-            if (!translations[key]) return;
-
-            if (key === 'btn_refresh_cooldown') {
-                const seconds = el.getAttribute('data-seconds') || '0';
-                el.innerText = translations[key].replace('{seconds}', seconds);
-                return;
-            }
-
-            if (key === 'calc_dist_next' || key === 'calc_final_dist_next') {
-                const name = el.getAttribute('data-name') || '';
-                const power = el.getAttribute('data-power') || '0';
-                el.innerText = translations[key].replace('{name}', name).replace('{power}', power);
-                return;
-            }
-
-            if (key === 'text_miner_not_found') {
-                const query = el.getAttribute('data-query') || '';
-                el.innerText = translations[key].replace('{query}', query);
-                return;
-            }
-
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = translations[key];
-            } else {
-                if (translations[key].includes('<')) {
-                    el.innerHTML = translations[key];
-                } else {
-                    el.innerText = translations[key];
-                }
-            }
-        });
-
-        document.querySelectorAll('[data-lang-room]').forEach(el => el.innerText = translations['room'] || 'Кімн.');
-        document.querySelectorAll('[data-lang-rack]').forEach(el => el.innerText = translations['rack'] || 'Стел.');
-        document.querySelectorAll('[data-lang-shelf]').forEach(el => el.innerText = translations['shelf'] || 'Пол.');
-    }
-
-    async function switchLanguage(lang) {
-        try {
-            // Якщо файли лежать поруч з index.html, шлях має бути просто `${lang}.json`
-            const response = await fetch(`lang/${lang}.json`);
-            if (!response.ok) throw new Error(`Не вдалося завантажити мовний файл: ${lang}`);
-
-            currentTranslations = await response.json();
-            localStorage.setItem('selectedLang', lang);
-
-            // Тепер браузер точно знайде цю функцію нижче
-            applyLanguage(currentTranslations);
-
-        } catch (error) {
-            console.error("Помилка локалізації:", error);
-        }
-    }
-
-    function getDivisorByName(coinName) {
-        // Зводимо до нижнього регістру (на випадок, якщо прилетить "BTC" замість "btc")
-        const cleanName = coinName ? coinName.toLowerCase() : '';
-
-        // Шукаємо збіг у конфігу
-        const found = CURRENCY_CONFIG.find(c => c.name === cleanName);
-
-        // Якщо знайшли — віддаємо дільник, якщо ні — беремо дефолтний, якщо і його нема — 1000000
-        if (found) {
-            return found.divisor;
-        } else {
-            const def = CURRENCY_CONFIG.find(c => c.name === 'default');
-            return def ? def.divisor : 1000000;
-        }
-    }
-
-    let minersNames = [];
-
-    async function addMultipleMinersSellableValue(minerNamesArray) {
-        if (!minerNamesArray || minerNamesArray.length === 0) return {};
-
-        // URL тепер завжди короткий і стабільний!
-        const url = `https://wispy-miners-sync-1be8.arabon3.workers.dev/`;
-
-        try {
-            // Робимо POST запит і передаємо ВСІ імена всередині тіла (body)
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ names: minerNamesArray })
-            });
-
-            if (!response.ok) {
-                throw new Error(`Помилка проксі-воркера: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log("Дані від проксі:", data);
-
-            if (!Array.isArray(data)) {
-                console.error("Проксі повернув помилку замість масиву:", data);
-                return {};
-            }
-
-            const sellableMap = Object.fromEntries(data.map(item => [item.name, item.sellable]));
-
-            if (typeof efficiency !== 'undefined' && Array.isArray(efficiency)) {
-                efficiency.forEach(miner => {
-                    miner.sellable = sellableMap[miner.name] ?? false;
-                });
-            }
-
-            return sellableMap;
-
-        } catch (error) {
-            console.error("Помилка масової перевірки sellable через проксі:", error);
-            return {};
-        }
-    }
-
-    let efficiency = [];
-    let userDataFromApi = {};
-
-    async function runAudit() {
-        const nickInput = document.getElementById('nicknameInput');
-        const loader = document.getElementById('auditLoader');
-        const results = document.getElementById('auditResults');
-        const dupesBody = document.querySelector('#dupesTable tbody');
-        const worstBody = document.querySelector('#worstTable tbody');
-        const minersRec = document.getElementById('minersInfoContainer');
-        const minersAudit = document.getElementById('minersInfoContainerAudit');
-        const minersLastUpdateBlock = document.getElementById('minersLastUpdateBlock');
-
-        minersRec.style.setProperty("display", "none", "important");
-        minersAudit.style.setProperty("display", "none", "important");
-
-        minersLastUpdateBlock.style.setProperty("display", "block", "important");
-
-        if (!nickInput || !nickInput.value.trim()) return;
-        const nick = nickInput.value.trim();
-
-        getClearTableBody('minersTableBodyRecommendation');
-        if (typeof efficiency !== 'undefined') efficiency = [];
-        if (typeof minersNames !== 'undefined') minersNames = [];
-
-        const minPowerGainEl = document.getElementById('minPowerGainResult');
-        if (minPowerGainEl) {
-            minPowerGainEl.textContent = '0';
-        }
-
-        loader.style.display = 'block';
-        results.style.display = 'none';
-
-        try {
-            const profileUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fprofile%2Fpublic-user-profile-data%2F${nick}`;
-            const pResp = await fetch(profileUrl);
-            const pData = await pResp.json();
-            if (!pData.success) throw new Error("Користувача не знайдено");
-
-            const roomUrl = `https://morning-thunder-0ce3.wminerrc.workers.dev/?https%3A%2F%2Frollercoin.com%2Fapi%2Fgame%2Froom-config%2F${pData.data.avatar_id}`;
-            const rResp = await fetch(roomUrl);
-            rData = await rResp.json();
-
-            const miners = rData.data.miners;
-            const racks = rData.data.racks;
-
-            // --- ЛОГІКА АНАЛІЗУ ---
-            const bonusClearLocal = bonusRaw - hamsterPowerRaw;
-            const globalBonusMult = (bonusClearLocal / minersRaw) + 1;
-            bonusClear =bonusClearLocal;
-
-
-            const globalCounts = {};
-            const bonusTracker = {};
-
-
-            // 1. Рахуємо кількість для дублікатів
-            miners.forEach(m => {
-                const key = `${m.name}_[Lvl ${m.level + 1}]`;
-                globalCounts[key] = (globalCounts[key] || 0) + 1;
-            });
-
-            // 2. Аналіз Брутто-втрати
-            miners.forEach(m => {
-                const rack = racks.find(r => r._id === m.placement.user_rack_id);
-
-                // 1. Отримуємо дані стелажа
-                const rLevel = rack?.placement?.room_level ?? 0;
-                const rX = rack?.placement?.x ?? 0; // позиція в ряду (0-11)
-                const rY = rack?.placement?.y ?? 0; // номер ряду (0-2)
-
-                // 2. Рахуємо порядковий номер стелажа в кімнаті (від 1 до 36)
-                // Формула: (номер ряду * 12) + (позиція в ряду + 1)
-                // Визначаємо кількість стелажів у ряду залежно від кімнати
-                const racksInRow = (rLevel === 0) ? 4 : 6;
-
-                // Рахуємо чистий порядковий номер
-                const rackNumber = (rY * racksInRow) + (rX + 1);
-
-                // 3. Формуємо короткий рядок: Кімната, Номер стелажа, Полиця (Зберігаємо змінні для шаблонізації)
-                // Використовуємо кастомні дата-атрибути для зберігання чистих значень номерів кімнат/стелажів/полиць
-                const locationHtml =
-                    `<div class="miner-loc"
-data-room="${rLevel + 1}" data-rack="${rackNumber}"
-data-shelf="${m.placement.y + 1}" style="color: #5bc0de; font-size: 10px; margin-top: 2px;">📍
-<span data-lang-room="true">Кімн.</span> ${rLevel + 1} |
-<span data-lang-rack="true">Стел.</span> ${rackNumber} |
-<span data-lang-shelf="true">Пол.</span> ${m.placement.y + 1}</div>`;
-
-                const lvlLabel = `[Lvl ${m.level + 1}]`;
-                const uniqueKey = `${m.name}_${lvlLabel}`;
-
-                let isDupe = false;
-                if (bonusTracker[uniqueKey]) {
-                    isDupe = true;
-                } else {
-                    bonusTracker[uniqueKey] = true;
-                }
-
-                const minerBonusPercent = (m.bonus_percent || 0) / 10000;
-                const bodyLoss = m.power * globalBonusMult;
-                const bonusLoss = isDupe ? 0 : (minerBonusPercent * minersRaw);
-                const totalGrossLoss = bodyLoss + bonusLoss;
-                const contributionPerSlot = totalGrossLoss / (m.width || 1);
-
-                minersNames.push(m.name);
-
-                efficiency.push({
-                    name: m.name,
-                    levelLabel: lvlLabel,
-                    power: m.power,
-                    realBonusDisplay: (minerBonusPercent * 100).toFixed(2),
-                    contribution: contributionPerSlot,
-                    isDupe: isDupe,
-                    width: m.width || 1,
-                    isInSet: m.is_in_set,
-                    locationHtml: locationHtml,
-                    sellable: null
-                });
-            });
-
-            await addMultipleMinersSellableValue(minersNames);
-
-            // --- ВИВІД ТАБЛИЦІ 1 (ДУБЛІКАТИ) ---
-            dupesBody.innerHTML = '';
-            let hasGlobalDupes = false;
-
-            for (const key in globalCounts) {
-                if (globalCounts[key] > 1) {
-                    const parts = key.split('_');
-                    const minerName = parts[0];
-                    const minerLvl = parts[1];
-                    const gifUrl = getMinerGifUrl(minerName);
-
-                    // Знаходимо всі локації для цього конкретного дубліката
-                    const locations = efficiency
-                        .filter(item => `${item.name}_${item.levelLabel}` === key)
-                        .map(item => item.locationHtml)
-                        .join('');
-
-                    dupesBody.innerHTML += `<tr>
-            <td style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #30475e; padding: 5px 0;">
-                <div style="width: 45px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f3460; border-radius: 4px; overflow: hidden;">
-                    <img src="${gifUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div style="line-height: 1.2;">
-                    <span style="color:#ff4757; font-weight:bold;">${minerName}</span> <br>
-                    <small style="color:#888">${minerLvl}</small>
-                    ${locations} </div>
-            </td>
-            <td style="vertical-align: middle;">
-                <span style="background:#ff4757; color:white; padding:2px 8px; border-radius:4px; font-weight:bold;"><span data-lang="text_quantity_val">${globalCounts[key]}</span> <span data-lang="text_pcs">шт.</span></span>
-            </td>
-        </tr>`;
-                    hasGlobalDupes = true;
-                }
-            }
-            if (!hasGlobalDupes) dupesBody.innerHTML
-                = '<tr><td colspan="2" style="text-align:center; color:#00ff88;" ' +
-                'data-lang="text_all_unique">Усі унікальні! 🎉</td></tr>';
-
-            // --- ВИВІД ТАБЛИЦІ 2 (НАЙГІРШІ) ---
-            efficiency.sort((a, b) => a.contribution - b.contribution);
-            worstBody.innerHTML = '';
-            let nonSetCount = 0;
-            let smallCount = 0;
-            let bigCount = 0;
-
-            for (const m of efficiency) {
-                if (nonSetCount >= 3) break;
-                if (!m.isInSet) {
-                    // Якщо це малий і вже є 2 — пропускаємо
-                    if (m.width === 1 && smallCount >= 2) continue;
-                    // Якщо це великий і вже є 1 — пропускаємо
-                    if (m.width === 2 && bigCount >= 1) continue;
-
-                    // Якщо пройшов ліміти — інкрементуємо лічильники
-                    if (m.width === 1) smallCount++;
-                    if (m.width === 2) bigCount++;
-                    nonSetCount++;
-                }
-
-                let tags = (m.isInSet ? `<span style="background:#f1c40f; color:#000; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">SET</span>` : "") +
-                    (m.isDupe ? `<span style="background:#ff4757; color:#fff; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; font-weight:bold;">DUPE</span>` : "");
-
-                const gifUrl = getMinerGifUrl(m.name);
-
-                worstBody.innerHTML += `<tr>
-                    <td style="font-weight:bold; display: flex;
-                    align-items: center; gap: 12px; border-bottom: 1px solid #30475e;">
-                        <div style="width: 50px; height: 35px; flex-shrink: 0; display: flex;
-                        align-items: center; justify-content: center; background: #0f3460;
-                        border-radius: 4px; overflow: hidden;">
-                            <img src="${gifUrl}"
-                                 alt=""
-                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                                 onerror="this.parentElement.style.display='none'">
-                        </div>
-                        <div style="line-height: 1.2;">
-                            <span style="color: #fff;">${m.name}</span> <br>
-                            <small style="color: #888; font-size: 11px;">${m.levelLabel}</small> ${tags}
-                            ${m.locationHtml}
-                        </div>
-                    </td>
-                    <td style="color:#ccc;">${formatPowerSNw(m.power)}</td>
-                    <td style="color:#ffa502;">${m.realBonusDisplay}%</td>
-                    <td style="color:#00ff88; font-weight:bold;">${formatPowerSNw(m.contribution)}/<span data-lang="text_per_slot">сл</span></td>
-                </tr>`;
-            }
-
-            results.style.display = 'block';
-            document.getElementById('minerSearchInput').style.display = 'block';
-
-        } catch (e) {
-            alert("Помилка: " + e.message);
-        } finally {
-            loader.style.display = 'none';
-        }
-
-        if (currentTranslations) applyLanguage(currentTranslations);
-    }
-
-    function searchInputMiner() {
-        const searchInput = document.getElementById('minerSearchInput');
-        const searchResultDiv = document.getElementById('searchResult');
-
-        if (!searchInput || !searchResultDiv) return;
-
-        const query = searchInput.value.trim().toLowerCase();
-        searchResultDiv.innerHTML = "";
-
-        if (query) {
-            // 1. Шукаємо збіги по імені прямо в нашому готовому масиві efficiency
-            const found = efficiency.filter(m => m.name.toLowerCase().includes(query));
-
-            if (found.length > 0) {
-                // 2. Формуємо рядки з уже готових властивостей об'єкта
-                const resultsText = found.map(m => {
-                    const sellBadge = m.sellable
-                        ? `<span style="color: #2ed573; font-size: 11px;" data-lang="miner_can_sell">Can be sell</span>`
-                        : `<span style="color: #ff4757; font-size: 11px;" data-lang="miner_cant_sell">Can't be sell</span>`;
-
-                    // Використовуємо вже сформований раніше m.locationHtml
-                    return `<div>
-                    <b>${m.name}</b> ${m.levelLabel} — ${sellBadge}<br>
-                    ${m.locationHtml}
-                </div>`;
-                });
-
-                searchResultDiv.style.color = "#fff";
-                searchResultDiv.innerHTML = `<div style="display: flex; flex-direction: column; gap: 8px;">
-                <div style="color: #00ff88;" data-lang="text_found">✅ Знайдено:</div>
-                ${resultsText.join('')}
-            </div>`;
-            } else {
-                searchResultDiv.style.color = "#ff4757";
-                searchResultDiv.innerHTML = `<div class="not-found-wrapper" data-query="${query}" data-lang="text_miner_not_found">❌ Майнера "${query}" немає в кімнатах</div>`;
-            }
-        }
-
-        if (currentTranslations) applyLanguage(currentTranslations);
-    }
-
-    function formatPowerSNw(ghValue) {
-        if (ghValue === 0) return "0 Gh/s";
-        const units = ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s'];
-        let value = ghValue;
-        let unitIndex = 0;
-        while (value >= 1000 && unitIndex < units.length - 1) {
-            value /= 1000;
-            unitIndex++;
-        }
-        return value.toFixed(2) + " " + units[unitIndex];
-    }
-
-    function getMinerGifUrl(name) {
-        // Перетворюємо "Crypto Kong" на "crypto_kong.gif"
-        const formattedName = name.toLowerCase()
-            .trim()
-            .replace(/[\s-]+/g, '_')
-            .replace(/['’`‘]/g, '');    // Замінюємо всі пробіли та риски (дефіси) на підкреслення
-            // .replace(/[^a-z0-9_]/g, ''); // Видаляємо спецсимволи, крім цифр, букв і підкреслень
-
-        // Повертаємо нове посилання з розширенням .png
-        return `https://static.rollercoin.com/static/img/market/miners/${encodeURIComponent(formattedName)}.gif`;
-
-        // Попередній варіант:
-        // return `https://api.minaryganar.com/assets/rollercoin/miners/${formattedName}.gif`;
-    }
-
-    const PROXY = 'https://morning-thunder-0ce3.wminerrc.workers.dev/?';
-    const API_BASE = 'https://api.rollercoincalculator.app/api';
-    const API_ROLLER_USER_BASE ='https://rollercoin.com/api/profile/user-power-data';
-
-    const CURRENCY_CONFIG = [
-        { name: "btc",  divisor: 10000000000, prec: 8, geckoId: "bitcoin" },
-        { name: "trx",  divisor: 10000000000, prec: 8, geckoId: "tron" },
-        { name: "pol",  divisor: 10000000000, prec: 8, geckoId: "polygon-ecosystem-token" },
-        { name: "bnb",  divisor: 10000000000, prec: 8, geckoId: "binancecoin" },
-        { name: "eth",  divisor: 10000000000, prec: 8, geckoId: "ethereum" },
-        { name: "doge", divisor: 10000,       prec: 2, geckoId: "dogecoin" },
-        { name: "ltc",  divisor: 100000000,   prec: 8, geckoId: "litecoin" },
-        { name: "algo", divisor: 1000000,     prec: 4, geckoId: "algorand" },
-        { name: "sol",  divisor: 1000000000,  prec: 8, geckoId: "solana" },
-        { name: "xrp",  divisor: 1000000,     prec: 2, geckoId: "ripple" },
-        { name: "default", divisor: 1000000,  prec: 6, geckoId: null }
-    ];
-
-    const LEAGUES = [
-        { name: "Bronze I", limit: 0 },
-        { name: "Bronze II", limit: 25000000 },
-        { name: "Bronze III", limit: 50000000 },
-        { name: "Silver I", limit: 100000000 },
-        { name: "Silver II", limit: 150000000 },
-        { name: "Silver III", limit: 250000000 },
-        { name: "Gold I", limit: 650000000 },
-        { name: "Gold II", limit: 1500000000 },
-        { name: "Gold III", limit: 3500000000 },
-        { name: "Platinum I", limit: 16000000000 },
-        { name: "Platinum II", limit: 50000000000 },
-        { name: "Platinum III", limit: 100000000000 },
-        { name: "Diamond I", limit: 200000000000 },
-        { name: "Diamond II", limit: 375000000000 },
-        { name: "Diamond III", limit: 650000000000 },
-        { name: "Titan I", limit: 1150000000000 },
-        { name: "Titan II", limit: 2160000000000 },
-        { name: "Titan III", limit: 4000000000000 },
-        { name: "Emerald I", limit: 13000000000000 },
-        { name: "Emerald II", limit: 25000000000000 },
-        { name: "Emerald III", limit: 70000000000000 },
-        { name: "Legend", limit: 1000000000000000 }
-    ];
-
-    const tableBody = document.getElementById('tableBody');
-    const leagueInfo = document.getElementById('leagueInfo');
-
-    let cryptoPrices = {};
-    let results = [];
-    let userPower = 0;
-    let userLeagueId = null;
-    let leaguesData = [];
-    let hamsterPercent = 0;
-    let bonusPercentClear = 0;
-
-    // 1. ГОЛОВНА ІНІЦІАЛІЗАЦІЯ
-    async function init() {
-        await loadCryptoPrices();
-        await getLeaguesDataApi();
-
-        // Додаємо рядки, але НЕ запускаємо розрахунок відразу
-        addRow('old_list', false);
-        addRow('new_list', false);
-
-        // Запускаємо перший розрахунок тільки коли все готово
-        // calculateAll();
-    }
-
-    // 2. ДОПОМІЖНІ ФУНКЦІЇ
-    const getCoinConfig = function(coinName) {
-        return CURRENCY_CONFIG.find(c => c.name === coinName) || CURRENCY_CONFIG[CURRENCY_CONFIG.length - 1];
-    };
-
-    function getDailyRaw(rewardPerBlock, blocksPerDay, divisor) {
-        return (rewardPerBlock * blocksPerDay) / divisor;
-    }
-
-    function formatPowerSN(ghValue) {
-        if (typeof ghValue === 'number') {
-            if (ghValue === 0) return "0 Gh/s";
-            const units = ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s', 'Zh/s'];
-            let value = Math.abs(ghValue);
-            let sign = ghValue < 0 ? "-" : "";
-            let unitIndex = 0;
-            while (value >= 1000 && unitIndex < units.length - 1) {
-                value /= 1000;
-                unitIndex++;
-            }
-            return sign + value.toFixed(3) + " " + units[unitIndex];
-        }
-        if (typeof ghValue === 'string') {
-            const cleanInput = ghValue.trim().replace(',', '.');
-            const num = parseFloat(cleanInput) || 0;
-            const unit = cleanInput.toLowerCase();
-            if (unit.includes('zh')) return num * 1e12;
-            if (unit.includes('eh')) return num * 1e9;
-            if (unit.includes('ph')) return num * 1e6;
-            if (unit.includes('th')) return num * 1e3;
-            if (unit.includes('gh')) return num;
-            return num;
-        }
-        return 0;
-    }
-
-    function getLInfo(gh) {
-        let cur = LEAGUES[0], nxt = null;
-        for (let i = 0; i < LEAGUES.length; i++) {
-            if (gh >= LEAGUES[i].limit) {
-                cur = LEAGUES[i];
-                nxt = LEAGUES[i + 1] || null;
-            } else break;
-        }
-        return { cur, nxt };
-    }
-
-    function getLeagueIdByTitle(leagues, title) {
-        const league = leagues.find(l => l.title === title);
-        return league ? league.id : null;
-    }
-
-    // 3. МЕРЕЖЕВІ ЗАПИТИ
-    async function loadCryptoPrices() {
-        try {
-            const ids = Object.values(CURRENCY_CONFIG).map(c => c.geckoId).join(',');
-            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
-            const data = await response.json();
-            for (const id in data) cryptoPrices[id] = data[id].usd;
-            console.log("Курси валют оновлено");
-        } catch (e) {
-            console.error("Помилка завантаження курсів", e);
-        }
-    }
-
-    async function getLeaguesDataApi() {
-        try {
-            const leagueResp = await fetch("https://winter-thunder-5bd1.arabon3.workers.dev/");
-            if (!leagueResp.ok) throw new Error("Помилка сервера");
-            leaguesData = await leagueResp.json();
-            initLeagueDashboard(leaguesData);
-        } catch (e) {
-            console.error("Помилка ліг:", e);
-            if(tableBody) {
-                // Обертаємо текст у span з атрибутом data-lang для динамічного перекладу помилки
-                tableBody.innerHTML = `<tr><td colspan="7" style="color:red; text-align:center;"><span data-lang="error_fetch_data">Помилка отримання даних</span></td></tr>`;
-            }
-        }
-    }
-
-    // 4. ЛОГІКА ТАБЛИЦІ (ПЕРЕПИСАНО)
-    async function updateData() {
-        if (!leaguesData || leaguesData.length === 0) return;
-
-        results = [];
-
-        // Шукаємо лігу за ID, якщо не знайдено - беремо першу (Bronze I)
-        const currentLeague = leaguesData.find(l => l.id === userLeagueId) || leaguesData[0];
-        const currentLeagueIndex = leaguesData.findIndex(l => l.id === currentLeague.id);
-
-        // Визначаємо наступну лігу безпечно
-        let nextLeague = null;
-        if (currentLeagueIndex !== -1 && currentLeagueIndex < leaguesData.length - 1) {
-            nextLeague = leaguesData[currentLeagueIndex + 1];
-        }
-
-        const headerSpan = document.querySelector("#nextLeagueHeader span");
-        if(headerSpan) {
-            if (nextLeague) {
-                headerSpan.textContent = nextLeague.title;
-                headerSpan.removeAttribute('data-lang'); // Якщо є ліга, ставимо її назву напряму
-            } else {
-                // Якщо ліга максимальна, вішаємо мітку для перекладу
-                headerSpan.setAttribute('data-lang', 'text_max_level');
-                headerSpan.textContent = "Макс. рівень";
-            }
-        }
-
-        currentLeague.currencies.forEach(coin => {
-            const netPower = coin.totalPower;
-            let name = coin.name.toLowerCase().replace('_small', '').trim();
-
-            let nextNetPower = 0, nextReward = 0, nextBlockTime = 0;
-
-            if (nextLeague) {
-                const nextLeagueCurrencies = nextLeague.currencies.find(c => c.name === coin.name);
-                if (nextLeagueCurrencies) {
-                    nextNetPower = nextLeagueCurrencies.totalPower || 0;
-                    nextReward = nextLeagueCurrencies.payoutAmount || 0;
-                    nextBlockTime = nextLeagueCurrencies.duration || 0;
-                }
-            }
-
-            if (name === 'sat') name = 'btc';
-            if (name === 'matic') name = 'pol';
-
-            const reward = coin.payoutAmount;
-            const blockTime = coin.duration;
-
-            const {divisor, prec, geckoId} = getCoinConfig(name);
-
-            const rewardPerBlock = (userPower / netPower) * reward;
-            const diff = nextBlockTime ? (blockTime / nextBlockTime) : 0;
-
-            let neededPower = 0;
-            if (nextReward > 0 && diff > 0) {
-                neededPower = ((rewardPerBlock * nextNetPower) / nextReward) / diff;
-            }
-
-            const blocksPerDay = 86400 / blockTime;
-            const dailyRaw = getDailyRaw(rewardPerBlock, blocksPerDay, divisor);
-
-            let usdPrice = 0;
-            if (['rlt', 'rst', 'hmt', 'usdt'].includes(name)) {
-                usdPrice = dailyRaw;
-            } else if (geckoId && cryptoPrices[geckoId]) {
-                usdPrice = dailyRaw * cryptoPrices[geckoId];
-            }
-
-            results.push({
-                name: name, reward: reward / divisor, netPower: netPower,
-                neededPower: neededPower, dailyRaw: dailyRaw, usdPrice: usdPrice, prec: prec
-            });
-        });
-    }
-
-    async function getResultsTable() {
-        if(!tableBody) return;
-        tableBody.innerHTML = ''; // Обов'язкове очищення
-
-        results.sort((a, b) => b.usdPrice - a.usdPrice);
-        results.forEach(data => {
-            const isSpecial = ['rlt', 'rst', 'hmt'].includes(data.name);
-
-            // Замість голого тексту "Недоступно" вставляємо span з тегом перекладу
-            const neededPowerDisplay = data.neededPower > 0
-                ? formatPowerSN(data.neededPower)
-                : `<span data-lang="text_unavailable">Недоступно</span>`;
-
-            const row = `<tr>
-<td style="color: #22d3ee; font-weight: bold;">
-                <img src="images/symbols/${data.name}.svg"
-                     style="width:24px; height:24px; vertical-align:middle; margin-right:8px;"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                <span style="font-weight:bold;">${data.name.toUpperCase()}</span>
-            </td>
-                <td>${data.reward}</td>
-                <td>${formatPowerSN(data.netPower)}</td>
-                <td>${neededPowerDisplay}</td>
-                <td style="color: #22d3ee;">${data.dailyRaw.toFixed(data.prec)}
-                    <br><span style="color: #37f31c;">${data.usdPrice.toFixed(2)}${isSpecial ? '' : '$'}</span></td>
-                <td>${(data.dailyRaw * 7).toFixed(data.prec > 6 ? 6 : data.prec)}
-                    <br><span style="color: #37f31c;">${(data.usdPrice * 7).toFixed(2)}${isSpecial ? '' : '$'}</span></td>
-                <td>${(data.dailyRaw * 30).toFixed(data.prec > 4 ? 4 : data.prec)}
-                    <br><span style="color: #37f31c;">${(data.usdPrice * 30).toFixed(2)}${isSpecial ? '' : '$'}</span></td>
-            </tr>`;
-            tableBody.innerHTML += row;
-        });
-        if (currentTranslations) applyLanguage(currentTranslations);
-    }
-
-    // 5. ВЗАЄМОДІЯ З ІНТЕРФЕЙСОМ
-    function addRow(containerId, autoCalculate = true) {
-        const container = document.getElementById(containerId);
-        if(!container) return;
-
-        const div = document.createElement('div');
-        div.className = 'input-grid';
-        div.innerHTML = `
-            <input type="number" class="p-in" placeholder="0" oninput="handleAutoUnit(this)">
-            <select class="u-in" onchange="calculateAll()">
-                <option value="1000000">Ph</option><option value="1000000000">Eh</option>
-                <option value="1000">Th</option>
-            </select>
-            <input type="number" class="b-in" placeholder="0%" oninput="calculateAll()">
-            <input type="number" class="r-in" placeholder="0%" oninput="calculateAll()">
-            <div class="indiv-res">0</div>
-            <button class="btn-del" onclick="this.parentElement.remove(); calculateAll();">×</button>
-        `;
-        container.appendChild(div);
-        if (autoCalculate) calculateAll();
-    }
-
-    function handleAutoUnit(el) {
-        let val = parseFloat(el.value);
-        let sel = el.parentElement.querySelector('.u-in');
-        if (val >= 1000 && sel.value == "1") { el.value = (val / 1000).toFixed(3); sel.value = "1000"; }
-        calculateAll();
-    }
-
-    function clearRawData(elementId) {
-        const area = document.getElementById(elementId);
-        if(area) { area.value = ""; area.focus(); }
-    }
-
-    // ГОЛОВНИЙ ЗВ'ЯЗОК МІЖ КАЛЬКУЛЯТОРОМ ТА ТАБЛИЦЕЮ (ПЕРЕПИСАНО)
-    async function syncToV2(powerGh, leagueName) {
-        if(leagueInfo) {
-            leagueInfo.style.textAlign = "center";
-            leagueInfo.style.width = "100%";
-            // Огортаємо статичні текстові заголовки в span з атрибутами перекладу
-            leagueInfo.innerHTML = `<span data-lang="text_current_league_badge">ПОТОЧНА ЛІГА:</span> ${leagueName}<br><span data-lang="text_power_badge">ПОТУЖНІСТЬ:</span> ${formatPowerSN(powerGh)}`;
-        }
-
-        userPower = powerGh;
-        userLeagueId = getLeagueIdByTitle(leaguesData, leagueName); // Шукаємо ID, щоб updateData знала прибутковість
-
-        await updateData();
-        await getResultsTable();
-    }
-
-    // 6. ОСНОВНИЙ РОЗРАХУНОК КАЛЬКУЛЯТОРА
-    function calculateAll() {
-        let miners = 0;
-        let hamsterPercent = 0;
-        let hamsterPower = 0;
-        let freonPower = 0;
-        let bonus = 0;
-        let bonusPercent = 0;
-        let currentGame = 0;
-        let currentGameForCalc = 0;
-        let maxPower = 0;
-        let hammyHooksPower = 0;
-        const rawElem = document.getElementById('raw_data');
-        const freonElem = document.getElementById('freon_pct');
-        const hammyHooksCount = document.getElementById('hammy_hooks');
-        const freon = parseFloat(freonElem ? freonElem.value : 0) || 0;
-
-        if(!rawElem) return;
-
-        if (!Object.keys(userDataFromApi).length) {
-
-
-            const text = rawElem.value;
-
-            const findCurrentGame = (lbl) => {
-                const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)\\s*(Eh|Ph|Th|Zh)", "i");
-                const m = text.match(r);
-                if (!m) return 0;
-                let v = parseFloat(m[1].replace(/\s/g, '').replace(',', '.'));
-                if (m[2] === 'Eh') v *= 1000000000;
-                if (m[2] === 'Th') v *= 1000;
-                if (m[2] === 'Ph') v *= 1000000;
-                if (m[2] === 'Zh') v *= 1000000000000;
-                return v;
-            };
-
-            const find = (lbl) => {
-                const r = new RegExp(lbl + "[^\\d]*([\\d\\.,\\s]+)%?[^\\d]*([\\d\\.,\\s]+)?\\s*(Eh|Ph|Th|Zh)", "i");
-                const m = text.match(r);
-
-                if (!m) return 0;
-
-                let rawNumber = m[2] ? m[2] : m[1];
-                let unit = m[2] ? m[3] : m[2];
-
-                if (!unit) unit = m[m.length - 1];
-
-                let v = parseFloat(rawNumber.replace(/\s/g, '').replace(',', '.'));
-
-                if (unit === 'Eh') v *= 1000000000;
-                if (unit === 'Th') v *= 1000;
-                if (unit === 'Ph') v *= 1000000;
-                if (unit === 'Zh') v *= 1000000000000;
-
-                return v;
-            };
-
-            miners = findCurrentGame("Miners");
-            hamsterPercent = parseFloat(document.getElementById('hamster_pct').value) || 0;
-            hamsterPower = miners * (hamsterPercent / 100);
-            freonPower = miners * (freon / 100);
-            bonus = find("Bonus Power");
-            bonusPercent = miners > 0 ? ((bonus - hamsterPower - freonPower) / miners) * 100 : 0;
-            currentGame = findCurrentGame("Current power") || 0;
-            hammyHooksPower = (miners * 5) * parseFloat(hammyHooksCount.value) || 0;
-            currentGameForCalc = currentGame
-                - hamsterPower
-                - freonPower
-                - hammyHooksPower;
-            maxPower = findCurrentGame("Maximum power") || currentGame;
-        } else {
-            miners = userDataFromApi.miners;
-            hamsterPercent = userDataFromApi.hamsterBonusPercent;
-            hamsterPower = userDataFromApi.hamsterBonusValue;
-            freonPower = userDataFromApi.freonPower;
-            bonusPercent = userDataFromApi.bonusPowerPercent
-            currentGame = userDataFromApi.currentPower;
-            hammyHooksPower = hammyHooksDetails.hamstersPower;
-            currentGameForCalc = currentGame
-                - hamsterPower
-                - freonPower
-                - hammyHooksPower;
-            maxPower = userDataFromApi.maximumPower;
-        }
-
-        document.getElementById('total_display').innerText = formatPowerSN(currentGame);
-
-        // Передаємо поточну потужність вниз
-        let leagueName = getLInfo(maxPower).cur.name;
-        syncToV2(currentGame, leagueName);
-
-        document.getElementById('cur_league').innerText = leagueName;
-
-        const distNextElem = document.getElementById('dist_next');
-        let left;
-        let nxtL = getLInfo(maxPower).nxt;
-        if(nxtL) {
-            left = nxtL.limit - maxPower;
-            // Зберігаємо дані в атрибути, щоб перемикач мови міг на льоту зібрати рядок
-            distNextElem.setAttribute('data-name', nxtL.name);
-            distNextElem.setAttribute('data-power', formatPowerSN(left));
-            distNextElem.setAttribute('data-lang', 'calc_dist_next');
-            distNextElem.innerText = `До ${nxtL.name} ≈ ${formatPowerSN(left)} (рахується від maxPower)`;
-        } else {
-            distNextElem.removeAttribute('data-name');
-            distNextElem.removeAttribute('data-power');
-            distNextElem.setAttribute('data-lang', 'calc_max_league');
-            distNextElem.innerText = "Ти в максимальній лізі!";
-        }
-
-        let bonusLost = 0;
-        document.querySelectorAll('#old_list .input-grid').forEach(row => bonusLost += parseFloat(row.querySelector('.b-in').value) || 0);
-
-        let bonusGained = 0;
-        let newMinersBase = 0;
-        document.querySelectorAll('#new_list .input-grid').forEach(row => {
-            bonusGained += parseFloat(row.querySelector('.b-in').value) || 0;
-            newMinersBase += (parseFloat(row.querySelector('.p-in').value) || 0) * parseFloat(row.querySelector('.u-in').value);
-        });
-
-        const finalGlobalBonus = bonusPercent - bonusLost + bonusGained;
-        let otherMinersBase = miners - (Array.from(document.querySelectorAll('#old_list .p-in')).reduce((a, b) => a + (parseFloat(b.value)||0) * parseFloat(b.parentElement.querySelector('.u-in').value), 0));
-
-        let totalLoss = 0;
-        document.querySelectorAll('#old_list .input-grid').forEach(row => {
-            let p = (parseFloat(row.querySelector('.p-in').value) || 0) * parseFloat(row.querySelector('.u-in').value);
-            let b = parseFloat(row.querySelector('.b-in').value) || 0;
-            let r = parseFloat(row.querySelector('.r-in').value) || 0;
-            let loss = p * (1 + (bonusPercent + r) / 100);
-            totalLoss += loss;
-            let trueLossForSystem = loss + (otherMinersBase * (b / 100));
-            let resBlock = row.querySelector('.indiv-res');
-            resBlock.innerText = "-" + formatPowerSN(trueLossForSystem);
-            resBlock.style.color = "#ff4757";
-            resBlock.style.borderColor = "#ff475744";
-        });
-
-        let totalGain = 0;
-        document.querySelectorAll('#new_list .input-grid').forEach(row => {
-            let p = (parseFloat(row.querySelector('.p-in').value) || 0) * parseFloat(row.querySelector('.u-in').value);
-            let b = parseFloat(row.querySelector('.b-in').value) || 0;
-            let r = parseFloat(row.querySelector('.r-in').value) || 0;
-            let gain = p * (1 + (finalGlobalBonus + r) / 100);
-            totalGain += gain;
-            let baseToBoost = otherMinersBase + newMinersBase - p;
-            let trueGainForSystem = gain + (baseToBoost * (b / 100));
-            let resBlock = row.querySelector('.indiv-res');
-            resBlock.innerText = "+" + formatPowerSN(trueGainForSystem);
-            resBlock.style.color = "#00ff88";
-            resBlock.style.borderColor = "#00ff8844";
-        });
-
-        let finalMinersBase = otherMinersBase + newMinersBase;
-        let finalFreonPower = finalMinersBase * (freon / 100);
-        let finalHamsterPower = finalMinersBase * (hamsterPercent / 100);
-        let freonDiff = finalFreonPower - freonPower;
-        let hamsterDiff = finalHamsterPower - hamsterPower;
-        let finalTotalRaw = currentGameForCalc
-            - totalLoss
-            + totalGain
-            + (otherMinersBase * ((bonusGained - bonusLost) / 100));
-        let finalTotal = finalTotalRaw + freonDiff + hamsterDiff;
-        let finalTotalFull =
-            currentGame - totalLoss + totalGain
-            + (otherMinersBase * ((bonusGained - bonusLost) / 100)) + freonDiff + hamsterDiff;
-        let netGain = finalTotalRaw - currentGameForCalc;
-
-        // Складні виводи блоків результатів з підготовкою під мультиязичність
-        const resTotalElem = document.getElementById('res_total');
-        const fTotalElem = document.getElementById('f_total');
-
-        const prefixNetGain = (netGain >= 0 ? "+" : "");
-        resTotalElem.setAttribute('data-val1', prefixNetGain + formatPowerSN(netGain));
-        resTotalElem.setAttribute('data-val2', formatPowerSN(netGain + freonDiff + hamsterDiff));
-        resTotalElem.innerHTML = `${prefixNetGain}${formatPowerSN(netGain)}
-<br><small style="font-size:11px; opacity:0.8;">
-<span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:
-</span> ${formatPowerSN(netGain + freonDiff + hamsterDiff)}</small>`;
-
-        fTotalElem.setAttribute('data-val1', formatPowerSN(finalTotal));
-        fTotalElem.setAttribute('data-val2', formatPowerSN(finalTotalFull));
-        fTotalElem.innerHTML = `${formatPowerSN(finalTotal)}
-<br><small style="font-size:11px; opacity:0.8;">
-<span data-lang="calc_with_bonus">З бонусом фреону та хом'яка:</span> ${formatPowerSN(finalTotalFull)}</small>`;
-
-        const finalDistElem = document.getElementById('final_dist_next');
-        let finalMaxPower = maxPower + netGain;
-        let finalNxtL = getLInfo(finalMaxPower).nxt;
-
-        if (maxPower < finalMaxPower) {
-            if(finalNxtL) {
-                let finalLeft = finalNxtL.limit - finalMaxPower;
-                finalDistElem.setAttribute('data-name', finalNxtL.name);
-                finalDistElem.setAttribute('data-power', formatPowerSN(finalLeft));
-                finalDistElem.setAttribute('data-lang', 'calc_final_dist_next');
-                finalDistElem.innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(finalLeft)} Тестовий режим! (рахується від maxPower)`;
-            } else {
-                finalDistElem.removeAttribute('data-name');
-                finalDistElem.removeAttribute('data-power');
-                finalDistElem.setAttribute('data-lang', 'calc_final_max_league');
-                finalDistElem.innerText = "Після змін: Ти в максимальній лізі!";
-            }
-        } else {
-            if(finalNxtL) {
-                finalDistElem.setAttribute('data-name', finalNxtL.name);
-                finalDistElem.setAttribute('data-power', formatPowerSN(left));
-                finalDistElem.setAttribute('data-lang', 'calc_final_dist_next');
-                finalDistElem.innerText = `Після змін до ${finalNxtL.name} ≈ ${formatPowerSN(left)} Тестовий режим! (рахується від maxPower)`;
-            } else {
-                finalDistElem.removeAttribute('data-name');
-                finalDistElem.removeAttribute('data-power');
-                finalDistElem.setAttribute('data-lang', 'calc_final_max_league');
-                finalDistElem.innerText = "Після змін: Ти в максимальній лізі!";
-            }
-        }
-
-        let finalLInfo = getLInfo(finalMaxPower);
-        syncToV2(finalTotalFull, finalLInfo.cur.name);
-        if (currentTranslations) applyLanguage(currentTranslations);
-    }
-
-    let hammyHooksDetails = {};
-
-    async function getUserApiForCalculateNew() {
-        const baseUrl = 'https://tiny-mouse-rget.arabon3.workers.dev'
-        const nickInput = document.getElementById('nicknameInput');
-        const loader = document.getElementById('loader');
-        if (!nickInput || !nickInput.value) return;
-        loader.style.display = 'block';
-
-        const userNick = nickInput.value;
-        localStorage.setItem('userNickname', userNick);
-
-        try {
-            const profileUrl = baseUrl + `/public-user-profile-data/${userNick}`;
-            const pResp = await fetch(profileUrl);
-            const pData = await pResp.json();
-            if (!pData.success) {
-                const errorText = window.currentTrans?.user_not_found || "Користувача не знайдено / User not found";
-                throw new Error(errorText);
-            }
-
-            const usrData = baseUrl + `/user-power-data/${pData.data.avatar_id}`;
-            const rResp = await fetch(usrData);
-            userData = await rResp.json();
-
-            // 1. Отримуємо основні цифри
-            const curPowerRaw = userData.data.current_power;
-            const maxPowerRaw = userData.data.max_power;
-            minersRaw = userData.data.miners;
-            bonusRaw = userData.data.bonus;
-            const racksRaw = userData.data.racks;
-            const gamesRaw = userData.data.games;
-            const tempForDisplay = userData.data.temp;
-            const freonPower = userData.data.freon;
-            console.log(freonPower);
-            const hamsterPercentRaw = userData.data.hamster_expedition_bonus_percent;
-            hamsterPowerRaw = userData.data.hamster_expedition_bonus_power;
-            hamsterPercent = (hamsterPercentRaw / 100).toFixed(2);
-
-            hammyHooksDetails = getHammyHooksDetails(tempForDisplay, minersRaw);
-
-
-            // 2. Вираховуємо відсоток бонусу: (Bonus / Miners) * 100
-            bonusPercentClear = ((bonusRaw - hamsterPowerRaw - freonPower) / minersRaw) * 100;
-
-            // 3. Знаходимо назву ліги за ID
-            const leagueName = pData.data.league.title.en || "Bronze I";
-
-            const freonInput = document.getElementById('freon_pct');
-            if (freonInput) {
-                freonInput.value = ((freonPower / minersRaw) * 100).toFixed(2);
-            }
-
-            const hamsterInput = document.getElementById('hamster_pct');
-            if (hamsterInput) {
-                hamsterInput.value = hamsterPercent;
-            }
-            const hammyHooksInput = document.getElementById('hammy_hooks');
-            if (hammyHooksInput) {
-                hammyHooksInput.value = hammyHooksDetails.hamstersCount;
-            }
-
-            userDataFromApi = {
-                league: leagueName,
-                maximumPower: maxPowerRaw,
-                currentPower: curPowerRaw,
-                miners: minersRaw,
-                bonusPowerPercent: bonusPercentClear,
-                bonusPowerValue: bonusRaw - hamsterPowerRaw,
-                hamsterBonusPercent: hamsterPercent,
-                hamsterBonusValue: hamsterPowerRaw,
-                rackBonus: racksRaw,
-                games: gamesRaw,
-                temporary: tempForDisplay,
-                freonPower: freonPower
-            };
-
-            // Рядки параметрів (League, Maximum power тощо) НЕ перекладаємо,
-            // бо на них зав'язані регулярні вирази в calculateAll()!
-            document.getElementById('raw_data').value = `League
-${leagueName}
-Maximum power
-${formatPowerSN(maxPowerRaw)}
-Current power
-${formatPowerSN(curPowerRaw)}
-Miners
-${formatPowerSN(minersRaw)}
-Bonus Power
-+${bonusPercentClear.toFixed(2)}%
-/ ${formatPowerSN(bonusRaw - hamsterPowerRaw)}
-Hamster Bonus Power
-${hamsterPercent}%
-/ ${formatPowerSN(hamsterPowerRaw)}
-Rack Bonus
-${formatPowerSN(racksRaw)}
-Games
-${formatPowerSN(gamesRaw)}
-Temporary
-${formatPowerSN(tempForDisplay)}`;
-            calculateAll();
-            runAudit();
-            await savePlayerToDatabase(userNick, pData.data.avatar_id);
-
-        } catch (e) {
-            // Додаємо кастомну властивість або логування для локалізації алерту за потреби
-            console.error("Error: dynamic fetch failed", e.message);
-            alert("Failed to fetch user data " + e.message);
-        } finally {
-            loader.style.display = 'none';
-        }
-    }
-
-    function getHammyHooksDetails(tempPower, minersPowerFromApi) {
-        const totalTemp = tempPower || 0;
-        const minersPower = minersPowerFromApi || 0;
-
-        // Потужність, яку дає рівно 1 максимальний хом'як
-        const powerPerHamster = minersPower * 5;
-
-        let hamstersCount = 0;
-        let hamstersPower = 0;
-        let cleanTempWithoutHamsters = totalTemp;
-
-        // Якщо мінери є, рахуємо хом'яків
-        if (powerPerHamster > 0) {
-            // 1. Скільки цілих хом'яків вміщається в твій temp
-            hamstersCount = Math.floor(totalTemp / powerPerHamster);
-
-            // 2. Точна потужність, яку вони забирають на себе
-            hamstersPower = hamstersCount * powerPerHamster;
-
-            // 3. Чистий темп — це залишок (інші квести, івенти тощо)
-            cleanTempWithoutHamsters = totalTemp - hamstersPower;
-        }
-
-        return {
-            hamstersCount: hamstersCount,               // Кількість хом'яків (ціле число)
-            hamstersPower: hamstersPower,               // Потужність хом'яків
-            cleanTemp: cleanTempWithoutHamsters         // Чистий темп без хом'яків
-        };
-    }
-
-    function toggleMode() {
-        const isAuto = document.getElementById('auto_toggle').checked;
-        const manual = document.getElementById('manual_section');
-        const auto = document.getElementById('auto_section');
-        const extra = document.getElementById('extra');
-
-        if (!manual || !auto) {
-            console.error("Помилка: Не знайдено блоки manual_section або auto_section!");
-            return;
-        }
-
-        if (isAuto) {
-            manual.style.setProperty("display", "none", "important");
-            auto.style.setProperty("display", "block", "important");
-            extra.style.setProperty("display", "block", "important");
-        } else {
-            manual.style.setProperty("display", "block", "important");
-            auto.style.setProperty("display", "none", "important");
-            extra.style.setProperty("display", "none", "important");
-            // Знаходимо селектор
-        }
-    }
-
-    function handleRefresh(btn) {
-        // 1. Блокуємо кнопку
-        btn.disabled = true;
-        btn.style.opacity = '0.6';
-        btn.style.cursor = 'not-allowed';
-
-        let secondsLeft = 30;
-
-        const isEn = localStorage.getItem('selectedLang') === 'en';
-        btn.setAttribute('data-seconds', secondsLeft);
-
-        // Прибираємо мовну мітку, щоб локалізатор ігнорував кнопку під час таймера
-        btn.removeAttribute('data-lang');
-        btn.innerText = secondsLeft;
-
-        // 2. Запуск відліку
-        const countdown = setInterval(() => {
-            secondsLeft--;
-            btn.setAttribute('data-seconds', secondsLeft);
-            btn.innerText = secondsLeft;
-
-            if (secondsLeft <= 0) {
-                // 3. Розблоковуємо, коли час вийшов
-                clearInterval(countdown);
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-
-                btn.removeAttribute('data-seconds');
-
-                // Повертаємо мітку назад, щоб кнопка знову перекладалася
-                btn.setAttribute('data-lang', 'btn_refresh_ready');
-                btn.innerText = isEn ? 'Update' : 'Оновити';
-            }
-        }, 1000);
-    }
-
-    function checkInput() {
-        const input = document.getElementById('nicknameInput');
-        const btn = document.getElementById('calcBtn');
-
-        // .trim() видаляє пробіли, щоб не можна було активувати кнопку просто натиснувши пробіл
-        btn.disabled = input.value.trim() === "";
-    }
-
-    window.onload = function() {
-        const savedNick = localStorage.getItem('userNickname');
-        if (savedNick) {
-            const input = document.getElementById('nicknameInput');
-            input.value = savedNick;
-            checkInput(); // Активуємо кнопку, якщо нік підтягнувся
-        }
-    };
-
-    // Палітра кольорів для секторів діаграми та підсвічування монет
-    const coinColors = ['#f2a900', '#ff4757', '#00ff88', '#00d4ff', '#9c27b0', '#e84393', '#ff9f43', '#25af61'];
-
-    function initLeagueDashboard(LeagueData) {
-        const selectEl = document.getElementById('leagueSelect');
-        if (!selectEl) {
-            setTimeout(() => initLeagueDashboard(LeagueData), 50);
-            return;
-        }
-
-        const leagues = Array.isArray(LeagueData) ? LeagueData : [LeagueData];
-        window.loadedLeagues = leagues;
-
-        selectEl.innerHTML = '';
-        leagues.forEach((league, index) => {
-            const opt = document.createElement('option');
-            opt.value = index;
-            // Залишаємо назви ліг динамічними або додаємо маркер за потреби
-            opt.innerText = league.title || `Ліга ${index + 1}`;
-            selectEl.appendChild(opt);
-        });
-
-        if (leagues.length > 0) renderSelectedLeague(0);
-    }
-
-    function onLeagueChange(index) {
-        if (index === "" || !window.loadedLeagues) return;
-        renderSelectedLeague(Number(index));
-    }
-
-    function renderSelectedLeague(index) {
-        const league = window.loadedLeagues[index];
-        if (!league) return;
-
-        document.getElementById('leagueSummaryBlock').style.display = 'block';
-
-        const gameContainer = document.getElementById('gameCurrenciesContainer');
-        const cryptoContainer = document.getElementById('cryptoCurrenciesContainer');
-        const svgChart = document.getElementById('pieChart');
-
-        gameContainer.innerHTML = '';
-        cryptoContainer.innerHTML = '';
-        svgChart.innerHTML = '';
-
-        const totalPower = league.currencies ? league.currencies.reduce((sum, c) => sum + (c.totalPower || 0), 0) : 0;
-
-        document.getElementById('currentLeagueTitle').innerText = league.title || 'Ліга';
-        document.getElementById('totalPowerDisplay').innerText = formatPowerSN(totalPower);
-
-        const gameTokens = ['RLT', 'RST'];
-        let accumulatedPercent = 0;
-
-        league.currencies.forEach((curr, idx) => {
-            const nameRaw = curr.name ? curr.name.replace('_SMALL', '') : '';
-            const rename = { 'SAT': 'BTC', 'MATIC': 'POL' };
-            const name = rename[nameRaw] || nameRaw;
-            const pctRaw = totalPower > 0 ? (curr.totalPower / totalPower) : 0;
-            const pctString = (pctRaw * 100).toFixed(0) + '%';
-            const color = coinColors[idx % coinColors.length];
-
-            // Форматування часу ГГ:ХХ:СС
-            const h = Math.floor((curr.duration || 0) / 3600).toString().padStart(2, '0');
-            const m = Math.floor(((curr.duration || 0) % 3600) / 60).toString().padStart(2, '0');
-            const s = ((curr.duration || 0) % 60).toString().padStart(2, '0');
-
-            // Картки залишаємо з англійськими мітками (Power, Active Users тощо), щоб зберегти сумісність парсингу для П'єро
-            const cardHtml = `
-        <div class="result-container" style="background: #16213e; text-align: left; padding: 12px; margin-bottom: 8px; border: 1px solid ${color}44;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <span style="color: ${color}; font-size: 14px; font-weight: bold;">${name}</span>
-                <span class="indiv-res" style="color: ${color}; border-color: ${color}; font-size: 11px; padding: 2px 8px;">${pctString}</span>
-            </div>
-            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                <span>Power</span>
-                <span style="color: #fff; text-align: right;">${formatPowerSN(curr.totalPower)}</span>
-            </div>
-            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                <span>Active Users</span>
-                <span style="color: #fff; text-align: right;">${(curr.userCount || 0).toLocaleString()}</span>
-            </div>
-            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left; margin-bottom: 4px;">
-                <span>Per Block</span>
-                <span style="color: #fff; text-align: right;">${curr.payoutAmount / getDivisorByName(name) || 0} ${name}</span>
-            </div>
-            <div class="grid-labels" style="grid-template-columns: 1fr 1fr; text-align: left;">
-                <span>Block Time</span>
-                <span style="color: #fff; text-align: right;">${h}:${m}:${s}</span>
-            </div>
-        </div>
-    `;
-
-            if (gameTokens.includes(name)) {
-                gameContainer.insertAdjacentHTML('beforeend', cardHtml);
-            } else {
-                cryptoContainer.insertAdjacentHTML('beforeend', cardHtml);
-            }
-
-            // Побудова секторів SVG діаграми
-            if (pctRaw > 0) {
-                const getCoords = (p) => [Math.cos(2 * Math.PI * p), Math.sin(2 * Math.PI * p)];
-                const [startX, startY] = getCoords(accumulatedPercent);
-                accumulatedPercent += pctRaw;
-                const [endX, endY] = getCoords(accumulatedPercent);
-                const largeArc = pctRaw > 0.5 ? 1 : 0;
-
-                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                pathEl.setAttribute('d', `M 0 0 L ${startX} ${startY} A 1 1 0 ${largeArc} 1 ${endX} ${endY} Z`);
-                pathEl.setAttribute('fill', color);
-                svgChart.appendChild(pathEl);
-            }
-        });
-    }
-
-    function copyLeagueToClipboard(buttonElement) {
-        let textResult = "";
-
-        // Збираємо Game Currencies
-        const gameCards = document.querySelectorAll('#gameCurrenciesContainer .result-container');
-        gameCards.forEach(card => {
-            const name = card.querySelector('span[style*="font-size: 14px"]').innerText;
-            const pct = card.querySelector('.indiv-res').innerText;
-            const lines = card.querySelectorAll('.grid-labels span:nth-child(2)');
-
-            const powerText = lines[0].innerText.replace(/ZH\/S/g, 'Zh/s');
-
-            textResult += `${name}\n${pct}\nPower\n${powerText}\nActive Users\n${lines[1].innerText}\nPer Block\n${lines[2].innerText}\nBlock Time\n${lines[3].innerText}\n`;
-        });
-
-        textResult += "Crypto Currencies\n";
-
-        // Збираємо Crypto Currencies
-        const cryptoCards = document.querySelectorAll('#cryptoCurrenciesContainer .result-container');
-        cryptoCards.forEach(card => {
-            const name = card.querySelector('span[style*="font-size: 14px"]').innerText;
-            const pct = card.querySelector('.indiv-res').innerText;
-            const lines = card.querySelectorAll('.grid-labels span:nth-child(2)');
-
-            const powerText = lines[0].innerText.replace(/ZH\/S/g, 'Zh/s');
-
-            textResult += `${name}\n${pct}\nPower\n${powerText}\nActive Users\n${lines[1].innerText}\nPer Block\n${lines[2].innerText}\nBlock Time\n${lines[3].innerText}\n`;
-        });
-
-        // Відправка в буфер обміну
-        navigator.clipboard.writeText(textResult.trim())
-            .then(() => {
-                if (buttonElement) {
-                    const originalText = buttonElement.innerText;
-
-                    // Додаємо мітки перекладу для інтерактивних станів кнопки копіювання
-                    const isEn = localStorage.getItem('selectedLang') === 'en';
-                    buttonElement.innerText = isEn ? "✓ Copied!" : "✓ Скопійовано!";
-                    buttonElement.setAttribute('data-lang', 'btn_copied_success');
-                    buttonElement.style.pointerEvents = "none";
-
-                    setTimeout(() => {
-                        buttonElement.removeAttribute('data-lang'); // Повертаємо дефолтний стан (текст візьметься з базової верстки за id/класом)
-                        buttonElement.innerText = originalText;
-                        buttonElement.style.pointerEvents = "auto";
-                    }, 1000);
-                }
-            })
-            .catch(err => {
-                console.error('Не вдалося скопіювати:', err);
-                if (buttonElement) {
-                    buttonElement.setAttribute('data-lang', 'btn_copied_error');
-                    buttonElement.innerText = "❌ Помилка";
-                }
-            });
-    }
-
-    // 1. Читання API
-    async function fetchQuest() {
-        try {
-            const response = await fetch("https://polished-wave-ceac.arabon3.workers.dev/");
-            if (!response.ok) throw new Error('Proxy error');
-            return await response.json();
-        } catch (error) {
-            console.error("Помилка завантаження даних:", error);
-            document.getElementById('bonus-quest-container').innerHTML = `
-                    <div class="audit-container" style="color: #ff3838; text-align: center; border-color: #ff383844;">
-                        Помилка завантаження бонусного квесту
-                    </div>`;
-            return null;
-        }
-    }
-
-    // 2. Парсинг у твої класи таблиці
-    function renderQuestCard(questData) {
-        if (!questData) return '';
-
-        const DIV = 1000000;
-        const fmt = (amount) => {
-            const v = amount / DIV;
-            return v.toLocaleString("en-US", { maximumFractionDigits: v >= 1 ? 2 : 6 });
-        };
-
-        let extra = null;
-        try {
-            extra = questData.additionalData
-                ? (typeof questData.additionalData === 'string'
-                    ? JSON.parse(questData.additionalData)
-                    : questData.additionalData)
-                : null;
-        } catch (e) { console.warn("Failed to parse additionalData", e); }
-
-        const gameName = extra?.game_name || "";
-        const rawTitle = (questData.title || "").trim().toLowerCase();
-        const rawDesc  = (questData.description || "").trim().toLowerCase();
-        const isExchange = (questData.replaceConfigCurrency === 'RLT' || questData.paidConfigCurrency === 'RLT')
-            && (rawTitle.startsWith("exchange") || rawDesc.startsWith("exchange"));
-
-        let repeats = questData.countRepeats ?? 0;
-        if (isExchange && repeats > 0) repeats /= DIV;
-
-        const fmtRepeats = Number.isInteger(repeats) ? repeats.toLocaleString("en-US") : String(repeats);
-        const replace = (s) => s.replace(/\{count_repeats\}/g, fmtRepeats).replace(/\{game_name\}/g, gameName);
-
-        const title = replace(questData.title || "");
-        const desc  = replace(questData.description || "");
-
-        const rewards = (questData.dailyBonusQuestRewards || [])
-            .map(i => i?.dailyBonusReward).filter(Boolean)
-            .map(r => r.type === "season_xp"
-                ? `<div class="dbq-badge dbq-xp"><span class="dbq-lbl">XP</span><span>${r.amount}</span></div>`
-                : r.type === "money" && r.currency
-                    ? `<div class="dbq-badge dbq-money"><span class="dbq-tok">Ⓡ</span><span>${fmt(r.amount)}</span></div>`
-                    : ''
-            ).join('');
-
-        const actionBlock = (label, langKey, icon, price, currency) => `
-<div class="dbq-col">
-    <span class="dbq-lbl-s" data-lang="${langKey}">${label}</span>
-    <div class="dbq-badge dbq-money" style="pointer-events:none;">
-        <span style="font-size:11px;line-height:1;">${icon}</span>
-        <span>${fmt(price)} ${currency}</span>
-    </div>
-</div>`;
-
-        const replaceHtml = questData.replaceConfigIsAvailable
-            ? actionBlock("ЗМІНА", "dbq_header_replace", "🔄", questData.replaceConfigPrice, questData.replaceConfigCurrency)
-            : '';
-        const paidHtml = questData.paidConfigIsAvailable
-            ? actionBlock("ВИКУП", "dbq_header_paid", "⏩", questData.paidConfigPrice, questData.paidConfigCurrency)
-            : '';
-
-        return `
-<style>
-.dbq-container{border-color:#2dd8d0!important;box-shadow:0 0 15px rgba(45,216,208,.15)!important;box-sizing:border-box;width:100%;padding:10px 12px!important}
-.dbq-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
-.dbq-top-l{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
-.dbq-title{color:#e2e8f0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-left:60px!important}
-.dbq-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;width:100%}
-.dbq-col{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-.dbq-lbl-s{font-size:8px;font-weight:bold;color:#c2c6cf;text-transform:uppercase;letter-spacing:.5px;line-height:1}
-.dbq-rewards{display:flex;gap:4px;align-items:center}
-.dbq-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
-.dbq-badge{padding:4px 6px;border:1px solid rgb(0,255,136);border-radius:6px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:bold;height:26px;box-sizing:border-box;white-space:nowrap}
-.dbq-lbl{color:#a5b4fc;font-size:9px;font-weight:800}
-.dbq-tok{color:#5eead4;font-size:11px}
-@media(max-width:600px){.dbq-container{padding:8px!important}.dbq-title{font-size:11px!important}.dbq-badge{padding:3px 4px!important;font-size:10px!important;height:22px!important}.dbq-lbl-s{font-size:7px!important}}
-</style>
-<div class="block dbq-container">
-    <div class="dbq-top">
-        <div class="dbq-top-l">
-            <span data-lang="dbq_bonus" style="background:linear-gradient(135deg,#2dd8d0,#00e5a0);color:#0d1117;font-size:10px;padding:1px 5px;border-radius:4px;letter-spacing:.5px;font-weight:800;line-height:1.3;flex-shrink:0;">BONUS</span>
-            <span class="dbq-title" title="${desc}">${title}</span>
-        </div>
-    </div>
-    <div class="dbq-row">
-        <div class="dbq-col">
-            <span class="dbq-lbl-s" data-lang="dbq_header_rewards">НАГОРОДА</span>
-            <div class="dbq-rewards">${rewards}</div>
-        </div>
-        <div class="dbq-actions">${replaceHtml}${paidHtml}</div>
-    </div>
-</div>`;
-    }
-
-    async function initF() {
-        try {
-            const data = await fetchQuest();
-            // Якщо дані успішно прийшли — рендеримо, якщо data буде null/undefined — контейнер просто очиститься (не буде пустки чи залишків старих даних)
-            document.getElementById('bonus-quest-container').innerHTML = data ? renderQuestCard(data) : '';
-        } catch (error) {
-            console.error("Помилка завантаження квесту:", error);
-            // У разі повної відмови мережі гарантуємо, що на сторінці не буде зламаної верстки чи порожньої рамки
-            document.getElementById('bonus-quest-container').innerHTML = '';
-        }
-    }
-
-    initF();
-
-    init();
-</script>
-<img src="https://api.counterapi.dev/v2/vasil-arabcuks-team-3598/rollercalcgithub/up" style="display:none;">
+<img src="https://api.counterapi.dev/v2/vasil-arabcuks-team-3598/rollercalcgithub/up" alt="" width="1" height="1" hidden>
 </body>
 </html>
