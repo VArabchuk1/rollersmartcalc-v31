@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7605a80c-cbf8-45fe-8d6c-822bd353be86" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/rollersmartcalc-v31.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/help/help.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/algo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/bnb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/btc.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/doge.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/eth.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/hmt.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/ltc.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/pol.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/rlt.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/rst.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/sol.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/trx.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/usdt.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/symbols/xrp.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/auditor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/calculator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/core.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/leagues.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/miners.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/quest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lang/en.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lang/en.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lang/ua.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lang/ua.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="optimized" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3LBHeh9mgT3nV0aoeFTRpRUNPHf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "optimized",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.vajra.config.VajraConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zachar\IdeaProjects\rollersmartcalc-v31" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7605a80c-cbf8-45fe-8d6c-822bd353be86" name="Changes" comment="" />
+      <created>1792920638714</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1792920638714</updated>
+      <workItem from="1792920640150" duration="6464000" />
+      <workItem from="1793894989535" duration="596000" />
+      <workItem from="1793895639861" duration="1737000" />
+      <workItem from="1794209190764" duration="2413000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/optimized" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
