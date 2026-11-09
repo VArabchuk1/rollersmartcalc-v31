@@ -92,10 +92,10 @@ function formatPower(gh) {
     return (gh < 0 ? '-' : '') + v.toFixed(3) + ' ' + u;
 }
 
-/** 2 знаки, до Eh/s (для таблиць майнерів) */
-function formatPowerShort(gh) {
+/** 2 знаки; за замовчуванням до Eh/s (таблиці майнерів), з withZh — до Zh/s */
+function formatPowerShort(gh, withZh = false) {
     if (gh === 0) return '0 Gh/s';
-    const [v, u] = scalePower(gh, ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s']);
+    const [v, u] = scalePower(gh, withZh ? ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s', 'Zh/s'] : ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s']);
     return v.toFixed(2) + ' ' + u;
 }
 

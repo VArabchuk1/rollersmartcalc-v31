@@ -90,6 +90,7 @@ function bindEvents() {
 
 function init() {
     bindEvents();
+    toggleMode();   // за замовчуванням — автоматичний режим
 
     const savedLang = store.get('selectedLang') || 'en';
     $('langSelect').value = savedLang;

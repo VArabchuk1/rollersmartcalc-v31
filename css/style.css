@@ -245,3 +245,9 @@ h3{font-size:16px}
 .support-addr{font-family:monospace;font-size:12px;color:#fff;background:#0f3460;border-radius:8px;padding:8px;word-break:break-all;user-select:all}
 .support-btn{margin:10px 0 6px}
 .support-note{font-size:10px;color:#888}
+
+/* ===== закріплений стовпець монет при горизонтальному скролі ===== */
+.sticky-first th:first-child,.sticky-first td:first-child{position:sticky;left:0;z-index:2;background:#16213e;box-shadow:2px 0 4px rgba(0,0,0,.4)}
+.sticky-first thead th:first-child{background:#0f3460}
+.sticky-first tbody tr:nth-child(even) td:first-child{background:#2b3962}
+.sticky-first tbody tr:hover td:first-child{background:#3e7ec6}

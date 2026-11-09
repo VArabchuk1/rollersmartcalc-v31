@@ -64,7 +64,7 @@ function neededCellHtml(d) {
     if (!(d.neededPower > 0)) return '<span data-lang="text_unavailable">Недоступно</span>';
     const diff = d.neededPower - d.userPower;
     const status = diff > 0
-        ? `<span class="nd lack">⚠ <span data-lang="text_lacks">бракує</span> +${formatPowerShort(diff)}</span>`
+        ? `<span class="nd lack">⚠ <span data-lang="text_lacks">бракує</span> +${formatPowerShort(diff, true)}</span>`
         : '<span class="nd ok">✅ <span data-lang="text_enough">вже вистачає</span></span>';
     return `<b>${formatPower(d.neededPower)}</b>${status}`;
 }
