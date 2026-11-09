@@ -18,6 +18,22 @@ function on(id, event, handler) {
     if (el) el.addEventListener(event, handler);
 }
 
+function copyAddress(btn) {
+    const text = $('supportAddr').textContent.trim();
+    const done = () => {
+        const key = btn.dataset.lang;
+        btn.textContent = t('support_copied', '✓ Скопійовано!');
+        setTimeout(() => { btn.textContent = t(key, 'Скопіювати адресу'); }, 1500);
+    };
+    const fallback = () => {          // для сторінок без доступу до clipboard API (наприклад file://)
+        const r = document.createRange(); r.selectNodeContents($('supportAddr'));
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); done(); } catch (e) { /* адресу виділено, користувач скопіює вручну */ }
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+}
+
 function bindEvents() {
     // мова
     on('langSelect', 'change', e => switchLanguage(e.target.value));
@@ -62,7 +78,11 @@ function bindEvents() {
         if (b) handleMinerSearch(Number(b.dataset.page));
     });
 
+    on('topLegendPower', 'input', () => { topTouched = true; renderTopLeague(); });
     on('topLeagueSelect', 'change', () => { topTouched = true; renderTopLeague(); });
+
+    // підтримка проєкту
+    on('btnCopyAddr', 'click', e => copyAddress(e.currentTarget));
 
     // аудитор
     on('minerSearchInput', 'input', searchInputMiner);
