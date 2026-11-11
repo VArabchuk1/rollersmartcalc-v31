@@ -251,3 +251,9 @@ h3{font-size:16px}
 .sticky-first thead th:first-child{background:#0f3460}
 .sticky-first tbody tr:nth-child(even) td:first-child{background:#2b3962}
 .sticky-first tbody tr:hover td:first-child{background:#3e7ec6}
+
+/* ===== SEO ===== */
+.site-title{font-size:15px;text-align:center;color:#00ff88;margin:6px 0 10px;font-weight:700;letter-spacing:.3px}
+.seo-text{margin:18px 0 6px;padding:0 6px;text-align:center}
+.seo-text h2{font-size:13px;color:#c2c6cf;margin:0 0 6px}
+.seo-text p{font-size:11px;line-height:1.5;color:#8d97ab;margin:0}

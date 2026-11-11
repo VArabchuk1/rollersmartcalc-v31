@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://varabchuk1.github.io/rollersmartcalc-v31/sitemap.xml

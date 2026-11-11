@@ -175,6 +175,7 @@ async function switchLanguage(lang) {
         if (token !== langToken) return;
         translations = tr;
         store.set('selectedLang', lang);
+        document.documentElement.lang = lang === 'ua' ? 'uk' : 'en';
         applyLanguage(document);
     } catch (error) {
         console.error('Помилка локалізації:', error);
