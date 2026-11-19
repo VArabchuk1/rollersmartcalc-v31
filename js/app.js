@@ -47,6 +47,8 @@ function bindEvents() {
     // калькулятор
     on('auto_toggle', 'change', toggleMode);
     ['raw_data', 'hamster_pct', 'hammy_hooks', 'freon_pct'].forEach(id => on(id, 'input', calculateAll));
+    const lr = $('league_recalc'); if (lr) lr.checked = true;   // завжди ввімкнено при завантаженні
+    on('league_recalc', 'change', calculateAll);
     on('btnClearProfile', 'click', () => { const a = $('raw_data'); a.value = ''; a.focus(); });
     on('nicknameInput', 'input', checkInput);
     on('calcBtn', 'click', e => { getUserApiForCalculateNew(); handleRefresh(e.currentTarget); });

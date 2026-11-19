@@ -284,3 +284,6 @@ h3{font-size:16px}
   93%{transform:rotate(-3deg)}
 }
 @media (prefers-reduced-motion:reduce){.tg-icon{animation:none}}
+
+.league-recalc{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-size:.85rem;opacity:.85;cursor:pointer}
+.league-recalc input{width:auto;accent-color:#00e676}

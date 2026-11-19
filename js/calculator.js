@@ -294,12 +294,17 @@ function calculateAll() {
     fTotal.innerHTML = withBonusHtml(formatPower(finalTotal), formatPower(finalTotalFull));
 
     /* --- ліга після змін --- */
-    const finalMaxPower = maxPower + netGain;
+    const recalcEl = $('league_recalc');
+    const rawFinalMax = maxPower + netGain;
+    // ліга ніколи не падає: нижче порогу поточної ліги не опускаємось
+    const leagueFloor = getLeagueInfo(maxPower).cur.limit;
+    const finalMaxPower = Math.max(leagueFloor,
+        (!recalcEl || recalcEl.checked) ? rawFinalMax : Math.min(maxPower, rawFinalMax));
     const finalNxt = getLeagueInfo(finalMaxPower).nxt;
-    const finalLeft = maxPower < finalMaxPower && finalNxt ? finalNxt.limit - finalMaxPower : left;
+    const finalLeft = finalNxt ? finalNxt.limit - finalMaxPower : undefined;
     const finalDist = $('final_dist_next');
     setDist(finalDist, finalNxt, finalLeft, 'calc_final_dist_next', 'calc_final_max_league',
-        (n, p) => `Після змін до ${n} ≈ ${p} Тестовий режим! (рахується від maxPower)`,
+        (n, p) => `Після змін до ${n} ≈ ${p} (рахується від maxPower)`,
         'Після змін: Ти в максимальній лізі!');
 
     syncMarket(finalTotalFull, getLeagueInfo(finalMaxPower).cur.name);

@@ -89,7 +89,7 @@ function formatPower(gh) {
     if (typeof gh !== 'number') return '0';
     if (gh === 0) return '0 Gh/s';
     const [v, u] = scalePower(Math.abs(gh), ['Gh/s', 'Th/s', 'Ph/s', 'Eh/s', 'Zh/s']);
-    return (gh < 0 ? '-' : '') + v.toFixed(3) + ' ' + u;
+    return (gh < 0 ? '-' : '') + (Math.floor(v * 1000 + 1e-6) / 1000).toFixed(3) + ' ' + u;
 }
 
 /** 2 знаки; за замовчуванням до Eh/s (таблиці майнерів), з withZh — до Zh/s */
