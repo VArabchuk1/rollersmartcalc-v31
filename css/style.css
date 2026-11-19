@@ -257,3 +257,30 @@ h3{font-size:16px}
 .seo-text{margin:18px 0 6px;padding:0 6px;text-align:center}
 .seo-text h2{font-size:13px;color:#c2c6cf;margin:0 0 6px}
 .seo-text p{font-size:11px;line-height:1.5;color:#8d97ab;margin:0}
+
+/* ===== Progression ===== */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.prog-grid label{display:block;font-size:10px;color:#9aa4bd;margin-bottom:4px;min-height:24px}
+.prog-grid input{font-size:13px;padding:8px 4px}
+.prog-table{font-size:12px}
+.prog-table td{text-align:left;padding:8px 6px}
+.prog-table td:last-child{text-align:right;font-weight:bold;color:#fff;white-space:nowrap}
+.prog-table tr.group td{background:#0f3460;color:#00ff88;font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:bold;text-align:left}
+.prog-table tr.total td{color:#ff9f43;font-size:14px}
+@media (max-width:480px){.tab-btn{padding:6px 2px;font-size:10px}}
+
+/* ===== Посилання у футері (Telegram, Limercoin) ===== */
+.tg-row{margin-top:12px;padding-top:12px;border-top:1px solid #00ff8833;display:flex;flex-direction:column;align-items:center;gap:10px}
+.tg-link{display:inline-flex;align-items:center;gap:8px;color:#00ff88;font-size:12px;font-weight:bold;text-decoration:none;text-align:left;line-height:1.4}
+.tg-link:hover span{text-decoration:underline}
+.tg-link:focus-visible{outline:2px solid #00ff88;outline-offset:3px;border-radius:4px}
+.tg-icon,.lk-icon{flex-shrink:0}
+.lk-icon{color:#00ff88}
+.tg-icon{color:#29a9eb;transform-origin:50% 60%;animation:tgNudge 5s ease-in-out infinite}
+@keyframes tgNudge{
+  0%,68%,100%{transform:none;filter:drop-shadow(0 0 0 rgba(41,169,235,0))}
+  76%{transform:translateY(-2px) rotate(-10deg) scale(1.12);filter:drop-shadow(0 0 5px rgba(41,169,235,.75))}
+  85%{transform:rotate(8deg) scale(1.08);filter:drop-shadow(0 0 4px rgba(41,169,235,.5))}
+  93%{transform:rotate(-3deg)}
+}
+@media (prefers-reduced-motion:reduce){.tg-icon{animation:none}}

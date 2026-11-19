@@ -177,6 +177,7 @@ async function switchLanguage(lang) {
         store.set('selectedLang', lang);
         document.documentElement.lang = {ua: 'uk', es: 'es'}[lang] || 'en';
         applyLanguage(document);
+        document.dispatchEvent(new Event('langchange'));
     } catch (error) {
         console.error('Помилка локалізації:', error);
     }
