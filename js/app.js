@@ -36,6 +36,18 @@ function copyAddress(btn) {
 
 function bindEvents() {
     // мова
+    const themeBtn = $('themeBtn');
+    const applyTheme = th => {
+        if (th === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        else document.documentElement.removeAttribute('data-theme');
+        if (themeBtn) themeBtn.textContent = th === 'light' ? '🌙' : '☀️';
+    };
+    applyTheme(store.get('theme') === 'light' ? 'light' : 'dark');
+    on('themeBtn', 'click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        store.set('theme', next);
+        applyTheme(next);
+    });
     on('langSelect', 'change', e => switchLanguage(e.target.value));
 
     // вкладки

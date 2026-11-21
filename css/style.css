@@ -287,3 +287,132 @@ h3{font-size:16px}
 
 .league-recalc{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-size:.85rem;opacity:.85;cursor:pointer}
 .league-recalc input{width:auto;accent-color:#00e676}
+
+
+/* ===== Telegram banner ===== */
+.tg-banner{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0;padding:10px 14px;border-radius:12px;
+  background:#1f4f73;border:1px solid #29a9eb88;color:#d8ecf8;font-weight:600;font-size:13px;line-height:1.35;text-align:left;text-decoration:none;
+  box-shadow:0 2px 10px #29a9eb22;transition:background .2s}
+.tg-banner:hover{background:#25608b}
+.tg-banner:focus-visible{outline:2px solid #29a9eb;outline-offset:3px}
+.tg-banner-icon{flex-shrink:0;color:#4db8f0;width:24px;height:24px;animation:tgNudge 5s ease-in-out infinite;transform-origin:50% 60%}
+@media (prefers-reduced-motion:reduce){.tg-banner-icon{animation:none}}
+
+/* ===== theme button ===== */
+.lang-bar{justify-content:space-between;align-items:center}
+.theme-btn{width:auto;padding:5px 10px;border-radius:6px;background:#0f3460;border:1px solid #00ff8844;color:#fff;cursor:pointer;font-size:14px;line-height:1}
+
+/* ===== light theme ===== */
+html[data-theme="light"] body{background:#d5dbe6;color:#1b2438}
+html[data-theme="light"] .block,html[data-theme="light"] .support-block,html[data-theme="light"] .table-wrapper,html[data-theme="light"] .tab-btn.active{background:#e6eaf2;border-color:#3f8f6f}
+html[data-theme="light"] .audit-container{background:#dde2ec;border-color:#095a3455}
+html[data-theme="light"] .total-block,html[data-theme="light"] .result-container,html[data-theme="light"] .freon-container,html[data-theme="light"] .indiv-res{background:#cdd5e3;border-color:#095a34}
+html[data-theme="light"] input,html[data-theme="light"] select,html[data-theme="light"] textarea,html[data-theme="light"] .theme-btn,html[data-theme="light"] .support-addr,html[data-theme="light"] .thumb{background:#cdd5e3;color:#1b2438;border-color:#a9b5ca}
+html[data-theme="light"] textarea{color:#095a34}
+html[data-theme="light"] .v2-btn{background:#cdd5e3;color:#095a34;border-color:#095a34}
+html[data-theme="light"] thead tr{background:#c6cfdf}
+html[data-theme="light"] th{color:#095a34;border-bottom-color:#095a34}
+html[data-theme="light"] table,html[data-theme="light"] .rec-table,html[data-theme="light"] .mn-name,html[data-theme="light"] .need b,html[data-theme="light"] .block-title,html[data-theme="light"] .support-addr,html[data-theme="light"] .res-label,html[data-theme="light"] .res-sub{color:#1b2438}
+html[data-theme="light"] tbody tr:nth-child(even){background:rgba(70,90,140,.10)}
+html[data-theme="light"] tbody tr:hover{background:#bccbe4!important}
+html[data-theme="light"] .site-title,html[data-theme="light"] .support-title,html[data-theme="light"] .help-info summary,html[data-theme="light"] .bonus-placeholder,html[data-theme="light"] .tg-link,html[data-theme="light"] .lk-icon,html[data-theme="light"] .yes,html[data-theme="light"] .nd.ok,html[data-theme="light"] .gain-line,html[data-theme="light"] .indiv-res.gain{color:#095a34}
+html[data-theme="light"] .res-val,html[data-theme="light"] .c-cyan,html[data-theme="light"] .coin-cell{color:#00557a}
+html[data-theme="light"] .dist-next,html[data-theme="light"] .acc-orange,html[data-theme="light"] .nd.lack,html[data-theme="light"] .result-container,html[data-theme="light"] #nextLeagueHeader .nl-name,html[data-theme="light"] .block-title-miners.old{color:#8a4600}
+html[data-theme="light"] .support-text,html[data-theme="light"] .seo-text h2,html[data-theme="light"] .sort-row{color:#4a5670}
+html[data-theme="light"] .seo-text p,html[data-theme="light"] .support-note,html[data-theme="light"] .fld-label,html[data-theme="light"] .grid-labels,html[data-theme="light"] .mn-lvl,html[data-theme="light"] .empty-row{color:#6b7690}
+html[data-theme="light"] .tab-btn{opacity:.65}html[data-theme="light"] .tab-btn.active{opacity:1}
+html[data-theme="light"] .league-badge{color:#fff}
+html[data-theme="light"] .no,html[data-theme="light"] .indiv-res.loss{color:#d62839}
+html[data-theme="light"] .sticky-first thead th:first-child,html[data-theme="light"] .audit-table th,html[data-theme="light"] .prog-table tr.group td{background:#c6cfdf;color:#095a34}
+html[data-theme="light"] .sticky-first tbody td:first-child{background:#e6eaf2}
+html[data-theme="light"] .sticky-first tbody tr:nth-child(even) td:first-child{background:#d9dfec}
+html[data-theme="light"] .sticky-first tbody tr:hover td:first-child{background:#bccbe4}
+html[data-theme="light"] .tg-banner{background:#c9dcea;border-color:#5a9bc2;color:#1d4a6a}html[data-theme="light"] .tg-banner:hover{background:#bdd3e4}html[data-theme="light"] .tg-banner-icon{color:#2a86bd}
+
+/* ===== light theme: text colours (auto) ===== */
+html[data-theme="light"] table{color:#1b2438}
+html[data-theme="light"] th{color:#095a34}
+html[data-theme="light"] #nextLeagueHeader .nl-name{color:#8a4600}
+html[data-theme="light"] .need b{color:#1b2438}
+html[data-theme="light"] .nd.lack{color:#8a4600}
+html[data-theme="light"] .nd.ok{color:#095a34}
+html[data-theme="light"] .coin-cell{color:#00557a}
+html[data-theme="light"] .usd{color:#095a34}
+html[data-theme="light"] .c-cyan{color:#00557a}
+html[data-theme="light"] body{color:#1b2438}
+html[data-theme="light"] .block-title{color:#1b2438}
+html[data-theme="light"] textarea{color:#095a34}
+html[data-theme="light"] input,html[data-theme="light"] select{color:#1b2438}
+html[data-theme="light"] .freon-pct{color:#c2152a}
+html[data-theme="light"] .dist-next{color:#8a4600}
+html[data-theme="light"] .grid-labels{color:#566077}
+html[data-theme="light"] .indiv-res.loss{color:#c2152a}
+html[data-theme="light"] .indiv-res.gain{color:#095a34}
+html[data-theme="light"] .btn-add{color:#00557a}
+html[data-theme="light"] .btn-del{color:#c2152a}
+html[data-theme="light"] .v2-btn{color:#095a34}
+html[data-theme="light"] .result-container{color:#8a4600}
+html[data-theme="light"] .res-val{color:#00557a}
+html[data-theme="light"] .acc-orange{color:#8a4600}
+html[data-theme="light"] .block-title-miners{color:#095a34}
+html[data-theme="light"] .block-title-miners.old{color:#8a4600}
+html[data-theme="light"] .help-info summary{color:#095a34}
+html[data-theme="light"] .bonus-placeholder{color:#095a34}
+html[data-theme="light"] .fld-label{color:#566077}
+html[data-theme="light"] .sort-row{color:#1b2438}
+html[data-theme="light"] .rec-table{color:#1b2438}
+html[data-theme="light"] .rec-table thead tr{color:#566077}
+html[data-theme="light"] .gain-line{color:#095a34}
+html[data-theme="light"] .empty-row{color:#566077}
+html[data-theme="light"] .yes{color:#095a34}
+html[data-theme="light"] .no{color:#c2152a}
+html[data-theme="light"] .mn-name{color:#1b2438}
+html[data-theme="light"] .mn-lvl{color:#566077}
+html[data-theme="light"] .miner-loc{color:#00557a}
+html[data-theme="light"] .c-gray{color:#1b2438}
+html[data-theme="light"] .c-orange{color:#8a4600}
+html[data-theme="light"] .tot-green{color:#095a34}
+html[data-theme="light"] .tot-orange{color:#8a4600}
+html[data-theme="light"] .audit-table th,html[data-theme="light"] .audit-table td{color:#1b2438}
+html[data-theme="light"] .audit-table th{color:#095a34}
+html[data-theme="light"] .dupe-name{color:#c2152a}
+html[data-theme="light"] .dupe-qty{color:#1b2438}
+html[data-theme="light"] .audit-title{color:#095a34}
+html[data-theme="light"] .audit-h4{color:#c2152a}
+html[data-theme="light"] .audit-h3.red{color:#c2152a}
+html[data-theme="light"] .audit-h3.cyan{color:#00557a}
+html[data-theme="light"] .audit-note{color:#1b2438}
+html[data-theme="light"] .audit-loader{color:#7d6200}
+html[data-theme="light"] .sell-ok{color:#095a34}
+html[data-theme="light"] .sell-no{color:#c2152a}
+html[data-theme="light"] .found-title{color:#095a34}
+html[data-theme="light"] .all-unique{color:#095a34}
+html[data-theme="light"] .crypto-title{color:#00557a}
+html[data-theme="light"] .coin-card .grid-labels span+span{color:#1b2438}
+html[data-theme="light"] .dbq-title{color:#1b2438}
+html[data-theme="light"] .dbq-lbl-s{color:#3d4863}
+html[data-theme="light"] .dbq-lbl{color:#454fbd}
+html[data-theme="light"] .dbq-tok{color:#0b7a6e}
+html[data-theme="light"] .dbq-err{color:#c2152a}
+html[data-theme="light"] .support-title{color:#095a34}
+html[data-theme="light"] .support-text{color:#3d4863}
+html[data-theme="light"] .support-addr{color:#1b2438}
+html[data-theme="light"] .support-note{color:#566077}
+html[data-theme="light"] .site-title{color:#095a34}
+html[data-theme="light"] .seo-text h2{color:#3d4863}
+html[data-theme="light"] .seo-text p{color:#566077}
+html[data-theme="light"] .prog-grid label{color:#566077}
+html[data-theme="light"] .prog-table td:last-child{color:#1b2438}
+html[data-theme="light"] .prog-table tr.group td{color:#095a34}
+html[data-theme="light"] .prog-table tr.total td{color:#8a4600}
+html[data-theme="light"] [style*="c2c6cf"]{color:#3d4863!important}
+html[data-theme="light"] .tg-link,html[data-theme="light"] .lk-icon{color:#095a34}
+html[data-theme="light"] .tg-banner{color:#14405e}
+html[data-theme="light"] .theme-btn{color:#1b2438}
+html[data-theme="light"] .tab-btn{opacity:.8}
+html[data-theme="light"] .nd.lack,html[data-theme="light"] .tot-orange,html[data-theme="light"] .c-orange{color:#8a4600}
+html[data-theme="light"] [style*="color: rgb(255, 255, 255)"]{color:#1b2438!important}
+html[data-theme="light"] [style*="color: rgb(255, 71, 87)"]{color:#c2152a!important}
+html[data-theme="light"] [style*="color:#888"]{color:#566077!important}
+html[data-theme="light"] .league-badge{background:#b8286f}
+html[data-theme="light"] [style*="color: red"],html[data-theme="light"] [style*="color:red"],html[data-theme="light"] [style*="rgb(255, 0, 0)"]{color:#b00020!important}
