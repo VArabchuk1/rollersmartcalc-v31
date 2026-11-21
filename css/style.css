@@ -416,3 +416,5 @@ html[data-theme="light"] [style*="color: rgb(255, 71, 87)"]{color:#c2152a!import
 html[data-theme="light"] [style*="color:#888"]{color:#566077!important}
 html[data-theme="light"] .league-badge{background:#b8286f}
 html[data-theme="light"] [style*="color: red"],html[data-theme="light"] [style*="color:red"],html[data-theme="light"] [style*="rgb(255, 0, 0)"]{color:#b00020!important}
+html[data-theme="light"] .aads-sticky-container label{background:#a9b5ca}
+html[data-theme="light"] .aads-sticky-container svg{fill:#1b2438}

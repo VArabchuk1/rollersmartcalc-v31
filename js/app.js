@@ -41,6 +41,14 @@ function bindEvents() {
         if (th === 'light') document.documentElement.setAttribute('data-theme', 'light');
         else document.documentElement.removeAttribute('data-theme');
         if (themeBtn) themeBtn.textContent = th === 'light' ? '🌙' : '☀️';
+        // фон рекламних блоків підлаштовуємо під тему (параметр background_color у a-ads)
+        const bg = th === 'light' ? 'D5DBE6' : '16213E';
+        document.querySelectorAll('iframe[data-aa]').forEach(f => {
+            const src = f.getAttribute('src') || '';
+            if (/background_color=/i.test(src) && !new RegExp('background_color=' + bg, 'i').test(src)) {
+                f.setAttribute('src', src.replace(/background_color=[0-9A-Fa-f]{6}/i, 'background_color=' + bg));
+            }
+        });
     };
     applyTheme(store.get('theme') === 'light' ? 'light' : 'dark');
     on('themeBtn', 'click', () => {
